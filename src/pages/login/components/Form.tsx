@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import {error_message} from "../../../utils/ErrorMessages";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 const Form = () =>{
     const [logging,setLogging] = useState(false);
@@ -19,9 +19,9 @@ const Form = () =>{
     };
 
     const tryLogin = async (data:any) =>{
-        console.log("Try again");
+        // console.log("Try again");
         try {
-            const response = await fetch("https://example.com/api/post", {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,13 +39,21 @@ const Form = () =>{
 
          } catch (err) {
             console.error(err);
-            // console.log("Trying login ", data);
             setLoginError(true);
             setLogging(false);
         }
 
     }
 
+    useEffect(()=>{
+
+        console.log("Login screen",import.meta.env.VITE_BASE_URL);
+
+        //return
+        return()=>{
+        };
+
+    },[]);
     return(
         <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
