@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import {error_message} from "../../../utils/ErrorMessages";
 import { useState,useEffect } from "react";
-import {saveUserData,getUserData} from "../../../auth/Auth";
+import {saveUserData,getUserData} from "../../../store/Store";
+import {openRequest} from "../../../services/Fetch";
 
 const Form = () =>{
     const [logging,setLogging] = useState(false);
@@ -21,7 +22,39 @@ const Form = () =>{
 
     const tryLogin = async (data:any) =>{
         // console.log("Try again");
-        try {
+        let params = {
+            path:"login",
+            method:"POST",
+            body:{
+                    username:data.username,
+                    password:data.password
+            },
+            // content_type:string
+        }
+        let response = await openRequest(params);
+
+        if(response){
+
+            let userData = {
+                name:"Vishnu",
+                token:"123xxx123xxx123xx123"
+            }
+            await saveUserData(userData);
+
+            let res = await getUserData();
+            console.log(res);
+            // const data = await res.json();
+            // console.log(data);
+            // console.log("Response",response);
+            setLoginError(false)
+            
+        }else{
+            //console.error(err);
+            setLoginError(true);
+            setLogging(false);
+        }
+
+        /* try {
             // const response = await fetch(`${import.meta.env.VITE_BASE_URL}login`, {
             //     method: "POST",
             //     headers: {
@@ -49,7 +82,7 @@ const Form = () =>{
             console.error(err);
             setLoginError(true);
             setLogging(false);
-        }
+        }*/
 
     }
 
