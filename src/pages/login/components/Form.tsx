@@ -3,8 +3,10 @@ import {error_message} from "../../../utils/ErrorMessages";
 import { useState,useEffect } from "react";
 import {saveUserData,getUserData} from "../../../store/Store";
 import {openRequest} from "../../../services/Fetch";
+import { useNavigate } from "react-router-dom";
 
 const Form = () =>{
+    const navigate = useNavigate();
     const [logging,setLogging] = useState(false);
     const [loginError,setLoginError] = useState(false);
 
@@ -15,13 +17,12 @@ const Form = () =>{
     } = useForm();
 
     const onSubmit = (data:any) => {
-        //console.log("Form Data:", data);
         setLogging(true);
         tryLogin(data);
     };
 
     const tryLogin = async (data:any) =>{
-        // console.log("Try again");
+
         let params = {
             path:"login",
             method:"POST",
@@ -29,60 +30,32 @@ const Form = () =>{
                     username:data.username,
                     password:data.password
             },
-            // content_type:string
         }
         let response = await openRequest(params);
 
-        if(response){
+        if(response.request){
+            
+            console.log("Success");
 
             let userData = {
                 name:"Vishnu",
-                token:"123xxx123xxx123xx123"
+                token:"123xxxx123xxxx123xxx123"
             }
+
             await saveUserData(userData);
 
             let res = await getUserData();
             console.log(res);
-            // const data = await res.json();
-            // console.log(data);
-            // console.log("Response",response);
-            setLoginError(false)
+            setLoginError(false);
+            
+            //Redirect Dash
+            navigate("/",{ replace: true });
             
         }else{
-            //console.error(err);
+            console.log("Failed",response.data);
             setLoginError(true);
             setLogging(false);
         }
-
-        /* try {
-            // const response = await fetch(`${import.meta.env.VITE_BASE_URL}login`, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({
-            //         username:data.username,
-            //         password:data.password
-            //     }),
-            // });
-            let userData = {
-                name:"Vishnu",
-                token:"123xxx123xxx123xx123"
-            }
-            await saveUserData(userData);
-
-            let res = await getUserData();
-            console.log(res);
-            // const data = await res.json();
-            // console.log(data);
-            // console.log("Response",response);
-            setLoginError(false);
-
-         } catch (err) {
-            console.error(err);
-            setLoginError(true);
-            setLogging(false);
-        }*/
 
     }
 
