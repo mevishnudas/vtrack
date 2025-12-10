@@ -1,10 +1,10 @@
 import { useState,useEffect } from 'react'
-import { Outlet } from "react-router-dom";
-
+import { Outlet,useNavigate } from "react-router-dom";
 import {fetchRequest} from "./services/Fetch";
 // import './App.css'
 
 function App() {
+  const navigate = useNavigate();
 
   const tokenValidate = async () =>{
     let params = {
@@ -12,7 +12,7 @@ function App() {
         method:"GET",
         auth:true
     }
-    let response = await fetchRequest(params);
+    let response = await fetchRequest(params,navigate);
 
     console.log(response);
   }

@@ -54,7 +54,7 @@ type parameters02 = {
     content_type?:string
 };
 
-const fetchRequest = async (params:parameters02) =>{
+const fetchRequest = async (params:parameters02,navigate:object) =>{
 
     let response = {
         request:false,
@@ -100,7 +100,7 @@ const fetchRequest = async (params:parameters02) =>{
         
             case 403:
                 console.log("re login required");
-                //await reLogin();
+                await reLogin(navigate);
                 break;
             default:
                 response.request = false;
@@ -121,8 +121,8 @@ const fetchRequest = async (params:parameters02) =>{
 
 }
 
-const reLogin = async () =>{
-    const navigate = useNavigate();
+const reLogin = async (navigate) =>{
+    // const navigate = useNavigate();
     
     await deleteUserData();
     //Redirect Dash

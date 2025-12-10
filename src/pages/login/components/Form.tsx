@@ -34,25 +34,24 @@ const Form = () =>{
         let response = await openRequest(params);
 
         if(response.request){
+            let resData = response.data.data;
             
-            console.log("Success");
-
             let userData = {
-                name:"Vishnu",
-                token:"123xxxx123xxxx123xxx123"
+                name:resData.name,
+                token:resData.token
             }
-
+            
             await saveUserData(userData);
 
             let res = await getUserData();
-            console.log(res);
+            // console.log(res);
             setLoginError(false);
             
             //Redirect Dash
             navigate("/",{ replace: true });
             
         }else{
-            console.log("Failed",response.data);
+            // console.log("Failed",response.data);
             setLoginError(true);
             setLogging(false);
         }
