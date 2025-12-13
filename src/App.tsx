@@ -1,6 +1,7 @@
 import { useState,useEffect } from 'react'
 import { Outlet,useNavigate } from "react-router-dom";
 import {fetchRequest} from "./services/Fetch";
+import Head from './pages/layout/Head';
 // import './App.css'
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
   return (
     <>
       <main>
+        <Head/>
         <Outlet />  
+        {/* <h1>Footer</h1> */}
       </main>
     </>
   )
