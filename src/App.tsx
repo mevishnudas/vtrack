@@ -32,7 +32,7 @@ function App() {
     <>
       <main>
         <Head/>
-        <Outlet />  
+        <Outlet/>  
         {/* <h1>Footer</h1> */}
       </main>
     </>
