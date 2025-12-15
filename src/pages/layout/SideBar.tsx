@@ -1,4 +1,6 @@
 import { Link,useNavigate  } from "react-router-dom";
+import { MdDashboard } from "react-icons/md";
+import { SlCalender } from "react-icons/sl";
 
 type props ={
     setSideBarShow:any,
@@ -33,8 +35,8 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
                                 `} onClick={(e) => e.stopPropagation()}>
                     <div><h2 className="text-center text-amber-50 py-2 font-bold">VTrack</h2></div>
                     <ul>
-                        <li onClick={()=>navScreen('/')} className="bg-amber-600 px-2 py-2 cursor-pointer">Dashboard</li>
-                        <li onClick={()=>navScreen('/repayment')}className="bg-amber-600 px-2 py-2 cursor-pointer">Repayment</li>
+                        <li onClick={()=>navScreen('/')} className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700"><MdDashboard size={20}/> Dashboard</li>
+                        <li onClick={()=>navScreen('/repayment')}className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 flex justify-left items-center gap-2 hover:bg-gray-700"><SlCalender size={20}/>Repayment</li>
                     </ul>
                 </div>
             </div>

@@ -32,8 +32,9 @@ function App() {
     <>
       <main>
         <Head/>
-        <Outlet/>  
-        {/* <h1>Footer</h1> */}
+        <div>
+          <Outlet/>  
+        </div>
       </main>
     </>
   )
