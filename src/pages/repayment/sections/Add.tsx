@@ -2,17 +2,11 @@ import { useForm } from "react-hook-form";
 import {error_message} from "../../../utils/ErrorMessages";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
-import { useState,CSSProperties  } from "react";
+import { useState} from "react";
 import {formatDate} from "../../../utils/DateFormat";
 import {fetchRequest} from "../../../services/Fetch";
 import { useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
 const schema = yup
   .object({
     payee:yup.number().moreThan(0, error_message.required).required(),
@@ -212,18 +206,10 @@ const Add = () =>{
 
                         <div className="grid">
 
-                            <button type="submit" className="bg-blue-600 active:bg-blue-800 text-amber-50 rounded-sm py-1 w-20">
-                                {/* Submit */}
+                            <button type="submit" className="bg-blue-600 active:bg-blue-800 text-amber-50 rounded-sm py-1">
+                                Submit
 
-                                 <ClipLoader
-                                    color="#ffffff"
-                                    loading={true}
-                                    cssOverride={override}
-                                    size={20}
-                                    aria-label="MoonLoader"
-                                    data-testid="MoonLoader"
-                                />
-                                <span className="text-amber-50">Loading...</span>
+                                {/* <span className="text-amber-50">Loading...</span> */}
 
                             </button>
 
