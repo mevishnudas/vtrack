@@ -2,24 +2,37 @@ import { useForm } from "react-hook-form";
 import {error_message} from "../../../utils/ErrorMessages";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
-import { useState } from "react";
+import { useState,CSSProperties  } from "react";
+import {formatDate} from "../../../utils/DateFormat";
+import {fetchRequest} from "../../../services/Fetch";
+import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 const schema = yup
   .object({
     payee:yup.number().moreThan(0, error_message.required).required(),
-    amount:yup.number().required(),
-    pr_fee:yup.number().required(),
+    amount:yup.number().typeError(error_message.invalid_date).required(error_message.required),
+    pr_fee:yup.number().typeError(error_message.invalid_date).required(error_message.required),
+    charges:yup.number().typeError(error_message.invalid_date).required(error_message.required),
     payment_date: yup.date().typeError(error_message.invalid_date).required(),
+    distributed_date:yup.date().typeError(error_message.invalid_date).required(),
+    remarks:yup.string()
   })
   .required();
 
 const Add = () =>{
-    const [totalAmount,setTotalAmount] = useState(4464);
+    const navigate = useNavigate();
+    const [totalAmount,setTotalAmount] = useState(0);
 
     const {
         register,
         handleSubmit,
-        setValue,
+        //setValue,
         getValues,
         formState: { errors },
     } = useForm({
@@ -29,18 +42,32 @@ const Add = () =>{
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = (data:any) => {
-        //setLogging(true);
-        // tryLogin(data);
+    const onSubmit = async (data:any) => {
+        console.log(data);
+        let elements = {
+            payee:data.payee,
+            amount:data.amount,
+            pr_fee:data.pr_fee,
+            charges:data.charges,
+            payment_date:formatDate(data.payment_date),
+            distributed_date:formatDate(data.distributed_date),
+            remarks:data?.remarks
+        };
 
-        console.log(getValues("amount"));
-        console.log("Submit");
+        let params = {
+            path:"repayment/add",
+            method:"POST",
+            auth:true,
+            body:elements
+        };
+        await fetchRequest(params,navigate);
     };
 
     const reCalcTotal = (event) =>{
         let amount = parseFloat(getValues("amount"))||0;
         let pr_fee = parseFloat(getValues("pr_fee"))||0;
-        setTotalAmount(amount+pr_fee);
+        let charges = parseFloat(getValues("charges"))||0;
+        setTotalAmount(amount+pr_fee+charges);
     }
 
     return(
@@ -66,9 +93,9 @@ const Add = () =>{
                                 >
                                 <option value={0} disabled>Select Payee</option>
                                 <option value={1}>Vishnu das</option>
-                                <option value={2}>Neethu Babu</option>
+                                <option value={3}>Neethu Babu</option>
                             </select>
-                            {errors.payee && <span className="text-red-500">{error_message.required}</span>}
+                            {errors.payee && <span className="text-red-500">{errors.payee?.message}</span>}
                         </div>
 
                         <div className="grid">
@@ -88,7 +115,7 @@ const Add = () =>{
                                         }
                                 })}
                             />
-                            {errors.amount && <span className="text-red-500">{error_message.required}</span>}
+                            {errors.amount && <span className="text-red-500">{errors.amount?.message}</span>}
                         </div>
 
                         <div className="grid py-2">
@@ -107,7 +134,26 @@ const Add = () =>{
                                         }
                                     })}
                             />
-                            {errors.pr_fee && <span className="text-red-500">{error_message.required}</span>}
+                            {errors.pr_fee && <span className="text-red-500">{errors.pr_fee?.message}</span>}
+                        </div>
+
+                        <div className="grid py-2">
+                            <label className="font-bold">Charges</label>
+                            <input type="number" placeholder="Charges" className="
+                                    border-1 
+                                    border-gray-300 px-2 py-1 
+                                    outline-none rounded-sm     
+                                    [appearance:textfield]
+                                    [&::-webkit-outer-spin-button]:appearance-none
+                                    [&::-webkit-inner-spin-button]:appearance-none"
+                                    
+                                    {...register("charges",{
+                                        onChange: (e) => {
+                                            reCalcTotal(e);
+                                        }
+                                    })}
+                            />
+                            {errors.charges && <span className="text-red-500">{errors.charges?.message}</span>}
                         </div>
 
                         <div className="grid py-2">
@@ -118,6 +164,7 @@ const Add = () =>{
                         <div className="grid py-2">
                             <label className="font-bold">Payment Date</label>
                             <input type="date" 
+                                    
                                     autoComplete="off"
                                     className="border-1 
                                     border-gray-300 px-2 py-1 
@@ -129,12 +176,27 @@ const Add = () =>{
                                     {...register("payment_date")}
                             />
                             {errors.payment_date && <span className="text-red-500">{errors.payment_date.message}</span>}
-                           
+                        </div>
+
+                        <div className="grid py-2">
+                            <label className="font-bold">Distributed Date</label>
+                            <input type="date" 
+                                    autoComplete="off"
+                                    className="border-1 
+                                    border-gray-300 px-2 py-1 
+                                    outline-none rounded-sm     
+                                    [appearance:textfield]
+                                    [&::-webkit-outer-spin-button]:appearance-none
+                                    [&::-webkit-inner-spin-button]:appearance-none"
+
+                                    {...register("distributed_date")}
+                            />
+                            {errors.distributed_date && <span className="text-red-500">{errors.distributed_date.message}</span>}
                         </div>
 
                         <div className="grid py-2">
                             <label className="font-bold">Remarks</label>
-                            <textarea  name="remarks" placeholder="Notes" className="
+                            <textarea placeholder="Notes" className="
                                     border-1 
                                     border-gray-300 px-2 py-1 
                                     outline-none rounded-sm     
@@ -143,11 +205,28 @@ const Add = () =>{
                                     [appearance:textfield]
                                     [&::-webkit-outer-spin-button]:appearance-none
                                     [&::-webkit-inner-spin-button]:appearance-none"
+
+                                    {...register("remarks")}
                             />
                         </div>
 
                         <div className="grid">
-                            <button type="submit" className="bg-blue-600 active:bg-blue-800 text-amber-50 rounded-sm py-1 w-20">Submit</button>
+
+                            <button type="submit" className="bg-blue-600 active:bg-blue-800 text-amber-50 rounded-sm py-1 w-20">
+                                {/* Submit */}
+
+                                 <ClipLoader
+                                    color="#ffffff"
+                                    loading={true}
+                                    cssOverride={override}
+                                    size={20}
+                                    aria-label="MoonLoader"
+                                    data-testid="MoonLoader"
+                                />
+                                <span className="text-amber-50">Loading...</span>
+
+                            </button>
+
                         </div>
                     </div>
                 </form>
