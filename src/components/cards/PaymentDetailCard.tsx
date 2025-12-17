@@ -1,20 +1,55 @@
-const PaymentDetailCard = () =>{
+import { format } from "date-fns";
+type param = {
+    listData:any,
+    className:string
+};
+
+const PaymentDetailCard = ({listData,className}:param) =>{
+    // console.log(listData);
+
+    const paymentStatus = (payment_status:string) =>{
+        
+        let label = "Pending";
+        let color = "text-red-700";
+
+        switch (payment_status) {
+            case "RECEIVED":
+                label = "Received";
+                color = "text-green-700";
+                break;
+
+            case "PARTIALLY_PAID":
+                label = "Partially Paid";
+                color = "text-blue-700";
+                break;
+
+            default:
+                label = "Pending";
+                break;
+        }
+
+        return(<><label className={`font-bold text-right ${color}`}>[ {label} ]</label></>)
+    }
+
     return(
         <>
-            <div className="bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 cursor-pointer">
+            <div className={`bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 cursor-pointer ${className}`}>
 
                 <div className="p-2">
                     <div className="grid grid-cols-2">
-                        <label className="font-bold">Vishnu das</label>
-                        <label className="font-bold text-right text-green-700">[ Received ]</label>
+                        <label className="font-bold">{listData.payee}</label>
+                        {paymentStatus(listData.payment_status)}
                     </div>
-                    <p>Amount : 200</p>
-                    <p>Pr.Fee : 199</p>
+                    <p>Amount : <span className="font-bold">{listData.amount.toLocaleString("en-IN")}</span></p>
+                    <p>Pr.Fee : {listData.pr_fee.toLocaleString("en-IN")}</p>
+                    <p>Charges : {listData.charges.toLocaleString("en-IN")}</p>
                     <br/>
-                    <p>Total : <span className="font-bold">400</span></p>
-                    <p>Payment Date : <span className="font-bold">15 Oct</span></p>
-                    <p>From : <span className="font-bold">KGB</span></p>
-                    <p>Remarks : <span className="italic">Pre close amount</span></p>
+                    <p>Total : <span className="font-bold">{listData.total.toLocaleString("en-IN")}</span></p>
+                    <p>Payment Date : <span className="font-bold">{format(new Date(listData.payment_date), "MMM dd")}</span></p>
+                    <p>From : <span className="font-bold">{listData.from}</span></p>
+                    {listData.remarks&&(
+                        <p>Remarks : <span className="italic">{listData.remarks}</span></p>
+                    )}
                 </div>
 
             </div>

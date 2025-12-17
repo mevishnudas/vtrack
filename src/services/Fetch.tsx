@@ -100,7 +100,7 @@ const fetchRequest = async (params:parameters02,navigate:object) =>{
         
             case 403:
                 console.log("re login required");
-                await reLogin(navigate);
+                return await reLogin(navigate);
                 break;
             default:
                 response.request = false;

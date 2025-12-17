@@ -15,7 +15,7 @@ function App() {
     }
     let response = await fetchRequest(params,navigate);
 
-    console.log(response);
+    //console.log(response);
   }
 
   useEffect(()=>{
