@@ -5,7 +5,6 @@ import * as yup from "yup"
 import { useState} from "react";
 import {formatDate} from "../../../utils/DateFormat";
 import {fetchRequest} from "../../../services/Fetch";
-import { useNavigate } from "react-router-dom";
 import { ImSpinner2 } from "react-icons/im";
 
 import { ToastContainer, toast,Bounce } from 'react-toastify';
@@ -25,12 +24,12 @@ const schema = yup
 
 type params ={
     bankList:any[],
+    userList:any[],
     refreshList:object
 };
 
-const Add = ({refreshList,bankList}:params) =>{
+const Add = ({refreshList,bankList,userList}:params) =>{
 
-    const navigate = useNavigate();
     const [submitBtnDisabled,setSubmitBtnDisabled] = useState(false);
     const [submitError,setSubmitError] = useState("");
     const [totalAmount,setTotalAmount] = useState(0);
@@ -72,7 +71,7 @@ const Add = ({refreshList,bankList}:params) =>{
             auth:true,
             body:elements
         };
-        let response = await fetchRequest(params,navigate);
+        let response = await fetchRequest(params);
         
         setSubmitBtnDisabled(false);
         if(response.request){
@@ -142,8 +141,9 @@ const Add = ({refreshList,bankList}:params) =>{
                                         {...register("payee")}
                                     >
                                     <option value={0} disabled>Select Payee</option>
-                                    <option value={1}>Vishnu das</option>
-                                    <option value={2}>Aadhi</option>
+                                    {userList.map(row=>(
+                                        <option key={row.id} value={row.id}>{row.name}</option>
+                                    ))}
                                 </select>
                                 {errors.payee && <span className="text-red-500">{errors.payee?.message}</span>}
                             </div>

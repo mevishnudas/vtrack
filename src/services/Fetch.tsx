@@ -1,6 +1,4 @@
-import { useNavigate } from "react-router-dom";
 import {getUserData,deleteUserData} from "../store/Store";
-
 
 type parameters = {
     path:string,
@@ -54,7 +52,7 @@ type parameters02 = {
     content_type?:string
 };
 
-const fetchRequest = async (params:parameters02,navigate:object) =>{
+const fetchRequest = async (params:parameters02) =>{
 
     let response = {
         request:false,
@@ -72,7 +70,6 @@ const fetchRequest = async (params:parameters02,navigate:object) =>{
 
             let userData = await getUserData();
             if(!userData){
-                console.log(userData,"Re Login");
                 await reLogin();
             }
 
@@ -99,8 +96,7 @@ const fetchRequest = async (params:parameters02,navigate:object) =>{
                 break;
         
             case 403:
-                console.log("re login required");
-                return await reLogin(navigate);
+                await reLogin();
                 break;
             default:
                 response.request = false;
@@ -121,12 +117,9 @@ const fetchRequest = async (params:parameters02,navigate:object) =>{
 
 }
 
-const reLogin = async (navigate) =>{
-    // const navigate = useNavigate();
-    
+const reLogin = async () =>{
     await deleteUserData();
-    //Redirect Dash
-    return navigate("/login",{ replace: true });
+    window.location.replace("/login");
 }
 
 export {openRequest,fetchRequest};

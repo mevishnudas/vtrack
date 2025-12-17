@@ -2,13 +2,12 @@ import React, { useState,useEffect } from "react";
 import List from "./sections/List";
 import Update from "./sections/Update";
 import Add from "./sections/Add";
-import { useNavigate } from "react-router-dom";
 import {fetchRequest} from "../../services/Fetch";
 
 const Repayment = () =>{
-    const navigate = useNavigate()
     const [refreshList,setRefreshList] = useState(0);
     const [bankList,setBankList] = useState([]);
+    const [userList,setUserList] = useState([]);
 
     const refreshTheList = () =>{
         setRefreshList(prev=>prev+1);
@@ -20,27 +19,38 @@ const Repayment = () =>{
           path:"master/bank/list",
           auth:true,
           method:"GET"
-        },navigate);
+        });
 
         if(response.request){
             console.log("Response ",response.data?.data);
-            //setBankList(response.data?.data);
+            setBankList(response.data?.data);
         }
     }
 
-    const loadPayee = () =>{
-      
+    const loadPayee = async () =>{
+        
+        let response = await fetchRequest({
+          path:"users/list",
+          auth:true,
+          method:"GET"
+        });
+
+        if(response.request){
+            //console.log("Response ",response.data?.data);
+            setUserList(response.data?.data);
+        }
     }
 
     useEffect(()=>{
       
       loadBanks(); //load bank list
-      
+      loadPayee(); //load payee list
+
       return ()=>{
 
       }
 
-    });
+    },[]);
     return(<>
              
              <div className="p-2">
@@ -48,7 +58,9 @@ const Repayment = () =>{
 
                   <div className="grid grid-cols-3">
                     
-                      <div className="col-span-1 py-2 px-1"><List refreshList={refreshList}/></div>
+                      <div className="col-span-1 py-2 px-1">
+                        <List refreshList={refreshList}/>
+                      </div>
                       
                       <div className="col-span-2 py-2 px-1">
 
@@ -57,8 +69,10 @@ const Repayment = () =>{
                             <div className="col-span-1 px-2">
                               <Add 
                                 bankList={bankList} 
+                                userList={userList}
                                 refreshList={refreshTheList}
-                              /></div>
+                              />
+                            </div>
                           </div>
 
                       </div>
