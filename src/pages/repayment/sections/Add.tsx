@@ -120,19 +120,22 @@ const Add = ({refreshList,bankList,userList}:params) =>{
 
     return(
         <>  
-            <div className="bg-gray-50 border-1 border-gray-300 rounded-sm">
+            <div className="bg-slate-900 border-1 border-gray-700 rounded-sm">
                 <h1 className="font-bold bg-blue-900 text-gray-50 px-4 py-1">New Record</h1>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate> 
                     <div className="px-4 py-3">
 
                         <div className="grid grid-cols-2">
                             <div className="col-span-1 pr-1">
-                                <label className="font-bold">Payee</label>
+                                <label className="font-bold text-gray-200">Payee</label>
                                 <select
                                         className="
                                         w-full
                                         border-1 
-                                        border-gray-300 px-2 py-1
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800
+                                        px-2 py-1
                                         outline-none rounded-sm     
                                         [appearance:textfield]
                                         [&::-webkit-outer-spin-button]:appearance-none
@@ -148,12 +151,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 {errors.payee && <span className="text-red-500">{errors.payee?.message}</span>}
                             </div>
                             <div className="col-span-1">
-                                <label className="font-bold">From</label>
+                                <label className="font-bold text-gray-200">From</label>
                                     <select
                                             className="
                                             w-full
                                             border-1 
-                                            border-gray-300 px-2 py-1 
+                                            border-gray-600 
+                                            text-white
+                                            bg-gray-800 
+                                            px-2 py-1 
                                             outline-none rounded-sm     
                                             [appearance:textfield]
                                             [&::-webkit-outer-spin-button]:appearance-none
@@ -170,14 +176,17 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 grid-rows-2">
+                        <div className="grid grid-cols-2 grid-rows-2 pt-1">
                             <div className="col-span-1 pr-1">
 
-                                <label className="font-bold">Amount</label>
+                                <label className="font-bold text-gray-200">Amount</label>
                                 <input type="number" 
                                     placeholder="Amount"
                                     className="border-1 
-                                        border-gray-300 px-2 py-1 
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800 
+                                        px-2 py-1 
                                         w-full
                                         outline-none rounded-sm     
                                         [appearance:textfield]
@@ -194,12 +203,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
 
                             </div>
 
-                            <div className="col-span-1">
+                            <div className="col-span-1 pt-1">
 
-                                <label className="font-bold">Pr.Fee</label>
+                                <label className="font-bold text-gray-300">Pr.Fee</label>
                                 <input type="number" placeholder="Pr.Fee" className="
                                         border-1 
-                                        border-gray-300 px-2 py-1 
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800 
+                                        px-2 py-1 
                                         w-full
                                         outline-none rounded-sm     
                                         [appearance:textfield]
@@ -216,10 +228,13 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                             </div>
 
                             <div className="col-span-1 pr-1">
-                                <label className="font-bold">Charges</label>
+                                <label className="font-bold text-gray-300">Charges</label>
                                 <input type="number" placeholder="Charges" className="
                                         border-1 
-                                        border-gray-300 px-2 py-1 
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800 
+                                        px-2 py-1 
                                         w-full
                                         outline-none rounded-sm     
                                         [appearance:textfield]
@@ -235,9 +250,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 {errors.charges && <span className="text-red-500">{errors.charges?.message}</span>}
                             </div>
 
-                            <div className="col-span-1">
+                            <div className="col-span-1 text-gray-300">
                                 <label className="font-bold">Total</label>
-                                <p className="border-1 px-2 py-1 rounded-sm border-gray-300 bg-gray-200">{totalAmount.toLocaleString("en-IN")}</p>
+                                <p className="border-1 px-2 py-1 rounded-sm 
+
+                                border-gray-600 
+                                text-white
+                                bg-gray-800 
+                                
+                                ">{totalAmount.toLocaleString("en-IN")}</p>
                             </div>
 
                         </div>
@@ -245,11 +266,14 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                         <div className="grid py-2 grid-cols-2">
 
                             <div className="col-span-1 pr-1">
-                                <label className="font-bold">Distributed Date</label>
+                                <label className="font-bold text-gray-300">Distributed Date</label>
                                 <input type="date" 
                                         autoComplete="off"
                                         className="border-1 
-                                        border-gray-300 px-2 py-1 
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800
+                                        px-2 py-1 
                                         outline-none rounded-sm
                                         w-full     
                                         [appearance:textfield]
@@ -261,12 +285,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 {errors.distributed_date && <span className="text-red-500">{errors.distributed_date.message}</span>}
                             </div>
                             <div className="col-span-1">
-                                <label className="font-bold">Payment Date</label>
+                                <label className="font-bold text-gray-300">Payment Date</label>
                                 <input type="date" 
                                         
                                         autoComplete="off"
                                         className="border-1 
-                                        border-gray-300 px-2 py-1 
+                                        border-gray-600 
+                                        text-white
+                                        bg-gray-800 
+                                        px-2 py-1 
                                         w-full
                                         outline-none rounded-sm     
                                         [appearance:textfield]
@@ -280,10 +307,13 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                         </div>
 
                         <div className="grid py-2">
-                            <label className="font-bold">Remarks</label>
+                            <label className="font-bold text-gray-300">Remarks</label>
                             <textarea placeholder="Notes" className="
                                     border-1 
-                                    border-gray-300 px-2 py-1 
+                                    border-gray-600 
+                                        text-white
+                                        bg-gray-800 
+                                    px-2 py-1 
                                     outline-none rounded-sm     
                                     row-3
                                     resize-none
