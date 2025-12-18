@@ -254,9 +254,9 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 <label className="font-bold">Total</label>
                                 <p className="border-1 px-2 py-1 rounded-sm 
 
-                                border-gray-600 
+                                border-gray-500 
                                 text-white
-                                bg-gray-800 
+                                bg-gray-600 
                                 
                                 ">{totalAmount.toLocaleString("en-IN")}</p>
                             </div>

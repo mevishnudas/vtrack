@@ -1,13 +1,12 @@
 type inputHookFormProps = {
     placeholder?:string,
-    register?:any,
-    
+    register?:any
 };
-const inputHookForm = ()=>{
+const InputHookForm = ({placeholder,register,...rest}:inputHookFormProps)=>{
     return(
-        <>
             <input type="number" 
-                placeholder="Amount"
+                placeholder={placeholder}
+                
                 className="border-1 
                     border-gray-600 
                     text-white
@@ -18,15 +17,18 @@ const inputHookForm = ()=>{
                     [appearance:textfield]
                     [&::-webkit-outer-spin-button]:appearance-none
                     [&::-webkit-inner-spin-button]:appearance-none"
-                
+                    
+
                     {...register("amount",{
                             onChange: (e) => {
-                                reCalcTotal(e);
+                                //reCalcTotal(e);
+                                onChange?.(e);
                             }
                     })}
+
+                    {...rest}
             />
-        </>
     )
 };
 
-export {inputHookForm}
+export {InputHookForm};
