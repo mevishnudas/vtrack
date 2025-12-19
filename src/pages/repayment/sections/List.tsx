@@ -58,7 +58,7 @@ const List = ({refreshList,userList,yearList}:params) =>{
     return(
         <>  
             <div>
-                <div className="grid grid-cols-4">
+                <div className="grid grid-cols-4 pb-1">
                     <div className="col-span-1 pr-2">
                         <select value={selectedYear}  
                             onChange={(e)=>setSelectedYear(e.target.value)}
@@ -102,7 +102,7 @@ const List = ({refreshList,userList,yearList}:params) =>{
                     </div>
                 )}
 
-                <div className="pt-2 overflow-x-auto max-h-150">
+                <div className="pt-2 overflow-x-auto max-h-150 custom-overflow-track pr-1">
                     {repaymentList.map((row, index)=>(
                         <PaymentDetailCard listData={row} key={index} className="mb-4"/>
                     ))}

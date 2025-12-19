@@ -8,6 +8,7 @@ import {fetchRequest} from "../../../services/Fetch";
 import { ImSpinner2 } from "react-icons/im";
 
 import { ToastContainer, toast,Bounce } from 'react-toastify';
+import {CustomInput,CustomTextArea,CustomSelect} from "../../../components/formElements/input";
 
 const schema = yup
   .object({
@@ -128,51 +129,30 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                         <div className="grid grid-cols-2">
                             <div className="col-span-1 pr-1">
                                 <label className="font-bold text-gray-200">Payee</label>
-                                <select
-                                        className="
-                                        w-full
-                                        border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800
-                                        px-2 py-1
-                                        outline-none rounded-sm     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-                                        
-                                        {...register("payee")}
-                                    >
-                                    <option value={0} disabled>Select Payee</option>
-                                    {userList.map(row=>(
-                                        <option key={row.id} value={row.id}>{row.name}</option>
-                                    ))}
-                                </select>
-                                {errors.payee && <span className="text-red-500">{errors.payee?.message}</span>}
+                                <CustomSelect
+                                    name="payee"
+                                    label="Select Payee"
+                                    optionsList={userList}
+                                    defaultValue={0}
+                                    register={register}
+
+                                    className0="w-full"
+                                />
+                            
+                                {errors.payee && <span className="text-red-300">{errors.payee?.message}</span>}
                             </div>
                             <div className="col-span-1">
                                 <label className="font-bold text-gray-200">From</label>
-                                    <select
-                                            className="
-                                            w-full
-                                            border-1 
-                                            border-gray-600 
-                                            text-white
-                                            bg-gray-800 
-                                            px-2 py-1 
-                                            outline-none rounded-sm     
-                                            [appearance:textfield]
-                                            [&::-webkit-outer-spin-button]:appearance-none
-                                            [&::-webkit-inner-spin-button]:appearance-none"
-                                            
-                                            {...register("from")}
-                                        >
-                                        <option value={0} disabled>Select from</option>
-                                            {bankList.map(row=>(
-                                                <option  key={row.id} value={row.id}>{row.name}</option>
-                                            ))}
-                                    </select>
-                                    {errors.from && <span className="text-red-500">{errors.from?.message}</span>}
+                                    <CustomSelect
+                                        name="from"
+                                        label="Select from"
+                                        optionsList={bankList}
+                                        defaultValue={0}
+                                        register={register}
+
+                                        className0="w-full"
+                                    />
+                                    {errors.from && <span className="text-red-300">{errors.from?.message}</span>}
                             </div>
                         </div>
 
@@ -180,74 +160,43 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                             <div className="col-span-1 pr-1">
 
                                 <label className="font-bold text-gray-200">Amount</label>
-                                <input type="number" 
+                                
+                                <CustomInput
+                                    name="amount"
+                                    inputType="number"
                                     placeholder="Amount"
-                                    className="border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800 
-                                        px-2 py-1 
-                                        w-full
-                                        outline-none rounded-sm     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-                                    
-                                    {...register("amount",{
-                                            onChange: (e) => {
-                                                reCalcTotal(e);
-                                            }
-                                    })}
-                                />
-                                {errors.amount && <span className="text-red-500">{errors.amount?.message}</span>}
+                                    register={register}
+                                    onValueChange={reCalcTotal}
+                                /> 
+                                {errors.amount && <span className="text-red-300">{errors.amount?.message}</span>}
 
                             </div>
 
-                            <div className="col-span-1 pt-1">
+                            <div className="col-span-1">
 
                                 <label className="font-bold text-gray-300">Pr.Fee</label>
-                                <input type="number" placeholder="Pr.Fee" className="
-                                        border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800 
-                                        px-2 py-1 
-                                        w-full
-                                        outline-none rounded-sm     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-                                        
-                                        {...register("pr_fee",{
-                                            onChange: (e) => {
-                                                reCalcTotal(e);
-                                            }
-                                        })}
+                                
+                                <CustomInput
+                                    name="pr_fee"
+                                    inputType="number"
+                                    placeholder="Pr.Fee"
+                                    register={register}
+                                    onValueChange={reCalcTotal}
                                 />
-                                {errors.pr_fee && <span className="text-red-500">{errors.pr_fee?.message}</span>}
+                                {errors.pr_fee && <span className="text-red-300">{errors.pr_fee?.message}</span>}
                             </div>
 
                             <div className="col-span-1 pr-1">
                                 <label className="font-bold text-gray-300">Charges</label>
-                                <input type="number" placeholder="Charges" className="
-                                        border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800 
-                                        px-2 py-1 
-                                        w-full
-                                        outline-none rounded-sm     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-                                        
-                                        {...register("charges",{
-                                            onChange: (e) => {
-                                                reCalcTotal(e);
-                                            }
-                                        })}
+                                
+                                <CustomInput
+                                    name="charges"
+                                    inputType="number"
+                                    placeholder="Charges"
+                                    register={register}
+                                    onValueChange={reCalcTotal}
                                 />
-                                {errors.charges && <span className="text-red-500">{errors.charges?.message}</span>}
+                                {errors.charges && <span className="text-red-300">{errors.charges?.message}</span>}
                             </div>
 
                             <div className="col-span-1 text-gray-300">
@@ -267,64 +216,35 @@ const Add = ({refreshList,bankList,userList}:params) =>{
 
                             <div className="col-span-1 pr-1">
                                 <label className="font-bold text-gray-300">Distributed Date</label>
-                                <input type="date" 
-                                        autoComplete="off"
-                                        className="border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800
-                                        px-2 py-1 
-                                        outline-none rounded-sm
-                                        w-full     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-
-                                        {...register("distributed_date")}
+                                
+                                <CustomInput
+                                    name="distributed_date"
+                                    inputType="date"
+                                    register={register}
                                 />
-                                {errors.distributed_date && <span className="text-red-500">{errors.distributed_date.message}</span>}
+                                {errors.distributed_date && <span className="text-red-300">{errors.distributed_date.message}</span>}
                             </div>
                             <div className="col-span-1">
                                 <label className="font-bold text-gray-300">Payment Date</label>
-                                <input type="date" 
-                                        
-                                        autoComplete="off"
-                                        className="border-1 
-                                        border-gray-600 
-                                        text-white
-                                        bg-gray-800 
-                                        px-2 py-1 
-                                        w-full
-                                        outline-none rounded-sm     
-                                        [appearance:textfield]
-                                        [&::-webkit-outer-spin-button]:appearance-none
-                                        [&::-webkit-inner-spin-button]:appearance-none"
-
-                                        {...register("payment_date")}
+                                <CustomInput
+                                    name="payment_date"
+                                    inputType="date"
+                                    register={register}
                                 />
-                                {errors.payment_date && <span className="text-red-500">{errors.payment_date.message}</span>}
+                                
+                                {errors.payment_date && <span className="text-red-300">{errors.payment_date.message}</span>}
                             </div>
                         </div>
 
                         <div className="grid py-2">
                             <label className="font-bold text-gray-300">Remarks</label>
-                            <textarea placeholder="Notes" className="
-                                    border-1 
-                                    border-gray-600 
-                                        text-white
-                                        bg-gray-800 
-                                    px-2 py-1 
-                                    outline-none rounded-sm     
-                                    row-3
-                                    resize-none
-                                    [appearance:textfield]
-                                    [&::-webkit-outer-spin-button]:appearance-none
-                                    [&::-webkit-inner-spin-button]:appearance-none"
-
-                                    {...register("remarks")}
+                            
+                            <CustomTextArea
+                                name="remarks"
+                                placeholder="Remarks"
+                                register={register}
                             />
                         </div>
-                        
                         
 
                         <div className="grid">
