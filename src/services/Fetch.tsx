@@ -122,4 +122,4 @@ const reLogin = async () =>{
     window.location.replace("/login");
 }
 
-export {openRequest,fetchRequest};
+export {openRequest,fetchRequest,reLogin};

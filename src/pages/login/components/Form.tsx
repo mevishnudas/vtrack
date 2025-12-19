@@ -4,6 +4,7 @@ import { useState,useEffect } from "react";
 import {saveUserData,getUserData} from "../../../store/Store";
 import {openRequest} from "../../../services/Fetch";
 import { useNavigate } from "react-router-dom";
+import { ImSpinner } from "react-icons/im";
 
 const Form = () =>{
     const navigate = useNavigate();
@@ -69,13 +70,16 @@ const Form = () =>{
     },[]);
     return(
         <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
+                <div className="py-2">
                     <input 
                         type="text"
                         // required
-                        className="bg-white px-2 py-1 rounded-sm"
+                        className="bg-slate-950 text-white text-base px-3 py-2 rounded-sm outline-none w-full"
                         placeholder="Email"
                         autoComplete="off"
+
+                        autoFocus={true}
+                        value={"dvishnudas@gmail.com"}
 
                         {...register("username", {
                             required: error_message.required,
@@ -85,18 +89,20 @@ const Form = () =>{
                     />
 
                     {errors.username && (
-                        <p className="text-red-500 text-sm">{errors.username.message}</p>
+                        <p className="text-red-300 text-sm">{errors.username.message}</p>
                     )}
                     
                 </div>
 
-                <div className="mt-2">
+                <div className="pt-2">
                     <input 
                         type="password"
                         // required
-                        className="bg-white px-2 py-1 rounded-sm"
+                        className="bg-slate-950 text-white px-3 py-2 rounded-sm outline-none w-full"
                         placeholder="Password"
                         autoComplete="off"
+
+                        value={"password"}
 
                         {...register("password", {
                             required: error_message.required,
@@ -105,17 +111,18 @@ const Form = () =>{
                     />
 
                     {errors.password && (
-                        <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        <p className="text-red-300 text-sm">{errors.password.message}</p>
                     )}
                 </div>
 
                 <div className="mt-2">
+                    {loginError&&<><p className="text-red-200 pb-1">Failed please try again.</p></>}
                     <button type="submit" 
-                        className="bg-cyan-500 p-2 rounded-sm text-white"
+                        className={` ${logging?"bg-cyan-800":"bg-cyan-500"} rounded-sm text-white w-40 h-8 flex justify-center items-center gap-1.5`}
                         disabled={logging}
-                    >{loginError?"Try again":"Login"}
+                    >
+                        {logging?(<><ImSpinner className="animate-spin" size={20}/> <span>Authorizing...</span></>):<span>Login</span>}
                     </button>
-
                 </div>
             </form>
     );

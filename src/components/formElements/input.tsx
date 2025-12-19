@@ -77,7 +77,7 @@ type CustomSelectProps = {
     register?:any
 }
 
-const CustomSelect = ({name,label,optionsList,defaultValue,className,register,...rest}:CustomSelectProps) =>{
+const CustomSelect = ({name,label,optionsList,defaultValue,register,...rest}:CustomSelectProps) =>{
     return(
         <select
                 className={`
@@ -91,7 +91,7 @@ const CustomSelect = ({name,label,optionsList,defaultValue,className,register,..
                     [&::-webkit-outer-spin-button]:appearance-none
                     [&::-webkit-inner-spin-button]:appearance-none
 
-                    ${rest?.customclassName0}
+                    ${rest?.customClassName}
                 `}
                 
                 {...register(name)}

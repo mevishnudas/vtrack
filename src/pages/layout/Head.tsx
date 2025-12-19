@@ -4,6 +4,7 @@ import { CiSettings } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
+import {reLogin} from "../../services/Fetch";
 
 //Components
 import SideBar from "./SideBar";
@@ -43,7 +44,7 @@ const Head = () =>{
                         <ul className={`bg-orange-200 absolute mt-2 rounded-b-sm ${settingsMenu?"block":"hidden"}`}>
                             <li className="py-1 px-4 cursor-pointer select-none border-b-1 border-b-orange-300 hover:bg-orange-300 flex justify-start items-center"><LuSettings2 size={20}/>&nbsp;&nbsp;Settings</li>
                             <li className="py-1 px-4 cursor-pointer select-none border-b-1 border-b-orange-300 hover:bg-orange-300 flex justify-left items-center"><MdAccountCircle size={20}/>&nbsp;&nbsp;Account</li>
-                            <li className="py-1 px-4 cursor-pointer select-none flex items-center justify-left hover:bg-orange-300 "><IoIosLogOut size={20}/>&nbsp;&nbsp;Logout</li>
+                            <li className="py-1 px-4 cursor-pointer select-none flex items-center justify-left hover:bg-orange-300" onClick={reLogin}><IoIosLogOut size={20}/>&nbsp;&nbsp;Logout</li>
                         </ul>
                     </div>
 

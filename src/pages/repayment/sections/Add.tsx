@@ -136,7 +136,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     defaultValue={0}
                                     register={register}
 
-                                    className0="w-full"
+                                    customClassName="w-full"
                                 />
                             
                                 {errors.payee && <span className="text-red-300">{errors.payee?.message}</span>}
@@ -150,7 +150,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                         defaultValue={0}
                                         register={register}
 
-                                        className0="w-full"
+                                        customClassName="w-full"
                                     />
                                     {errors.from && <span className="text-red-300">{errors.from?.message}</span>}
                             </div>
