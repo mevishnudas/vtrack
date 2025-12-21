@@ -9,6 +9,7 @@ const Repayment = () =>{
     const [bankList,setBankList] = useState([]);
     const [userList,setUserList] = useState([]);
     const [yearList,setYearList] = useState([]);
+    const [selectedPaymentDetail,setPaymentDetail] = useState([]);
 
     const refreshTheList = () =>{
         setRefreshList(prev=>prev+1);
@@ -55,6 +56,10 @@ const Repayment = () =>{
         }
     }
 
+    const selectedPaymentInfo = (row:any) =>{
+      console.log(row);
+    }
+
     useEffect(()=>{
       
       loadBanks(); //load bank list
@@ -78,13 +83,18 @@ const Repayment = () =>{
                               refreshList={refreshList} 
                               userList={userList}
                               yearList={yearList}
+                              selectedPaymentInfo={selectedPaymentInfo}
                         />
                       </div>
                       
                       <div className="col-span-2 py-2 px-1">
 
                           <div className="grid grid-cols-2">
-                            <div className="col-span-1"><Update/></div>
+                            <div className="col-span-1">
+                              <Update 
+                                  selectedPaymentDetail={selectedPaymentDetail}
+                              />
+                            </div>
                             <div className="col-span-1 px-2">
                               <Add 
                                 bankList={bankList} 

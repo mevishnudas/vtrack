@@ -10,10 +10,11 @@ import { format } from "date-fns";
 type params ={
     refreshList:number,
     userList:any[],
-    yearList:any[]
+    yearList:any[],
+    selectedPaymentInfo:object
 }
 
-const List = ({refreshList,userList,yearList}:params) =>{
+const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
     const [repaymentList,setRepaymentList] = useState([]);
     const [loading,setLoading] = useState(false);
     const [selectedMonth,setSelectedMonth] = useState(format(new Date(), "M"));
@@ -25,11 +26,19 @@ const List = ({refreshList,userList,yearList}:params) =>{
         setLoading(true);
         setRepaymentList([]);
 
+        let body = {
+            year:selectedYear,
+            month:selectedMonth,
+            payee:selectedUser
+        };
+
         let params = {
             path:"repayment/list",
             method:"POST",
-            auth:true
+            auth:true,
+            body:body
         }
+
         let response = await fetchRequest(params);
         if(response.request){
             if (Array.isArray(response.data?.data)) {
@@ -97,14 +106,20 @@ const List = ({refreshList,userList,yearList}:params) =>{
                 )}
 
                 {!loading&&repaymentList.length===0&&(
-                    <div className="text-center pt-2 text-gray-700 flex gap-2 justify-center items-center text-gray-200">
+                    <div className="text-center pt-2  flex gap-2 justify-center items-center text-gray-300">
                         <span>No Data.</span> <span className="flex justify-center items-center gap-2 font-bold cursor-pointer" onClick={loadRepayments}><ImSpinner11 size={15}/>Refresh</span>
                     </div>
                 )}
 
-                <div className="pt-2 overflow-x-auto max-h-150 custom-overflow-track pr-1">
+                <div className="pt-2 overflow-x-auto max-h-200 custom-overflow-track pr-1">
                     {repaymentList.map((row, index)=>(
-                        <PaymentDetailCard listData={row} key={index} className="mb-4"/>
+                        <div className="cursor-pointer" onClick={()=>selectedPaymentInfo(row)}>
+                            <PaymentDetailCard 
+                                listData={row} 
+                                key={index} 
+                                className="mb-4"
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

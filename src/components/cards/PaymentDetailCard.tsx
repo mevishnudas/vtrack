@@ -33,7 +33,7 @@ const PaymentDetailCard = ({listData,className}:param) =>{
 
     return(
         <>
-            <div className={`bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 cursor-pointer ${className}`}>
+            <div className={`bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 ${className}`}>
 
                 <div className="p-2">
                     <div className="grid grid-cols-2">
@@ -44,7 +44,7 @@ const PaymentDetailCard = ({listData,className}:param) =>{
                     <p>Pr.Fee : {listData.pr_fee.toLocaleString("en-IN")}</p>
                     <p>Charges : {listData.charges.toLocaleString("en-IN")}</p>
                     <br/>
-                    <p>Total : <span className="font-bold">{listData.total.toLocaleString("en-IN")}</span></p>
+                    <p>Total : <span className="font-bold">Rs.{listData.total.toLocaleString("en-IN")}</span></p>
                     <p>Payment Date : <span className="font-bold">{format(new Date(listData.payment_date), "MMM dd")}</span></p>
                     <p>From : <span className="font-bold">{listData.from}</span></p>
                     {listData.remarks&&(
