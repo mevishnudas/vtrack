@@ -57,7 +57,8 @@ const Repayment = () =>{
     }
 
     const selectedPaymentInfo = (row:any) =>{
-      console.log(row);
+        //console.log(row);
+        setPaymentDetail(row);
     }
 
     useEffect(()=>{
@@ -93,6 +94,7 @@ const Repayment = () =>{
                             <div className="col-span-1">
                               <Update 
                                   selectedPaymentDetail={selectedPaymentDetail}
+                                  bankList={bankList}
                               />
                             </div>
                             <div className="col-span-1 px-2">

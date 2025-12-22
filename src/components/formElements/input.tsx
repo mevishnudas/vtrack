@@ -62,7 +62,7 @@ const CustomTextArea = ({name,placeholder,register,...rest}:CustomTextAreaProps)
                 [&::-webkit-outer-spin-button]:appearance-none
                 [&::-webkit-inner-spin-button]:appearance-none"
 
-                {...register(name)}
+                {...register&&register(name)}
 
                 {...rest}
         />
@@ -94,7 +94,7 @@ const CustomSelect = ({name,label,optionsList,defaultValue,register,...rest}:Cus
                     ${rest?.customClassName}
                 `}
                 
-                {...register(name)}
+                {...register&&register(name)}
 
                 {...rest}
             >
