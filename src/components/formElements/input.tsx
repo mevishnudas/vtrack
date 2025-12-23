@@ -49,7 +49,7 @@ const CustomTextArea = ({name,placeholder,register,...rest}:CustomTextAreaProps)
         <textarea 
             placeholder={placeholder}
 
-            className="
+            className={`
                 border-1 
                 border-gray-600 
                     text-white
@@ -60,7 +60,8 @@ const CustomTextArea = ({name,placeholder,register,...rest}:CustomTextAreaProps)
                 resize-none
                 [appearance:textfield]
                 [&::-webkit-outer-spin-button]:appearance-none
-                [&::-webkit-inner-spin-button]:appearance-none"
+                [&::-webkit-inner-spin-button]:appearance-none
+                ${rest?.customClassName}`}
 
                 {...register&&register(name)}
 
@@ -106,4 +107,23 @@ const CustomSelect = ({name,label,optionsList,defaultValue,register,...rest}:Cus
     );
 }   
 
-export {CustomInput,CustomTextArea,CustomSelect};
+type CustomButtonProps = {
+    label:string,
+    type?:string,
+    customClassName?:string,
+};
+
+const   CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) =>{
+
+    return(<>
+            <button 
+                type={type}
+                className={`rounded-sm ${customClassName}`} 
+                {...rest}
+            >
+                {label}
+            </button>
+           </>);
+};
+
+export {CustomInput,CustomTextArea,CustomSelect,CustomButton};

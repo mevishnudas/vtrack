@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {CustomSelect,CustomInput,CustomTextArea} from "../../../components/formElements/input";
+import {CustomSelect,CustomInput,CustomTextArea,CustomButton} from "../../../components/formElements/input";
 
 type updateProps = {
     selectedPaymentDetail:any[],
@@ -45,9 +45,9 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                         
                         <div className="px-4 py-2">
 
-                            <div className="grid grid-rows-4 grid-cols-2">
+                            <div className="grid grid-rows-4 grid-cols-2 gap-2">
 
-                                <div className="col-span-1 pr-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Payment Status</label>
                                     <CustomSelect
                                         name="payment_status"
@@ -59,7 +59,7 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     />
                                 </div>
 
-                                <div className="col-span-1 pl-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">From</label>
                                     <CustomSelect
                                         name="from"
@@ -71,7 +71,7 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     />
                                 </div>
                                 
-                                <div className="col-span-1 pr-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Amount</label>
                                     <CustomInput
                                         name="amount"
@@ -79,7 +79,7 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                         inputType={"number"}
                                     />
                                 </div>
-                                <div className="col-span-1 pl-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Pr.Fee</label>
                                     <CustomInput
                                         name="pr_fee"
@@ -88,7 +88,7 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     />
                                 </div>
 
-                                <div className="col-span-1 pr-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Charges</label>
                                     <CustomInput
                                         name="charges"
@@ -96,18 +96,25 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                         inputType={"number"}
                                     />
                                 </div>
-                                <div className="col-span-1 pl-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Total</label>
+                                    <p className="border-1 px-2 py-1 rounded-sm 
+
+                                border-gray-500 
+                                text-white
+                                bg-gray-600 
+                                
+                                ">{(1000).toLocaleString("en-IN")}</p>
                                 </div>
 
-                                <div className="col-span-1 pr-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Distributed Date</label>
                                     <CustomInput
                                         name="distributed_date"
                                         inputType={"date"}
                                     />
                                 </div>
-                                <div className="col-span-1 pl-1">
+                                <div className="col-span-1">
                                     <label className="text-white font-bold">Payment Date</label>
                                     <CustomInput
                                         name="payment_date"
@@ -115,14 +122,32 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     />
                                 </div>
 
-                                <div className="col-span-2 pr-1">
+                                <div className="col-span-2">
                                     <label className="text-white font-bold w-full">Remarks</label>
                                     <CustomTextArea
                                         name="remarks"
+                                        customClassName="w-full"
                                     />
                                 </div>
 
                             </div>
+
+                            {/* Button Area  */}
+                            <div className="grid grid-cols-2 gap-2 pt-1">
+                                <div>
+                                    <CustomButton 
+                                        label="Update" 
+                                        customClassName="bg-green-600 text-white w-full h-8"
+
+                                        onClick={()=>alert("Hi")}
+                                    />
+                                </div>
+                                
+                                <div className="flex justify-end">
+                                    <CustomButton label="Delete" customClassName="bg-red-900 text-white w-20 h-8"/>
+                                </div>
+                            </div>
+                            {/* Button Area Ends */}
 
                         </div>
 
