@@ -72,8 +72,8 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
                         <select value={selectedYear}  
                             onChange={(e)=>setSelectedYear(e.target.value)}
                             className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
-                            {yearList.map(row=>(
-                                <option value={row}>{row}</option>
+                            {yearList.map((row,index)=>(
+                                <option value={row} key={index}>{row}</option>
                             ))}
                         </select>
                     </div>
@@ -90,7 +90,7 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
                             <select value={selectedUser} onChange={(e)=>setSelectedUser(e.target.value)} className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
                                 <option value={0}>All</option>
                                 {userList.map(row=>(
-                                    <option value={row.id}>{row.name}</option>
+                                    <option value={row.id} key={row.id}>{row.name}</option>
                                 ))}
                             </select>
                     </div>
@@ -113,13 +113,15 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
 
                 <div className="pt-2 overflow-x-auto max-h-200 custom-overflow-track pr-1">
                     {repaymentList.map((row, index)=>(
-                        <div className="cursor-pointer" onClick={()=>selectedPaymentInfo(row)}>
+
+                        <div className="cursor-pointer" key={index}  onClick={()=>selectedPaymentInfo(row)}>
                             <PaymentDetailCard 
                                 listData={row} 
-                                key={index} 
+                                
                                 className="mb-4"
                             />
                         </div>
+
                     ))}
                 </div>
             </div>

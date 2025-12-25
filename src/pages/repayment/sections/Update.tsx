@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {CustomSelect,CustomInput,CustomTextArea,CustomButton} from "../../../components/formElements/input";
 
 type updateProps = {
@@ -7,6 +7,7 @@ type updateProps = {
 };
 
 const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
+    const [paymentInfo,setPaymentInfo] = useState(selectedPaymentDetail);
 
     const optionsList = [
         {
@@ -22,9 +23,12 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
             name:"Partially Paid"
         }
     ];
-    // useEffect(()=>{
 
-    // },[]);
+    useEffect(()=>{
+            setPaymentInfo(selectedPaymentDetail);
+            console.log(paymentInfo);
+            
+    },[selectedPaymentDetail]);
 
     return(
         <>  
@@ -77,6 +81,9 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                         name="amount"
                                         placeholder="Amount"
                                         inputType={"number"}
+                                        
+                                        defaultValue={paymentInfo.amount}
+                                        // value={paymentInfo.amount}
                                     />
                                 </div>
                                 <div className="col-span-1">
@@ -85,6 +92,8 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                         name="pr_fee"
                                         placeholder="Pr.Fee"
                                         inputType={"number"}
+
+                                        defaultValue={paymentInfo.amount}
                                     />
                                 </div>
 
@@ -94,6 +103,8 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                         name="charges"
                                         placeholder="Charges"
                                         inputType={"number"}
+
+                                        defaultValue={paymentInfo.amount}
                                     />
                                 </div>
                                 <div className="col-span-1">
@@ -112,6 +123,8 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     <CustomInput
                                         name="distributed_date"
                                         inputType={"date"}
+
+                                        defaultValue={"2025-12-25"}
                                     />
                                 </div>
                                 <div className="col-span-1">
@@ -119,6 +132,8 @@ const Update = ({selectedPaymentDetail,bankList}:updateProps) =>{
                                     <CustomInput
                                         name="payment_date"
                                         inputType={"date"}
+
+                                        defaultValue={"2025-12-25"}
                                     />
                                 </div>
 

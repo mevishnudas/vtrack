@@ -3,15 +3,17 @@ type CustomInputProps = {
     placeholder?:string,
     inputType:string,
     register?:any,
+    customClassName?:any,
     onValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-const CustomInput = ({name,placeholder,inputType,register,onValueChange,...rest}:CustomInputProps)=>{
+const CustomInput = ({name,placeholder,inputType,register,customClassName,onValueChange,...rest}:CustomInputProps)=>{
     return(
             <input 
                 type={inputType} 
                 placeholder={placeholder}
 
-                className="border-1 
+                className={`
+                    border-1 
                     border-gray-600 
                     text-white
                     bg-gray-800 
@@ -20,7 +22,10 @@ const CustomInput = ({name,placeholder,inputType,register,onValueChange,...rest}
                     outline-none rounded-sm     
                     [appearance:textfield]
                     [&::-webkit-outer-spin-button]:appearance-none
-                    [&::-webkit-inner-spin-button]:appearance-none"
+                    [&::-webkit-inner-spin-button]:appearance-none
+                    
+                    ${customClassName}
+                    `}
                     
                     {...(register?
                         
@@ -41,10 +46,11 @@ const CustomInput = ({name,placeholder,inputType,register,onValueChange,...rest}
 type CustomTextAreaProps = {
     name:string,
     placeholder?:string,
-    register?:any
+    register?:any,
+    customClassName?:string,
 };
 
-const CustomTextArea = ({name,placeholder,register,...rest}:CustomTextAreaProps) =>{
+const CustomTextArea = ({name,placeholder,register,customClassName,...rest}:CustomTextAreaProps) =>{
     return(
         <textarea 
             placeholder={placeholder}
@@ -61,7 +67,7 @@ const CustomTextArea = ({name,placeholder,register,...rest}:CustomTextAreaProps)
                 [appearance:textfield]
                 [&::-webkit-outer-spin-button]:appearance-none
                 [&::-webkit-inner-spin-button]:appearance-none
-                ${rest?.customClassName}`}
+                ${customClassName}`}
 
                 {...register&&register(name)}
 
@@ -75,10 +81,11 @@ type CustomSelectProps = {
     label:any,
     optionsList:any,
     defaultValue:string,
-    register?:any
+    register?:any,
+    customClassName?:string,
 }
 
-const CustomSelect = ({name,label,optionsList,defaultValue,register,...rest}:CustomSelectProps) =>{
+const CustomSelect = ({name,label,optionsList,defaultValue,register,customClassName,...rest}:CustomSelectProps) =>{
     return(
         <select
                 className={`
@@ -92,7 +99,7 @@ const CustomSelect = ({name,label,optionsList,defaultValue,register,...rest}:Cus
                     [&::-webkit-outer-spin-button]:appearance-none
                     [&::-webkit-inner-spin-button]:appearance-none
 
-                    ${rest?.customClassName}
+                    ${customClassName}
                 `}
                 
                 {...register&&register(name)}

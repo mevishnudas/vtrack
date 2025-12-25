@@ -167,6 +167,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     placeholder="Amount"
                                     register={register}
                                     onValueChange={reCalcTotal}
+
+                                    defaultValue=""
                                 /> 
                                 {errors.amount && <span className="text-red-300">{errors.amount?.message}</span>}
 
@@ -182,6 +184,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     placeholder="Pr.Fee"
                                     register={register}
                                     onValueChange={reCalcTotal}
+
+                                    defaultValue=""
                                 />
                                 {errors.pr_fee && <span className="text-red-300">{errors.pr_fee?.message}</span>}
                             </div>
@@ -195,6 +199,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     placeholder="Charges"
                                     register={register}
                                     onValueChange={reCalcTotal}
+
+                                    defaultValue=""
                                 />
                                 {errors.charges && <span className="text-red-300">{errors.charges?.message}</span>}
                             </div>
@@ -221,6 +227,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     name="distributed_date"
                                     inputType="date"
                                     register={register}
+
+                                    defaultValue=""
                                 />
                                 {errors.distributed_date && <span className="text-red-300">{errors.distributed_date.message}</span>}
                             </div>
@@ -230,6 +238,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                     name="payment_date"
                                     inputType="date"
                                     register={register}
+
+                                    defaultValue=""
                                 />
                                 
                                 {errors.payment_date && <span className="text-red-300">{errors.payment_date.message}</span>}
@@ -243,6 +253,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 name="remarks"
                                 placeholder="Remarks"
                                 register={register}
+
+                                defaultValue=""
                             />
                         </div>
                         
