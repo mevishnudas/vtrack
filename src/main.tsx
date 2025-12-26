@@ -7,7 +7,8 @@ import MainRoute from './routers/routers';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-     <BrowserRouter>
+     {/* <BrowserRouter> */}
+     <BrowserRouter basename={import.meta.env.VITE_BASE}>
       {/* <App /> */}
       <MainRoute/>
     </BrowserRouter>

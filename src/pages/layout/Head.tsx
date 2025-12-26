@@ -12,11 +12,14 @@ const Head = () =>{
     
     const [sideBarShow,setSideBarShow] = useState(false);
     const [settingsMenu,setSettingsMenu] = useState(false);
-    const menuRef = useRef(null);
+    // const menuRef = useRef(null);
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
     const outSideClick = (event:MouseEvent) =>{
         //console.log(event.target);
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
+        if ( menuRef.current &&
+            event.target instanceof Node &&
+            !menuRef.current.contains(event.target)) {
             setSettingsMenu(false);
         }
 

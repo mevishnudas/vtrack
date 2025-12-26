@@ -34,7 +34,7 @@ const openRequest = async (params:parameters) =>{
 
         return response;   
 
-    } catch (err) {
+    } catch (err:any) {
 
         response.request = false;
         response.data = err;
@@ -43,6 +43,8 @@ const openRequest = async (params:parameters) =>{
     }
 
 };
+
+
 
 type parameters02 = {
     path:string,
@@ -61,7 +63,7 @@ const fetchRequest = async (params:parameters02) =>{
 
     try {
         
-        let headers = {
+        let headers : {"Content-Type":string,Authorization?:string}= {
             "Content-Type": "application/json",
         }
 
@@ -73,14 +75,15 @@ const fetchRequest = async (params:parameters02) =>{
                 await reLogin();
             }
 
-            headers["Authorization"] = "Bearer "+userData.token;
-            console.log(userData.token);
+            headers.Authorization = "Bearer "+userData.token;
+            //console.log(userData.token);
         }
 
-        let pass_params = {
+        let pass_params:RequestInit = {
             method: params.method,
             headers: headers,
             //body: JSON.stringify(params.body),
+            // ...(params.body && { body: JSON.stringify(params.body) }),
         }
 
         if(params.body){
@@ -108,7 +111,7 @@ const fetchRequest = async (params:parameters02) =>{
 
     } catch (error) {
         response.request = false;
-        response.data = error;
+        (response.data as any) = error;
 
         return response;
     }
@@ -119,7 +122,7 @@ const fetchRequest = async (params:parameters02) =>{
 
 const reLogin = async () =>{
     await deleteUserData();
-    window.location.replace("/login");
+    window.location.replace(`${import.meta.env.VITE_BASE}/login`);
 }
 
 export {openRequest,fetchRequest,reLogin};

@@ -35,7 +35,7 @@ const Form = () =>{
         let response = await openRequest(params);
 
         if(response.request){
-            let resData = response.data.data;
+            let resData = (response.data as any)?.data;
             
             let userData = {
                 name:resData.name,
@@ -79,7 +79,6 @@ const Form = () =>{
                         autoComplete="off"
 
                         autoFocus={true}
-                        value={"dvishnudas@gmail.com"}
 
                         {...register("username", {
                             required: error_message.required,
@@ -101,8 +100,6 @@ const Form = () =>{
                         className="bg-slate-950 text-white px-3 py-2 rounded-sm outline-none w-full"
                         placeholder="Password"
                         autoComplete="off"
-
-                        value={"password"}
 
                         {...register("password", {
                             required: error_message.required,

@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react'
+import { useEffect } from 'react'
 import { Outlet } from "react-router-dom";
 import {fetchRequest} from "./services/Fetch";
 import Head from './pages/layout/Head';
@@ -12,7 +12,7 @@ function App() {
         method:"GET",
         auth:true
     }
-    let response = await fetchRequest(params);
+    await fetchRequest(params);
 
     //console.log(response);
   }

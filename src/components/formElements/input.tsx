@@ -4,6 +4,7 @@ type CustomInputProps = {
     inputType:string,
     register?:any,
     customClassName?:any,
+    //defaultValue?:string
     onValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const CustomInput = ({name,placeholder,inputType,register,customClassName,onValueChange,...rest}:CustomInputProps)=>{
@@ -30,7 +31,7 @@ const CustomInput = ({name,placeholder,inputType,register,customClassName,onValu
                     {...(register?
                         
                         register(name,{
-                            onChange: (e) => {
+                            onChange: (e:any) => {
                                 onValueChange?.(e);
                             }
                         })
@@ -48,6 +49,7 @@ type CustomTextAreaProps = {
     placeholder?:string,
     register?:any,
     customClassName?:string,
+    defaultValue?:string
 };
 
 const CustomTextArea = ({name,placeholder,register,customClassName,...rest}:CustomTextAreaProps) =>{
@@ -100,14 +102,16 @@ const CustomSelect = ({name,label,optionsList,defaultValue,register,customClassN
                     [&::-webkit-inner-spin-button]:appearance-none
 
                     ${customClassName}
-                `}
+                `}  
                 
-                {...register&&register(name)}
+                key={defaultValue ?? ""}
+                defaultValue={defaultValue ?? ""}
 
+                {...register&&register(name)}
                 {...rest}
             >
-            <option value={defaultValue} disabled>{label}</option>
-                {optionsList.map(row=>(
+            <option key={0} value={0} disabled>{label}</option>
+                {optionsList.map((row:any)=>(
                     <option  key={row.id} value={row.id}>{row.name}</option>
                 ))}
         </select>
@@ -116,7 +120,7 @@ const CustomSelect = ({name,label,optionsList,defaultValue,register,customClassN
 
 type CustomButtonProps = {
     label:string,
-    type?:string,
+    type?:"button" | "submit" | "reset",
     customClassName?:string,
 };
 
@@ -127,7 +131,7 @@ const   CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) 
                 type={type}
                 className={`rounded-sm ${customClassName}`} 
                 {...rest}
-            >
+                >
                 {label}
             </button>
            </>);

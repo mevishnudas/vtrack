@@ -9,6 +9,7 @@ const Repayment = () =>{
     const [bankList,setBankList] = useState([]);
     const [userList,setUserList] = useState([]);
     const [yearList,setYearList] = useState([]);
+    const [paymentList,setPaymentList] = useState([]);
     const [selectedPaymentDetail,setPaymentDetail] = useState([]);
 
     const refreshTheList = () =>{
@@ -54,6 +55,28 @@ const Repayment = () =>{
         if(response.request){
             setYearList(response.data?.data);
         }
+    } 
+
+    const loadPaymentStatus = async () =>{
+
+      let response = await fetchRequest({
+          path:"master/payment/status",
+          auth:true,
+          method:"GET"
+        });
+
+        if(response.request){
+
+            let list = response.data?.data;
+            setPaymentList(
+
+                list.map(({ value, label }) => ({
+                    id:value,
+                    name:label
+                }))
+
+            );
+        }
     }
 
     const selectedPaymentInfo = (row:any) =>{
@@ -66,6 +89,7 @@ const Repayment = () =>{
       loadBanks(); //load bank list
       loadPayee(); //load payee list
       loadYears(); //load year list
+      loadPaymentStatus(); //Payment status list
       
       return ()=>{
 
@@ -91,12 +115,16 @@ const Repayment = () =>{
                       <div className="col-span-2 py-2 px-1">
 
                           <div className="grid grid-cols-2">
+
                             <div className="col-span-1">
                               <Update 
                                   selectedPaymentDetail={selectedPaymentDetail}
                                   bankList={bankList}
+                                  paymentList={paymentList}
+                                  refreshList={refreshTheList}
                               />
                             </div>
+
                             <div className="col-span-1 px-2">
                               <Add 
                                 bankList={bankList} 
