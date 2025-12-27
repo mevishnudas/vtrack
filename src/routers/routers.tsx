@@ -3,6 +3,7 @@ import App from "../App";
 import Login from "../pages/login/Login";
 import Dash from "../pages/dashboard/Dash";
 import { Repayment } from "../pages/repayment/Repayment";
+import Emi from "../pages/repayment/Emi";
 
 const MainRoute = () =>{
     return(
@@ -11,6 +12,7 @@ const MainRoute = () =>{
             <Route path="/" element={<App />}>
                 <Route index element={<Dash />}/>
                 <Route path="/repayment" element={<Repayment />}/>
+                <Route path="/repayment/emi" element={<Emi />}/>
                 {/* <Route path="dashboard" element={<Dash/>}/> */}
             </Route>
 

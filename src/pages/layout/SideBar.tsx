@@ -1,6 +1,7 @@
 import { useNavigate  } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
+import { useState } from "react";
 
 type props ={
     setSideBarShow:any,
@@ -8,6 +9,7 @@ type props ={
 };
 const SideBar = ({setSideBarShow,sideBarShow}:props) =>{  
     const navigate = useNavigate();
+    const [openedMenu,setOpenMenu] = useState("");
 
     const closeSideBar = () =>{
         setSideBarShow(false);
@@ -18,9 +20,13 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
         navigate(page);
     }
 
+    const toggleMenu = (menu:string) =>{
+        openedMenu?setOpenMenu(""):setOpenMenu(menu);
+    }
+
     return(
         <>  
-            <div className={`bg-gray-900/10 backdrop-blur-[1px] backdrop-brightness-90 fixed top-0 h-screen w-screen                       
+            <div className={`bg-gray-900/10 backdrop-blur-[1px] backdrop-brightness-90 fixed top-0 h-screen w-screen z-10                   
                             
                                 duration-500 
                                 ${sideBarShow?"opacity-100 pointer-events-auto":"opacity-0 pointer-events-none"}
@@ -33,11 +39,25 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
                                     ${sideBarShow?"-translate-x-0":"-translate-x-50"}
 
                                 `} onClick={(e) => e.stopPropagation()}>
-                    <div><h2 className="text-center text-amber-50 py-2 font-bold">VTrack</h2></div>
-                    <ul>
-                        <li onClick={()=>navScreen('/')} className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700"><MdDashboard size={20}/> Dashboard</li>
-                        <li onClick={()=>navScreen('/repayment')}className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 flex justify-left items-center gap-2 hover:bg-gray-700"><SlCalender size={20}/>Repayment</li>
-                    </ul>
+                    <div><h2 className="text-center text-amber-50 py-2 font-bold bg-linear-to-r from-cyan-500 to-blue-500">VTrack</h2></div>
+
+                    
+                    <div>
+                        <div onClick={()=>navScreen('/')} className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700 select-none"><MdDashboard size={20}/> Dashboard</div>
+                        
+                        <div onClick={()=>toggleMenu('repayment')} className="bg-gray-800 px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700 select-none">
+                            <SlCalender size={20}/> Repayment
+                        </div>
+
+                        <div className={`bg-blue-800 overflow-hidden transition-all duration-300 ease-in-out ${openedMenu ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+                            <ul>
+                                <li onClick={()=>navScreen('/repayment')} className="text-white px-2 hover:bg-blue-900 py-1 cursor-pointer border-b-1 border-b-blue-600">Repayment</li>
+                                <li onClick={()=>navScreen('/repayment/emi')} className="text-white px-2 hover:bg-blue-900 py-1 cursor-pointer">EMI</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
             </div>
         </>
