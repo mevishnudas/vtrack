@@ -14,9 +14,11 @@ const schema = yup
   .object({
     payee:yup.number().moreThan(0, error_message.required).required(),
     from:yup.number().moreThan(0,error_message.required).required(), 
-    amount:yup.number().typeError(error_message.invalid_date).required(error_message.required),
-    pr_fee:yup.number().typeError(error_message.invalid_date).required(error_message.required),
-    charges:yup.number().typeError(error_message.invalid_date).required(error_message.required),
+
+    amount:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
+    pr_fee:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
+    charges:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
+
     payment_date: yup.date().typeError(error_message.invalid_date).required(),
     distributed_date:yup.date().typeError(error_message.invalid_date).required(),
     remarks:yup.string()

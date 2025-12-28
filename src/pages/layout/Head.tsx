@@ -35,7 +35,7 @@ const Head = () =>{
     });
     return(
         <>  
-            <div className="bg-gray-900 py-2 px-4">
+            <div className="bg-linear-to-r from-gray-900 to-gray-950 border-b-1 border-b-gray-800 py-2 px-4">
                 <div className="grid grid-flow-row-dense grid-cols-3">
                     <div className="col-span-2">
                         <MdOutlineMenu className='text-amber-50 cursor-pointer' onClick={()=>setSideBarShow(!sideBarShow)} size={25} />
