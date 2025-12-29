@@ -3,41 +3,52 @@ import {error_message} from "../../../../utils/ErrorMessages";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from "react";
 
 const validationSchema = yup.object({
+  payee:yup.number().required(error_message.required),
+  from:yup.string().required(error_message.required),
+
   amount: yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
   pr_fee: yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
 
   emi_amount:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
   duration:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
+  
+  distributed_date:yup.date().required(error_message.required).typeError(error_message.required),
+  payment_date:yup.date().required(error_message.required).typeError(error_message.required),
 });
 
-const AddEmi = () =>{
+type emiProps = {
+    bank_list:any[],
+    payee_list:any[]
+};
+const AddEmi = ({bank_list,payee_list}:emiProps) =>{
+    const [totalAmount,setTotalAmount] = useState(0);
 
     const {
         register,
         handleSubmit,
         reset,
+        getValues,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchema),
     });
+
+    const totalCalculate = (e) =>{
+
+        let calculatedTotalAmount = 0;
+        calculatedTotalAmount += parseFloat(getValues("pr_fee")|0);
+        calculatedTotalAmount += parseFloat(getValues("emi_amount")|0)*parseFloat(getValues("duration")|0);
     
-    const payee = [
-        {
-            id:1,
-            name:"Vishnu",
-        },
-        {
-            id:2,
-            name:"Das",
-        }
-    ];
+        setTotalAmount(calculatedTotalAmount);
+    }
 
     const onSubmit = () =>{
         alert("Okay");
     };
-
+    
     return(
         <>
             <div>
@@ -52,22 +63,24 @@ const AddEmi = () =>{
                                 <CustomSelect 
                                     name="payee"
                                     label="Select Payee"
-                                    optionsList={payee}
+                                    optionsList={payee_list}
                                     defaultValue={0}
 
                                     customClassName="w-full"
                                 />
+                                <p className="text-red-400">{errors.payee?.message}</p>
                             </div>
 
                             <div>
                                 <label>From</label>
                                 <CustomSelect 
-                                    name="payee"
+                                    name="from"
                                     label="Select From"
-                                    optionsList={payee}
+                                    optionsList={bank_list}
                                     defaultValue={0}
                                     customClassName="w-full"
                                 />
+                                <p className="text-red-400">{errors.from?.message}</p>
                             </div>
 
                             <div>
@@ -90,6 +103,8 @@ const AddEmi = () =>{
                                     inputType="number"
 
                                     register={register}
+
+                                    onValueChange={totalCalculate}
                                 />
                                 <p className="text-red-400">{errors.pr_fee?.message}</p>
                             </div>
@@ -100,7 +115,12 @@ const AddEmi = () =>{
                                     name="emi_amount"
                                     placeholder="EMI"
                                     inputType="number"
+
+                                    register={register}
+
+                                    onValueChange={totalCalculate}
                                 />
+                                <p className="text-red-400">{errors.emi_amount?.message}</p>
                             </div>
 
                             <div>
@@ -109,7 +129,12 @@ const AddEmi = () =>{
                                     name="duration"
                                     placeholder="Duration"
                                     inputType="number"
+
+                                    register={register}
+
+                                    onValueChange={totalCalculate}
                                 />
+                                <p className="text-red-400">{errors.duration?.message}</p>
                             </div>
 
                             <div className="col-span-2">
@@ -122,17 +147,8 @@ const AddEmi = () =>{
                                                 
                                                 ">
                                     <p className="text-slate-200">Estimated Total Amount (Ex.GST)</p>
-                                    <p className="font-bold">Rs.0</p>
+                                    <p className="font-bold">Rs.{totalAmount.toLocaleString('en-IN')}</p>
                                 </div>
-                            </div>
-
-                            <div>
-                                <label>Payment Date</label>
-                                <CustomInput
-                                    name="payment_date"
-                                    // placeholder="Payment Date"
-                                    inputType="date"
-                                />
                             </div>
 
                             <div>
@@ -141,6 +157,19 @@ const AddEmi = () =>{
                                     name="distributed_date"
                                     inputType="date"
                                 />
+                                <p className="text-red-400">{errors.distributed_date?.message}</p>
+                            </div>
+
+                            <div>
+                                <label>Payment Date</label>
+                                <CustomInput
+                                    name="payment_date"
+                                    // placeholder="Payment Date"
+                                    inputType="date"
+
+                                    register={register}
+                                />
+                                <p className="text-red-400">{errors.payment_date?.message}</p>
                             </div>
 
                             <div className="col-span-2">
