@@ -4,6 +4,8 @@ import { Month } from "../../../../utils/Month";
 import {format} from "date-fns";
 import { FaFilter } from "react-icons/fa";
 
+import {EmiDetailCard} from "../../../../components/cards/EmiDetailCard";
+
 type EmiListProps ={
     payee_list:any[],
     year_list:any[]
@@ -108,6 +110,21 @@ const EmiList = ({payee_list,year_list}:EmiListProps) =>{
         )
     }
 
+    const dummyEmiPayments = 
+        {
+            payee:"Neethu Babu",
+            status:"OPEN",
+            amount:20000,
+            emi:4029,
+            duration:6,
+            pr_fee:499,
+            distributed_date:"2025-12-30",
+            payment_date:"2026-01-26",
+            from:"KGB",
+            remarks:"test"
+
+        };
+
     const test = () =>{
         //console.log(selectedYear,selectedPayee);
 
@@ -154,7 +171,7 @@ const EmiList = ({payee_list,year_list}:EmiListProps) =>{
                         />
                     </div>
 
-                    <div className="flex justify-center items-right">
+                    <div className="flex justify-end">
                         <SimpleButtonIconOnly
                             icon={<FaFilter size={15}/>}
 
@@ -166,7 +183,19 @@ const EmiList = ({payee_list,year_list}:EmiListProps) =>{
                     </div>
 
                 </div>
-            
+                
+                <div className="py-2 px-1 mt-1 grid gap-3 max-h-200 overflow-y-auto custom-overflow-track">
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                    <EmiDetailCard listData={dummyEmiPayments}/>
+                </div>
+
             </div>
         </>
     );

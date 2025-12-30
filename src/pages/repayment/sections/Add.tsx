@@ -259,6 +259,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 flex
                                 gap-2
                                 justify-center
+                                items-center
                               ">
                                 {submitBtnDisabled&&(
                                     <ImSpinner2  size={20} className="animate-spin"/>

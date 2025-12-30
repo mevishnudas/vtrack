@@ -77,7 +77,6 @@ const Emi = () =>{
 
                         <div className="grid-cols-1 text-white">
                             <EmiList
-
                                 year_list={yearList}
                                 payee_list={userList}
 
