@@ -18,7 +18,7 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
     const [repaymentList,setRepaymentList] = useState([]);
     const [loading,setLoading] = useState(false);
     const [selectedMonth,setSelectedMonth] = useState(format(new Date(), "M"));
-    const [selectedYear,setSelectedYear] = useState(format(new Date(), "Y"));
+    const [selectedYear,setSelectedYear] = useState(format(new Date(), "yyyy"));
     const [selectedUser,setSelectedUser] = useState(0);
 
     const loadRepayments = async () =>{

@@ -124,7 +124,7 @@ type CustomButtonProps = {
     customClassName?:string,
 };
 
-const   CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) =>{
+const CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) =>{
 
     return(<>
             <button 
@@ -136,5 +136,6 @@ const   CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) 
             </button>
            </>);
 };
+
 
 export {CustomInput,CustomTextArea,CustomSelect,CustomButton};

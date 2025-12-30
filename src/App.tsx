@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet } from "react-router-dom";
 import {fetchRequest} from "./services/Fetch";
 import Head from './pages/layout/Head';
+import { ToastContainer } from 'react-toastify';
 // import './App.css'
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
           <Outlet/>  
         </div>
       </main>
+
+      <ToastContainer/>
     </>
   )
 }

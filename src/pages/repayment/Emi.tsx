@@ -3,6 +3,7 @@ import { useEffect,useState } from "react";
 import {fetchRequest} from "../../services/Fetch";
 
 import AddEmi from "./sections/emi/AddEmi";
+import EmiList from "./sections/emi/EmiList";
 
 const Emi = () =>{
 
@@ -74,7 +75,15 @@ const Emi = () =>{
                             />
                         </div>
 
-                        <div className="grid-cols-1 text-white">Listing Area</div>
+                        <div className="grid-cols-1 text-white">
+                            <EmiList
+
+                                year_list={yearList}
+                                payee_list={userList}
+
+                            />
+                        </div>
+
                         <div className="grid-cols-1 text-white">Detail & Update</div>
                   </div>
 

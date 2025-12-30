@@ -7,7 +7,8 @@ import {formatDate} from "../../../utils/DateFormat";
 import {fetchRequest} from "../../../services/Fetch";
 import { ImSpinner2 } from "react-icons/im";
 
-import { ToastContainer, toast,Bounce } from 'react-toastify';
+// import { toast,Bounce } from 'react-toastify';
+import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../utils/Toast";
 import {CustomInput,CustomTextArea,CustomSelect} from "../../../components/formElements/input";
 
 const schema = yup
@@ -79,16 +80,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
         setSubmitBtnDisabled(false);
         if(response.request){
             //reset form
-            toast.success('Submitted Successfully', {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+            toastSuccessBottomRight({
+                message:'Saved Successfully !'
             });
             
             setTotalAmount(0);
@@ -96,17 +89,8 @@ const Add = ({refreshList,bankList,userList}:params) =>{
             refreshList();
 
         }else{
-            
-            toast.error(error_message.submit_error, {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+            toastErrorBottomRight({
+                message:error_message.submit_error
             });
             setSubmitError(error_message.submit_error);
             
@@ -289,8 +273,6 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                     </div>
                 </form>
             </div>
-
-            <ToastContainer />
         </>
     );
 };

@@ -4,10 +4,15 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useState } from "react";
+import {format} from "date-fns";
+import { ImSpinner2 } from "react-icons/im";
+import {fetchRequest} from "../../../../services/Fetch";
+// import { toast,Bounce } from 'react-toastify';
+import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../../utils/Toast";
 
 const validationSchema = yup.object({
-  payee:yup.number().required(error_message.required),
-  from:yup.string().required(error_message.required),
+  payee:yup.number().moreThan(0,error_message.required).required(error_message.required),
+  from:yup.number().moreThan(0,error_message.required).required(error_message.required),
 
   amount: yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
   pr_fee: yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
@@ -17,6 +22,8 @@ const validationSchema = yup.object({
   
   distributed_date:yup.date().required(error_message.required).typeError(error_message.required),
   payment_date:yup.date().required(error_message.required).typeError(error_message.required),
+
+  remarks:yup.string()
 });
 
 type emiProps = {
@@ -25,6 +32,8 @@ type emiProps = {
 };
 const AddEmi = ({bank_list,payee_list}:emiProps) =>{
     const [totalAmount,setTotalAmount] = useState(0);
+    const [submitting,setSubmitting] = useState(false);
+    const [submittingError,setSubmitError] = useState("");
 
     const {
         register,
@@ -45,14 +54,72 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
         setTotalAmount(calculatedTotalAmount);
     }
 
-    const onSubmit = () =>{
-        alert("Okay");
+    const onSubmit = async (data:any) =>{
+
+        setSubmitting(true);
+
+        let formData = {
+            payee:data.payee,
+            from:data.from,
+
+            amount:data.amount,
+            pr_fee:data.pr_fee,
+            emi:data.emi_amount,
+            duration:data.duration,
+
+            distributed_date:format(new Date(data.distributed_date),"Y-MM-dd"),
+            payment_date:format(new Date(data.payment_date),"Y-MM-dd"),
+            
+            remarks:data.remarks
+        }
+
+        let params = {
+            path:"repayment/emi/add",
+            method:"POST",
+            auth:true,
+            body:formData
+        };
+        let response = await fetchRequest(params);
+
+        setSubmitting(false);
+
+        if(response.request){
+            
+            // toast.success('Saved Successfully !', {
+            //     position: "bottom-right",
+            //     autoClose: 1000,
+            //     hideProgressBar: true,
+            //     closeOnClick: false,
+            //     pauseOnHover: false,
+            //     draggable: false,
+            //     progress: undefined,
+            //     theme: "light",
+            //     transition: Bounce,
+            // });
+            toastSuccessBottomRight({
+                message:'Saved Successfully !'
+            })
+
+            setTotalAmount(0);
+            reset();
+        }
+        else{
+
+            toastErrorBottomRight({
+                message:'Error occurred. Please try again !'
+            })
+
+            setSubmitError("Error occurred. Please try again ");
+        }
+        setSubmitting(false);
+
+        //console.log(format(new Date(data.payment_date),"Y-MM-dd"));
+        //console.log(format(new Date(data.distributed_date),"Y-MM-dd"));
     };
     
     return(
         <>
             <div>
-                
                 <div className="bg-slate-900 border-1 border-slate-800 rounded-sm overflow-hidden">
                     <h1 className="text-white bg-linear-to-r from-blue-500 to-cyan-500 px-2 py-1">New EMI</h1>
                     
@@ -67,6 +134,8 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
                                     defaultValue={0}
 
                                     customClassName="w-full"
+
+                                    register={register}
                                 />
                                 <p className="text-red-400">{errors.payee?.message}</p>
                             </div>
@@ -79,6 +148,8 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
                                     optionsList={bank_list}
                                     defaultValue={0}
                                     customClassName="w-full"
+
+                                    register={register}
                                 />
                                 <p className="text-red-400">{errors.from?.message}</p>
                             </div>
@@ -156,6 +227,8 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
                                 <CustomInput
                                     name="distributed_date"
                                     inputType="date"
+
+                                    register={register}
                                 />
                                 <p className="text-red-400">{errors.distributed_date?.message}</p>
                             </div>
@@ -175,15 +248,36 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
                             <div className="col-span-2">
                                 <label>Remarks</label>
                                 <CustomTextArea
-                                    name="duration"
-                                    placeholder="Duration"
+                                    name="remarks"
+                                    placeholder="Remarks"
                                     customClassName="w-full"
+
+                                    register={register}
                                 />
                             </div>
 
-                            <div>
-                                <button type="submit" className="bg-blue-700 px-2 py-1 rounded-sm w-20">Save</button>
-                                <span className="ml-2 text-red-400">Error</span>
+                            <div className="flex">
+                                <button 
+                                        type="submit" 
+                                        className="bg-blue-700 disabled:bg-blue-900
+                                        px-2 py-1 
+                                        rounded-sm w-20
+                                        flex
+                                        justify-center
+                                        items-center
+                                        w-30
+                                        "
+                                        disabled={submitting}
+                                >   
+                                {submitting?(
+                                <>
+                                    <ImSpinner2 size={20} className="animate-spin"/>&nbsp;&nbsp;Saving...  
+                                </>
+                                ):(<>
+                                    Save
+                                </>)}
+                                </button>
+                                <span className="ml-2 text-red-400">{submittingError}</span>
                             </div>
 
                         </div>
@@ -193,6 +287,7 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
                 
 
             </div>
+
         </>
     );
 }

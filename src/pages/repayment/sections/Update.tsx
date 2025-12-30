@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import {CustomSelect,CustomInput,CustomTextArea,CustomButton} from "../../../components/formElements/input";
 import { ImSpinner2 } from "react-icons/im";
-import { ToastContainer, toast,Bounce } from 'react-toastify';
+import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../utils/Toast";
+// import { toast,Bounce } from 'react-toastify';
 
 import {error_message} from "../../../utils/ErrorMessages";
 import {fetchRequest} from "../../../services/Fetch";
@@ -94,34 +95,18 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
 
         if(response.request){
             //reset form
-            toast.success('Updated Successfully', {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+            toastSuccessBottomRight({
+                message:'Updated Successfully'
             });
-            
+                
             reset();
             setPaymentInfo([]);
             refreshList();
 
         }else{
             
-            toast.error(error_message.submit_error, {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+            toastErrorBottomRight({
+                message:error_message.submit_error
             });
 
             setUpdateError(error_message.submit_error);
