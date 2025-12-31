@@ -4,12 +4,15 @@ import {fetchRequest} from "../../services/Fetch";
 
 import AddEmi from "./sections/emi/AddEmi";
 import EmiList from "./sections/emi/EmiList";
+import DetailEmi from "./sections/emi/DetailEmi";
 
 const Emi = () =>{
 
     const [bankList,setBankList] = useState([]);
     const [userList,setUserList] = useState([]);
-    const [yearList,setYearList] = useState([]);
+    const [emiStatusList,setEmiStatusList] = useState([]);
+    
+    const [reFreshList,setRefreshList] = useState(1);
 
     const loadBanks = async () =>{
           
@@ -39,51 +42,58 @@ const Emi = () =>{
         }
     }
     
-    const loadYears = async () =>{
+    const loadEmiStatus = async () =>{
         
         let response = await fetchRequest({
-            path:"master/year/list",
+            path:"master/emi/status",
             auth:true,
             method:"GET"
         });
 
         if(response.request){
-            setYearList(response.data?.data);
+            setEmiStatusList(response.data?.data);
         }
     } 
     
-   
+    const reFreshEmiList = () =>{
+        setRefreshList(prev=>prev+1);
+    }
 
     useEffect(()=>{
 
         loadBanks();
         loadPayee();
-        loadYears();
+        loadEmiStatus();
 
     },[]);
 
     return(
-        <>
+        <>  
             <div className="p-4">
-                  <h1 className="font-bold text-white">EMI Payments</h1>
+                  <h1 className="font-bold text-white" onClick={reFreshEmiList}>EMI Payments</h1>
                   
                   <div className="grid grid-cols-3 gap-2 mt-2">
                         <div className="grid-cols-1 text-white">
                             <AddEmi 
                                 bank_list={bankList}
                                 payee_list={userList}
+
+                                reFreshEmiList={reFreshEmiList}
                             />
                         </div>
 
                         <div className="grid-cols-1 text-white">
                             <EmiList
-                                year_list={yearList}
                                 payee_list={userList}
+                                emi_status_list={emiStatusList}
 
+                                refresh={reFreshList}
                             />
                         </div>
 
-                        <div className="grid-cols-1 text-white">Detail & Update</div>
+                        <div className="grid-cols-1 text-white">
+                            <DetailEmi/>
+                        </div>
                   </div>
 
             </div>

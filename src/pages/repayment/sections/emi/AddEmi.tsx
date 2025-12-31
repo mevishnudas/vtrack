@@ -28,9 +28,10 @@ const validationSchema = yup.object({
 
 type emiProps = {
     bank_list:any[],
-    payee_list:any[]
+    payee_list:any[],
+    reFreshEmiList:any
 };
-const AddEmi = ({bank_list,payee_list}:emiProps) =>{
+const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
     const [totalAmount,setTotalAmount] = useState(0);
     const [submitting,setSubmitting] = useState(false);
     const [submittingError,setSubmitError] = useState("");
@@ -102,6 +103,7 @@ const AddEmi = ({bank_list,payee_list}:emiProps) =>{
 
             setTotalAmount(0);
             reset();
+            reFreshEmiList();
         }
         else{
 

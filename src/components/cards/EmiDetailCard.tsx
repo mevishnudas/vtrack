@@ -38,7 +38,7 @@ const EmiDetailCard = ({listData,className}:param) =>{
 
     return(
         <>
-            <div className={`bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 text-black ${className}`}>
+            <div className={`cursor-pointer bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 text-black ${className}`}>
 
                 <div className="py-2 px-2">
                     <div className="grid grid-cols-2">
@@ -54,7 +54,7 @@ const EmiDetailCard = ({listData,className}:param) =>{
                     <br/>
                     <p>Payment Date : <span className="font-bold">{format(new Date(listData.payment_date), "MMM dd")}</span></p>
                     <p>Distributed date : <span className="font-bold">{format(new Date(listData.distributed_date), "dd MM yyyy")}</span></p>
-                    <p>From : <span className="font-bold">{listData.from}</span></p>
+                    <p>From : <span className="font-bold">{listData.source}</span></p>
                         {listData.remarks&&(
                             <p>Remarks : <span className="italic">{listData.remarks}</span></p>
                         )}

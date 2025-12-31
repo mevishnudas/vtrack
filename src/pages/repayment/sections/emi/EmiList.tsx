@@ -1,158 +1,73 @@
-// import {CustomSelect} from "../../../../components/formElements/input";
-import {useState} from "react";
-import { Month } from "../../../../utils/Month";
-import {format} from "date-fns";
+import {useState,useEffect} from "react";
+// import { Month } from "../../../../utils/Month";
+// import {format} from "date-fns";
 import { FaFilter } from "react-icons/fa";
 
+import {SimpleButtonIconOnly,SimpleSelectMultiLabel,SimpleSelect} from "../../../../components/formElements/SimpleInputs";
+import {fetchRequest} from "../../../../services/Fetch";
 import {EmiDetailCard} from "../../../../components/cards/EmiDetailCard";
+
+import { ImSpinner2 } from "react-icons/im";
 
 type EmiListProps ={
     payee_list:any[],
-    year_list:any[]
+    emi_status_list:any[],
+    refresh:any[]
 }
-const EmiList = ({payee_list,year_list}:EmiListProps) =>{
+const EmiList = ({payee_list,emi_status_list,refresh}:EmiListProps) =>{
     
-    const [selectedYear,setSelectedYear] = useState(format(new Date(),"yyyy"));
-    const [selectedMonth,setSelectedMonth] = useState(format(new Date(),"M"));
+    const [selectedEmiStatus,setSelectedEmiStatus] = useState("OPEN");
     const [selectedPayee,setSelectedPayee] = useState(0);
 
-    type SimpleSelectProps = {
-        name:string
-        optionList:any[],
-        defaultValue:any,
-        onChange?:any
-        defaultLabel?:any
-    }
+    const [emiList,setEmiList] = useState([]);
+    const [loading,setLoading] = useState(false);
 
-    const SimpleSelect = ({name,optionList,defaultValue,onChange,defaultLabel,...rest}:SimpleSelectProps) =>{
+    const loadEmiList = async () =>{
+        
+        setLoading(true); //loading
+        setEmiList([]);
 
-        return(
-            <select 
-                    name={name}
-                    className={`border-1 
-                    border-gray-600 
-                    text-white
-                    bg-gray-800 
-                    px-2 py-1 
-                    outline-none rounded-sm     
-                    [appearance:textfield]
-                    [&::-webkit-outer-spin-button]:appearance-none
-                    [&::-webkit-inner-spin-button]:appearance-none
-                    ${rest?.customClassName}
-                    `}
-                    
-                    defaultValue={defaultValue}
-                    onChange={onChange??""}
-                    >
-                
-                {defaultLabel&&(<option key={defaultValue} value={defaultValue}>{defaultLabel}</option>)}
-                
-                {optionList.map((row:any)=>(
-                    <option key={row.id} value={row.id}>{row.name}</option>
-                ))}
-            </select>
-        );
-    }
-
-    const SimpleSelectSingle = ({name,optionList,defaultValue,onChange,defaultLabel,...rest}:SimpleSelectProps) =>{
-
-        return(
-            <select 
-                    name={name}
-                    className={`border-1 
-                    border-gray-600 
-                    text-white
-                    bg-gray-800 
-                    px-2 py-1 
-                    outline-none rounded-sm     
-                    [appearance:textfield]
-                    [&::-webkit-outer-spin-button]:appearance-none
-                    [&::-webkit-inner-spin-button]:appearance-none
-                    ${rest?.customClassName}
-                    `}
-                    
-                    defaultValue={defaultValue}
-                    onChange={onChange??""}
-                    >
-                
-                {defaultLabel&&(<option key={defaultValue} value={defaultValue}>{defaultLabel}</option>)}
-                
-                {optionList.map((row:any)=>(
-                    <option key={row} value={row}>{row}</option>
-                ))}
-            </select>
-        );
-    }
-
-
-    type SimpleButtonIconOnly = {
-        icon:any
-    }
-    const SimpleButtonIconOnly = ({icon,...rest}:SimpleButtonIconOnly) =>{
-        return(
-            <button 
-                className={`bg-blue-700 active:bg-blue-900
-                            disabled:bg-blue-900
-                            text-amber-50 px-2 
-                            py-1 rounded-sm
-
-                            flex
-                            justify-center
-                            items-center
-
-                            ${rest?.customclassname}
-                            `
+        let response = await fetchRequest({
+            path:"repayment/emi/list",
+            auth:true,
+            method:"POST",
+            body:{
+                    status:selectedEmiStatus,
+                    payee:selectedPayee
                 }
-                {...rest}
-            >
-            {icon}
-            </button>
-        )
-    }
+        });
+    
+        if(response.request){
+            setEmiList(response.data?.data);
+        }
 
-    const dummyEmiPayments = 
-        {
-            payee:"Neethu Babu",
-            status:"OPEN",
-            amount:20000,
-            emi:4029,
-            duration:6,
-            pr_fee:499,
-            distributed_date:"2025-12-30",
-            payment_date:"2026-01-26",
-            from:"KGB",
-            remarks:"test"
+        setLoading(false);
+    } 
+
+    useEffect(()=>{
+
+        //Load EMI List
+        loadEmiList();
+
+        return ()=>{
 
         };
 
-    const test = () =>{
-        //console.log(selectedYear,selectedPayee);
-
-        console.log(format(new Date(),"yyyy"));
-    }
+    },[refresh]);
 
     return( 
         <>  
             <div className="rounded-sm overflow-hidden">
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-3 gap-1.5">
                     
                     <div>
-                        <SimpleSelectSingle 
-                            name="year"
-                            defaultValue={selectedYear}        
-                            optionList={year_list}
-                            onChange={(e)=>setSelectedYear(e.target.value)}
-                            
-                            customClassName="w-full"
-                        />
-                    </div>
+                    <SimpleSelectMultiLabel 
+                        name={"emi_status"} 
+ 
+                        value={selectedEmiStatus}
 
-                    <div>
-                    <SimpleSelect 
-                        name={"month"} 
-                        defaultValue={selectedMonth}    
-                        optionList={Month} 
-                        onChange={(e)=>setSelectedMonth(e.target.value)}
+                        optionList={emi_status_list} 
+                        onChange={(e)=>setSelectedEmiStatus(e.target.value)}
 
                         customClassName="w-full"
                     />
@@ -161,7 +76,9 @@ const EmiList = ({payee_list,year_list}:EmiListProps) =>{
                     <div>
                         <SimpleSelect 
                             name={"payee"} 
-                            defaultValue={selectedPayee}    
+                              
+                            value={selectedPayee}
+
                             optionList={payee_list} 
                             defaultLabel="All"
 
@@ -175,30 +92,40 @@ const EmiList = ({payee_list,year_list}:EmiListProps) =>{
                         <SimpleButtonIconOnly
                             icon={<FaFilter size={15}/>}
 
-                            onClick={test}
-
-                            customclassname="w-10 h-full"
+                            onClick={loadEmiList}
+                            disabled={loading}
+                            customclassname="w-10 h-full cursor-pointer"
                         />
                         
                     </div>
 
                 </div>
                 
-                <div className="py-2 px-1 mt-1 grid gap-3 max-h-200 overflow-y-auto custom-overflow-track">
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                    <EmiDetailCard listData={dummyEmiPayments}/>
-                </div>
+                <div className="py-2 px-1 mt-1 grid gap-3 max-h-180 overflow-y-auto custom-overflow-track">
+                    
+                    {loading&&(
+                        <div className="flex justify-center items-center text-gray-200 gap-2">
+                            <ImSpinner2 className="animate-spin"/> 
+                            <span>Loading....</span>
+                        </div>
+                    )}
+                    
+                    {emiList.length==0&&loading==false?(
+                        <>
+                            <p className="text-center text-gray-200">No Data</p>
+                        </>
+                    ):(
+                        
+                        emiList.map((row)=>(
+                            <EmiDetailCard listData={row}/>
+                        ))
 
-            </div>
-        </>
-    );
+                    )}
+
+                </div>
+                </div>
+            </>
+        );
 };
 
 export default EmiList;
