@@ -93,6 +93,32 @@ const SimpleSelectMultiLabel = ({name,optionList,defaultLabel,defaultLabelValue,
     );
 }
 
+const SimpleSelectMultiLabel02 = ({name,optionList,defaultLabel,defaultLabelValue,customClassName,...rest}:SimpleSelectProps) =>{
+
+    return(
+        <select 
+                name={name}
+                className={`border-1 
+
+                px-2 py-1 
+                outline-none rounded-sm     
+                [appearance:textfield]
+                [&::-webkit-outer-spin-button]:appearance-none
+                [&::-webkit-inner-spin-button]:appearance-none
+                ${customClassName}
+                `}
+                
+                {...rest}
+                >
+            
+            {defaultLabel&&(<option key={defaultLabelValue} value={defaultLabelValue}>{defaultLabel}</option>)}
+            
+            {optionList.map((row:any)=>(
+                <option key={row.value} value={row.value}>{row.label}</option>
+            ))}
+        </select>
+    );
+}
 
 type SimpleButtonIconOnly = {
     icon:any
@@ -120,5 +146,42 @@ const SimpleButtonIconOnly = ({icon,...rest}:SimpleButtonIconOnly) =>{
     )
 }
 
+type SimpleInputProps = {
+    customClassName?:string
+}
+const SimpleInput = ({customClassName,...rest}:SimpleInputProps) =>{
+    return(
+        <input 
+                className={`
+                    px-2 py-1 
+                    rounded-sm 
+                    outline-0 
+                
+                [appearance:textfield]
+                [&::-webkit-outer-spin-button]:appearance-none
+                [&::-webkit-inner-spin-button]:appearance-none
 
-export {SimpleButtonIconOnly,SimpleSelectSingle,SimpleSelect,SimpleSelectMultiLabel}
+                ${customClassName}
+                `} 
+        {...rest}
+        />
+    )
+}
+
+type SimpleTextAreaProps = {
+    customClassName?:string
+}
+
+const SimpleTextArea = ({customClassName,...rest}:SimpleTextAreaProps) =>{
+    return(
+        <textarea 
+            className={`px-2 py-1 
+                        outline-none rounded-sm resize-none
+                        ${customClassName}
+                        `}
+            {...rest}
+        ></textarea>
+    );
+};
+
+export {SimpleInput,SimpleTextArea,SimpleButtonIconOnly,SimpleSelectSingle,SimpleSelect,SimpleSelectMultiLabel,SimpleSelectMultiLabel02}

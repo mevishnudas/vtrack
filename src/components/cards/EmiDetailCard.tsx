@@ -53,7 +53,7 @@ const EmiDetailCard = ({listData,className}:param) =>{
 
                     <br/>
                     <p>Payment Date : <span className="font-bold">{format(new Date(listData.payment_date), "MMM dd")}</span></p>
-                    <p>Distributed date : <span className="font-bold">{format(new Date(listData.distributed_date), "dd MM yyyy")}</span></p>
+                    <p>Distributed Date : <span className="font-bold">{format(new Date(listData.distributed_date), "dd MM yyyy")}</span></p>
                     <p>From : <span className="font-bold">{listData.source}</span></p>
                         {listData.remarks&&(
                             <p>Remarks : <span className="italic">{listData.remarks}</span></p>

@@ -92,7 +92,9 @@ const Emi = () =>{
                         </div>
 
                         <div className="grid-cols-1 text-white">
-                            <DetailEmi/>
+                            <DetailEmi
+                                emi_status_list={emiStatusList}
+                            />
                         </div>
                   </div>
 
