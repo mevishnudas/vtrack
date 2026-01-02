@@ -12,6 +12,7 @@ const Emi = () =>{
     const [userList,setUserList] = useState([]);
     const [emiStatusList,setEmiStatusList] = useState([]);
     
+    const [selectedEmi,setSelectedEmi] = useState([]);
     const [reFreshList,setRefreshList] = useState(1);
 
     const loadBanks = async () =>{
@@ -88,12 +89,14 @@ const Emi = () =>{
                                 emi_status_list={emiStatusList}
 
                                 refresh={reFreshList}
+                                selectedEmi={setSelectedEmi}
                             />
                         </div>
 
                         <div className="grid-cols-1 text-white">
                             <DetailEmi
                                 emi_status_list={emiStatusList}
+                                emi_data={selectedEmi}
                             />
                         </div>
                   </div>

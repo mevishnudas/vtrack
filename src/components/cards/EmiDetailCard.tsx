@@ -4,7 +4,7 @@ type param = {
     className?:string
 };
 
-const EmiDetailCard = ({listData,className}:param) =>{
+const EmiDetailCard = ({listData,className,...rest}:param) =>{
     // console.log(listData);
 
     const emiStatus = (emi_status:string) =>{
@@ -38,7 +38,7 @@ const EmiDetailCard = ({listData,className}:param) =>{
 
     return(
         <>
-            <div className={`cursor-pointer bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 text-black ${className}`}>
+            <div {...rest} className={`cursor-pointer bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 text-black ${className}`}>
 
                 <div className="py-2 px-2">
                     <div className="grid grid-cols-2">

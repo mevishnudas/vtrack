@@ -12,9 +12,10 @@ import { ImSpinner2 } from "react-icons/im";
 type EmiListProps ={
     payee_list:any[],
     emi_status_list:any[],
-    refresh:any[]
+    refresh:any[],
+    selectedEmi:any
 }
-const EmiList = ({payee_list,emi_status_list,refresh}:EmiListProps) =>{
+const EmiList = ({payee_list,emi_status_list,refresh,selectedEmi}:EmiListProps) =>{
     
     const [selectedEmiStatus,setSelectedEmiStatus] = useState("OPEN");
     const [selectedPayee,setSelectedPayee] = useState(0);
@@ -116,8 +117,12 @@ const EmiList = ({payee_list,emi_status_list,refresh}:EmiListProps) =>{
                         </>
                     ):(
                         
-                        emiList.map((row)=>(
-                            <EmiDetailCard listData={row}/>
+                        emiList.map((row,index)=>(
+                            <EmiDetailCard 
+                                key={index}
+                                listData={row}
+                                onClick={()=>selectedEmi(row)}
+                            />
                         ))
 
                     )}
