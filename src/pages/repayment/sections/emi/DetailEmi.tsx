@@ -1,118 +1,87 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {SimpleInput,SimpleSelectMultiLabel,SimpleSelectMultiLabel02,SimpleTextArea,} from "../../../../components/formElements/SimpleInputs";
-import {CustomInput,CustomButton} from "../../../../components/formElements/input";
+import {CustomInput,CustomButton,CustomTextArea} from "../../../../components/formElements/input";
 import {format} from "date-fns";
+import { ImSpinner2 } from "react-icons/im";
+
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import {error_message} from "../../../../utils/ErrorMessages";
+import {fetchRequest} from "../../../../services/Fetch";
+
+import EmiPrincipleAdd from "./components/EmiPrincipleAdd";
+import PrincipleCard from "./components/PrincipleCard";
+import EmiPrincipleUpdate from "./components/EmiPrincipleUpdate";
+
+const updateEMIStatusSchema = yup.object({
+    remarks:yup.string().nullable(),
+    paid: yup.number().typeError(error_message.required).integer().required(error_message.required),
+    status: yup.string().required(error_message.required),
+}).required();
 
 type detailEmiProps ={
     emi_status_list:any[],
-    emi_data:any[]
+    emi_data:any[],
+    emiPrincipleStatusList:any[],
+    updateEMI:any
 }
-const DetailEmi = ({emi_status_list,emi_data}:detailEmiProps) =>{
+const DetailEmi = ({emi_status_list,emi_data,emiPrincipleStatusList,updateEMI}:detailEmiProps) =>{
 
-    const paymentStatusList = [
-    {
-        label:"Pending",
-        value:"PENDING"
-    },{
-        label:"Paid",
-        value:"PAID"
-    },
-    {
-        label:"Partially Paid",
-        value:"PARTIALLY_PAID"
-    }];
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(updateEMIStatusSchema)
+    });
 
-    const Principle = () =>{
-        return(
-            <div className="bg-red-100 rounded-sm text-black px-2 py-2">
+    const [emiStatusUpdating,setEmiStatusUpdating] = useState(false);
 
-                <div className="grid grid-cols-3">
-                    <div>
-                        <label><span className="font-bold">(1)</span> Principle</label>
-                        <p>EMI (3/6) : <span className="font-bold">Rs.2,997</span></p>
-                    </div>
-
-                    <div>
-                        <label>Payment Date</label>
-                        <p className="font-bold">Jan 26 2025</p>
-                    </div>
-                    
-                    <div>
-                        <label>Payment Status</label>
-                        <p className="font-bold">Pending</p>
-                    </div>
-                </div>
-
-                <div className="">
-                    <label className="text-sm font-bold">Remarks</label>
-                    <p className="italic">testing.. dhf d fdf g dfnnwerwjr r ewjrjnjnn sdskdjbk</p>
-                </div>
-            </div>
-        );
+    const updateEMIStatus = async (data) => { 
+        setEmiStatusUpdating(true);
+        updateEMI(data,emi_data.id);
+        //setEmiStatusUpdating(false);
     }
 
+    const addEmiPrinciple = async (data:any[],id:number) =>{
+
+        let response = await fetchRequest({
+            path:"repayment/emi/schedule/add",
+            auth:true,
+            method:"POST",
+            body:{
+                    id:id,
+                    principle:data.principle,
+                    amount:data.emi_amount,
+                    payment_date:format(new Date(data.payment_date),"yyyy-MM-dd"),
+                    remarks:data.remarks,
+                }
+        });
+    
+        if(response.request){
+            //reload principle list
+
+            return true;
+        }else{
+            return false;
+        }
+
+    };
+    
     const EmiSchedule = () =>{
+
         return(
             <div>
                 <div className="min-h-100 max-h-100 overflow-y-auto bg-slate-800 pt-3 pb-2 px-2 grid grid-cols-1 gap-2 auto-rows-min custom-overflow-track">
-
-                    <Principle/>
-                    <Principle/>
-                    <Principle/>
-
+                    <PrincipleCard/>
                 </div>
 
-                {/* <div className="bg-blue-800 px-2 py-2 grid grid-cols-5 gap-2">
-                    <div className="col-span-2">
-                        <SimpleInput type="number" name="emi_amount" customClassName="bg-gray-100 text-black w-full" placeholder="EMI Amount"/>
-                    </div>
-                    <div className="col-span-2">
-                        <SimpleTextArea
-                            customClassName="bg-gray-100 text-black w-full h-8"
-                            placeholder="Remarks"
-                        />
-                    </div>
+                <EmiPrincipleAdd addEmiPrinciple={addEmiPrinciple} emi_data={emi_data}/>    
 
-                    <div className="col-span-1">
-                        <CustomButton
-                            type="submit"
-                            label="Add"
-                            customClassName="bg-gray-100 px-2 h-8 w-full text-blue-600"
-                        />
-                    </div>
-                </div> */}
-
-                <div className="bg-amber-800 px-2 py-2 grid grid-cols-5 gap-2">
-                    <div className="col-span-5 flex justify-between">
-                        <div>
-                            Amount : <span className="font-bold">Rs.2,997</span>
-                        </div>
-                        <div><span className="text-sm cursor-pointer">Cancel</span></div>
-                    </div>
-
-                    <div className="col-span-2">
-                        <SimpleSelectMultiLabel02
-                            name="payment_status"
-                            optionList={paymentStatusList}
-
-                            customClassName={"w-full border-gray-100 text-black bg-gray-100"}
-                        />
-                    </div>
-                    <div className="col-span-2">
-                        <SimpleTextArea
-                            customClassName="bg-gray-100 text-black w-full h-8"
-                            placeholder="Remarks"
-                        />
-                    </div>
-
-                    <div className="col-span-1">
-                        <CustomButton
-                            type="submit"
-                            label="Update"
-                            customClassName="bg-gray-100 px-2 h-8 w-full text-blue-600"
-                        />
-                    </div>
-                </div>
+                {/* <EmiPrincipleUpdate/> */}
 
             </div>
         );
@@ -138,17 +107,24 @@ const DetailEmi = ({emi_status_list,emi_data}:detailEmiProps) =>{
     }
 
     const NoData = () =>{
+
         return(
             <div className="bg-slate-900 rounded-sm border-1 border-slate-800 py-2">
                 <p className="text-center text-slate-200">Selected data appears here.</p>
             </div>
         );
+        
     }
 
     useEffect(()=>{
 
-        console.log("EMI Detail",emi_data);
-
+        reset();
+        setValue("status",emi_data.status);
+        setValue("paid",emi_data.paid);
+        setValue("remarks",emi_data.remarks);
+        
+        setEmiStatusUpdating(false);
+        //console.log("EMI Detail",emi_data);
         //return
         return ()=>{
 
@@ -215,33 +191,62 @@ const DetailEmi = ({emi_status_list,emi_data}:detailEmiProps) =>{
                                 </div>
                             </div>
                             
-                            <div className=" grid grid-cols-3 gap-2 p-2 bg-amber-100">
-                                <div>
-                                    <CustomInput
-                                        name="paid"
-                                        placeholder="Paid"
-                                        inputType="number"
+                            <form onSubmit={handleSubmit(updateEMIStatus)}>
+                                <div className=" grid grid-cols-3 gap-2 p-2 bg-amber-100">
+                                    <div className="col-span-3">
+                                        <CustomTextArea
+                                            name="remarks"
+                                            placeholder="Remarks"
 
-                                        defaultValue={emi_data.paid}
-                                    />
+                                            register={register}
+                                            customClassName="w-full"
+                                        />
+                                        <p className="text-sm text-red-700">{errors.remarks?.message}</p>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <CustomInput
+                                            name="paid"
+                                            placeholder="Paid"
+                                            inputType="number"
+
+                                            //defaultValue={emi_data.paid}
+
+                                            register={register}
+                                        />
+                                        <p className="text-sm text-red-700">{errors.paid?.message}</p>
+                                        
+                                    </div>
+                                    <div>
+                                        <SimpleSelectMultiLabel
+                                            name="status"
+                                            optionList={emi_status_list}
+                                            // value={currentEMIStatus}
+                                            //onChange={(e)=>setValue("status",e.target.value)}
+                                            customClassName="w-full"
+
+                                            {...register("status")}
+                                        />
+                                        <p className="text-sm text-red-700">{errors.status?.message}</p>
+                                    </div>
+
+                                    <div className="h-8">
+                                        <button 
+                                            className="bg-blue-600 disabled:bg-blue-900 px-4 py-1 text-white rounded-sm flex gap-2 justify-center items-center"
+                                            type="submit"
+                                            disabled={emiStatusUpdating}
+                                        >
+                                            {emiStatusUpdating?(<>
+                                                <span><ImSpinner2 size={20} className="animate-spin"/></span>
+                                                <span>Updating...</span>
+                                            </>):(<>
+                                                <span>Update</span>
+                                            </>)}
+
+                                        </button>
+                                    </div>
+
                                 </div>
-                                <div>
-                                    <SimpleSelectMultiLabel
-                                        name="status"
-                                        optionList={emi_status_list}
-                                        // value={emi_data.status}
-                                        defaultValue={emi_data.status}
-                                        customClassName="w-full"
-                                    />
-                                </div>
-                                <div className="flex justify-center items-center">
-                                    <CustomButton 
-                                        label="Update" 
-                                        type="submit"
-                                        customClassName="bg-blue-600 px-4 py-1 text-white"
-                                    />
-                                </div>
-                            </div>
+                            </form>
 
                         </div>
 

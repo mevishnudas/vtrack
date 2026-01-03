@@ -1,6 +1,7 @@
 
 import { useEffect,useState } from "react";
 import {fetchRequest} from "../../services/Fetch";
+import {toastSuccessBottomRight,toastErrorBottomRight} from "../../utils/Toast";
 
 import AddEmi from "./sections/emi/AddEmi";
 import EmiList from "./sections/emi/EmiList";
@@ -11,6 +12,7 @@ const Emi = () =>{
     const [bankList,setBankList] = useState([]);
     const [userList,setUserList] = useState([]);
     const [emiStatusList,setEmiStatusList] = useState([]);
+    const [emiPrincipleStatusList,setEmiPrincipleStatusList] = useState([]);
     
     const [selectedEmi,setSelectedEmi] = useState([]);
     const [reFreshList,setRefreshList] = useState(1);
@@ -55,9 +57,54 @@ const Emi = () =>{
             setEmiStatusList(response.data?.data);
         }
     } 
+
+    const loadEmiPrincipleStatus = async () =>{
+        let response = await fetchRequest({
+            path:"master/emi/principle/status",
+            auth:true,
+            method:"GET"
+        });
+
+        if(response.request){
+            setEmiPrincipleStatusList(response.data?.data);
+        }
+    }
     
     const reFreshEmiList = () =>{
         setRefreshList(prev=>prev+1);
+    }
+
+    const updateEMI = async (data:any[],id:number) =>{
+
+        let response = await fetchRequest({
+            path:"master/emi/status/update",
+            auth:true,
+            method:"POST",
+            body:{
+                id:id,
+                paid:data.paid,
+                status:data.status,
+                remarks:data.remarks
+            }
+        });
+
+        if(response.request){
+            toastSuccessBottomRight({
+                message:"Updated Successfully!"
+            });
+            setSelectedEmi(prev=>({
+                ...prev,
+                paid:data.paid,
+                status:data.status,
+                remarks:data.remarks
+            }));
+            reFreshEmiList();
+        }else{
+            toastErrorBottomRight({
+                message:"Error occurred!"
+            });
+        }
+
     }
 
     useEffect(()=>{
@@ -65,6 +112,7 @@ const Emi = () =>{
         loadBanks();
         loadPayee();
         loadEmiStatus();
+        loadEmiPrincipleStatus();
 
     },[]);
 
@@ -97,6 +145,8 @@ const Emi = () =>{
                             <DetailEmi
                                 emi_status_list={emiStatusList}
                                 emi_data={selectedEmi}
+                                emiPrincipleStatusList={emiPrincipleStatusList}
+                                updateEMI={updateEMI}
                             />
                         </div>
                   </div>

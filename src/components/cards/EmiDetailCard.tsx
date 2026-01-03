@@ -49,7 +49,7 @@ const EmiDetailCard = ({listData,className,...rest}:param) =>{
                     <p>Amount : <span className="font-bold">{listData.amount.toLocaleString("en-IN")}</span></p>
                     <p>EMI({listData.duration}) : {listData.emi.toLocaleString("en-IN")}</p>
                     <p>Pr.Fee : {listData.pr_fee.toLocaleString("en-IN")}</p>
-                    <p>Paid : <span className="font-bold">0</span></p>
+                    <p>Paid : <span className="font-bold">{listData.paid}</span></p>
 
                     <br/>
                     <p>Payment Date : <span className="font-bold">{format(new Date(listData.payment_date), "MMM dd")}</span></p>
