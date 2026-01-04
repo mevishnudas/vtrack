@@ -82,6 +82,7 @@ const EmiList = ({payee_list,emi_status_list,refresh,selectedEmi}:EmiListProps) 
 
                             optionList={payee_list} 
                             defaultLabel="All"
+                            defaultLabelValue="0"
 
                             onChange={(e)=>setSelectedPayee(e.target.value)}
 

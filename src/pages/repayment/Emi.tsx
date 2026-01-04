@@ -107,6 +107,15 @@ const Emi = () =>{
 
     }
 
+    const NoData = () =>{
+
+        return(
+            <div className="bg-slate-900 rounded-sm border-1 border-slate-800 py-2">
+                <p className="text-center text-slate-200">Selected data appears here.</p>
+            </div>
+        );
+        
+    }
     useEffect(()=>{
 
         loadBanks();
@@ -142,12 +151,13 @@ const Emi = () =>{
                         </div>
 
                         <div className="grid-cols-1 text-white">
+                            {selectedEmi.length==0?(<NoData/>):(
                             <DetailEmi
                                 emi_status_list={emiStatusList}
                                 emi_data={selectedEmi}
                                 emiPrincipleStatusList={emiPrincipleStatusList}
                                 updateEMI={updateEMI}
-                            />
+                            />)}
                         </div>
                   </div>
 
