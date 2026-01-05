@@ -38,7 +38,7 @@ const PaymentDetailCard = ({listData,className}:param) =>{
         e.stopPropagation();  
 
         await copyToClipBoard({
-            message:`*${listData.payee}*\nCard : Rs.${listData.total.toLocaleString("en-IN")}\nPayment Date : *${format(new Date(listData.payment_date), "MMM dd-yyyy")}*`
+            message:`*${listData.payee}*\nAmount : ${listData.amount.toLocaleString("en-IN")}\nPr.Fee : ${listData.pr_fee.toLocaleString("en-IN")}\nCharges : ${listData.charges.toLocaleString("en-IN")}\n\nTotal : *Rs.${listData.total.toLocaleString("en-IN")}*\nPayment Date : *${format(new Date(listData.payment_date), "MMM dd-yyyy")}*`
         });
     }
 
