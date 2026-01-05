@@ -83,9 +83,10 @@ const EmiPrincipleUpdate = ({emiPrincipleStatusList,setSelectedEMIPrinciple,sele
                                 <button type="submit" 
                                     disabled={submitting}
                                     className="bg-gray-100 px-2 h-8 w-full text-blue-600 rounded-sm flex items-center justify-center gap-1"
-                                >
+                                >   
+                                 
                                     {submitting?(<>
-                                        <ImSpinner2 className="animate-spin"/> Updating...   
+                                        <ImSpinner2 className="animate-spin" />
                                     </>):(<>
                                         Update
                                     </>)}

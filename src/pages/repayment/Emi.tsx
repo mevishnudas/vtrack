@@ -7,6 +7,7 @@ import AddEmi from "./sections/emi/AddEmi";
 import EmiList from "./sections/emi/EmiList";
 import DetailEmi from "./sections/emi/DetailEmi";
 
+import PageTitle from "../../utils/PageTitle";
 const Emi = () =>{
 
     const [bankList,setBankList] = useState([]);
@@ -127,10 +128,12 @@ const Emi = () =>{
 
     return(
         <>  
+            <PageTitle pageName="EMI"/>
+            
             <div className="p-4">
-                  <h1 className="font-bold text-white" onClick={reFreshEmiList}>EMI Payments</h1>
+                  <h1 className="font-bold text-white">EMI Payments</h1>
                   
-                  <div className="grid grid-cols-3 gap-2 mt-2">
+                  <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-4 gap-5 sm:mt-2">
                         <div className="grid-cols-1 text-white">
                             <AddEmi 
                                 bank_list={bankList}

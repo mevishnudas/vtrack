@@ -1,4 +1,7 @@
 import { format } from "date-fns";
+import { IoIosCopy } from "react-icons/io";
+import {copyToClipBoard} from "../../utils/copyToClipBoard";
+
 type param = {
     listData:any,
     className:string
@@ -31,6 +34,14 @@ const PaymentDetailCard = ({listData,className}:param) =>{
         return(<><label className={`font-bold text-right ${color}`}>[ {label} ]</label></>)
     }
 
+    const copyNow = async (e:any) =>{
+        e.stopPropagation();  
+
+        await copyToClipBoard({
+            message:`*${listData.payee}*\nCard : Rs.${listData.total.toLocaleString("en-IN")}\nPayment Date : *${format(new Date(listData.payment_date), "MMM dd-yyyy")}*`
+        });
+    }
+
     return(
         <>
             <div className={`bg-gradient-to-b from-[#fff2cc] to-[#fceab4] rounded-sm border-1 border-gray-300 ${className}`}>
@@ -50,6 +61,15 @@ const PaymentDetailCard = ({listData,className}:param) =>{
                     {listData.remarks&&(
                         <p>Remarks : <span className="italic">{listData.remarks}</span></p>
                     )}
+
+                    <div className="relative">
+                        <div className="absolute right-0 -bottom-0.5">
+                            <button className="text-black" onClick={copyNow}>
+                                <IoIosCopy/>
+                            </button>
+                        </div>
+                    </div>
+                    
                 </div>
 
             </div>

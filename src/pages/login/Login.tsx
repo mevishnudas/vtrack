@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Form from "./components/Form";
+import PageTitle from "../../utils/PageTitle";
 // import loginImage from "../../assets/images/login-bg.webp";
 
 const Login = () =>{
     
     return(
-        <>  
+        <> 
+        <PageTitle pageName="Login"/> 
         <div className={` h-screen bg-[image:url('/assets/images/login-bg.webp')] bg-cover bg-center`}>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 h-full">

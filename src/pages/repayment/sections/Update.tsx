@@ -296,7 +296,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                         
                                     </div>
                                     
-                                    <div className="flex justify-end">
+                                    {/* <div className="flex justify-end">
                                         <button
                                             type="button"
                                             disabled={updating}
@@ -304,7 +304,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                         >
                                             Delete
                                         </button> 
-                                    </div>
+                                    </div> */}
                                 </div>
                                 {/* Button Area Ends */}
 

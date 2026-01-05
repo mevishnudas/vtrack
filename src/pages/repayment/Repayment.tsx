@@ -4,6 +4,7 @@ import Update from "./sections/Update";
 import Add from "./sections/Add";
 import {fetchRequest} from "../../services/Fetch";
 
+import PageTitle from "../../utils/PageTitle";
 const Repayment = () =>{
     const [refreshList,setRefreshList] = useState(0);
     const [bankList,setBankList] = useState([]);
@@ -97,11 +98,13 @@ const Repayment = () =>{
 
     },[]);
     return(<>
-             
+
+             <PageTitle pageName="Repayment"/>
+
              <div className="p-2">
                   <h1 className="font-bold text-white">Repayment</h1>
 
-                  <div className="grid grid-cols-3">
+                  <div className="grid sm:grid-cols-3 grid-cols-1">
                     
                       <div className="col-span-1 py-2 px-1">
                         <List 
@@ -109,12 +112,13 @@ const Repayment = () =>{
                               userList={userList}
                               yearList={yearList}
                               selectedPaymentInfo={selectedPaymentInfo}
+                              
                         />
                       </div>
                       
                       <div className="col-span-2 py-2 px-1">
 
-                          <div className="grid grid-cols-2">
+                          <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
 
                             <div className="col-span-1">
                               <Update 
@@ -125,7 +129,7 @@ const Repayment = () =>{
                               />
                             </div>
 
-                            <div className="col-span-1 px-2">
+                            <div className="col-span-1 sm:px-2">
                               <Add 
                                 bankList={bankList} 
                                 userList={userList}

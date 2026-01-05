@@ -24,6 +24,7 @@ const EmiSchedule = ({emiSchedule,emi_data,emiScheduleLoading,setSelectedEMIPrin
                     {emiSchedule.map((row,i)=>(
                         <PrincipleCard 
                             key={row.id} 
+                            payee={emi_data.payee} 
                             duration={emi_data.duration} 
                             index={i+1} 
                             data={row}
