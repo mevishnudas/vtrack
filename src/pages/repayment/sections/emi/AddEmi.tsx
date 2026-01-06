@@ -10,6 +10,10 @@ import {fetchRequest} from "../../../../services/Fetch";
 // import { toast,Bounce } from 'react-toastify';
 import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../../utils/Toast";
 
+import { IoIosCopy } from "react-icons/io";
+import {copyToClipBoard} from "../../../../utils/copyToClipBoard";
+
+
 const validationSchema = yup.object({
   payee:yup.number().moreThan(0,error_message.required).required(error_message.required),
   from:yup.number().moreThan(0,error_message.required).required(error_message.required),
@@ -86,17 +90,6 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
 
         if(response.request){
             
-            // toast.success('Saved Successfully !', {
-            //     position: "bottom-right",
-            //     autoClose: 1000,
-            //     hideProgressBar: true,
-            //     closeOnClick: false,
-            //     pauseOnHover: false,
-            //     draggable: false,
-            //     progress: undefined,
-            //     theme: "light",
-            //     transition: Bounce,
-            // });
             toastSuccessBottomRight({
                 message:'Saved Successfully !'
             })
@@ -115,9 +108,30 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
         }
         setSubmitting(false);
 
-        //console.log(format(new Date(data.payment_date),"Y-MM-dd"));
-        //console.log(format(new Date(data.distributed_date),"Y-MM-dd"));
     };
+
+    const copyNow = async (e:any) =>{
+        e.stopPropagation();  
+
+        try {
+
+            let emiDetails = {
+                amount:getValues("amount").toLocaleString("en-IN")|0,
+                pr_fee:getValues("pr_fee").toLocaleString("en-IN")|0,
+                emi_amount:getValues("emi_amount").toLocaleString("en-IN"),
+                duration:getValues("duration"),
+                payment_date:format(new Date(getValues("payment_date")), "MMM dd-yyyy")
+            }
+
+            await copyToClipBoard({
+                message:`Amount : Rs.${emiDetails.amount}\nEMI(${emiDetails.duration}) : ${emiDetails.emi_amount} + GST\nPr.Fee : ${emiDetails.pr_fee}\n\nPayment Date : *${emiDetails.payment_date}*`
+            });
+
+        } catch (error) {
+            return false;
+        }
+
+    }
     
     return(
         <>
@@ -258,31 +272,41 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                 />
                             </div>
 
-                            <div className="flex">
-                                <button 
-                                        type="submit" 
-                                        className="bg-blue-700 disabled:bg-blue-900
-                                        px-2 py-1 
-                                        rounded-sm w-20
-                                        flex
-                                        justify-center
-                                        items-center
-                                        w-30
-                                        "
-                                        disabled={submitting}
-                                >   
-                                {submitting?(
-                                <>
-                                    <ImSpinner2 size={20} className="animate-spin"/>&nbsp;&nbsp;Saving...  
-                                </>
-                                ):(<>
-                                    Save
-                                </>)}
-                                </button>
-                                <span className="ml-2 text-red-400">{submittingError}</span>
-                            </div>
+                            </div> 
 
-                        </div>
+                            <div className="grid grid-cols-2 w-full">
+
+                                <div className="px-2 py-2">
+                                    <button 
+                                            type="submit" 
+                                            className="bg-blue-700 disabled:bg-blue-900
+                                            px-2 py-1 
+                                            rounded-sm w-20
+                                            flex
+                                            justify-center
+                                            items-center
+                                            w-30
+                                            "
+                                            disabled={submitting}
+                                    >   
+                                    {submitting?(
+                                    <>
+                                        <ImSpinner2 size={20} className="animate-spin"/>&nbsp;&nbsp;Saving...  
+                                    </>
+                                    ):(<>
+                                        Save
+                                    </>)}
+                                    </button>
+                                    <p className="ml-2 text-red-400">{submittingError}</p>
+                                </div>
+
+                                <div className="flex justify-end items-start px-4 py-2">
+                                    <button type="button" className="text-gray-400 cursor-pointer" onClick={copyNow}>
+                                        <IoIosCopy/>
+                                    </button>
+                                </div>
+
+                            </div>
                     </form>
 
                 </div>

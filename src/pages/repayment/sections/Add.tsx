@@ -6,6 +6,10 @@ import { useState} from "react";
 import {formatDate} from "../../../utils/DateFormat";
 import {fetchRequest} from "../../../services/Fetch";
 import { ImSpinner2 } from "react-icons/im";
+import { format } from "date-fns";
+
+import { IoIosCopy } from "react-icons/io";
+import {copyToClipBoard} from "../../../utils/copyToClipBoard";
 
 // import { toast,Bounce } from 'react-toastify';
 import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../utils/Toast";
@@ -103,6 +107,30 @@ const Add = ({refreshList,bankList,userList}:params) =>{
         let pr_fee = parseFloat(getValues("pr_fee"))||0;
         let charges = parseFloat(getValues("charges"))||0;
         setTotalAmount(amount+pr_fee+charges);
+    }
+
+
+    const copyNow = async (e:any) =>{
+        e.stopPropagation();  
+
+        try {
+
+            let repaymentDetails = {
+                amount:getValues("amount").toLocaleString("en-IN")|0,
+                pr_fee:getValues("pr_fee").toLocaleString("en-IN")|0,
+                charges:getValues("charges").toLocaleString("en-IN")|0,
+                totalAmount:totalAmount.toLocaleString("en-IN"),
+                payment_date:format(new Date(getValues("payment_date")), "MMM dd-yyyy")
+            }
+
+            await copyToClipBoard({
+                message:`Amount : ${repaymentDetails.amount}\nPr.Fee : ${repaymentDetails.pr_fee}\nCharges : ${repaymentDetails.charges}\n\nTotal : *Rs.${repaymentDetails.totalAmount}*\nPayment Date : *${repaymentDetails.payment_date}*`
+            });
+
+        } catch (error) {
+            return false;
+        }
+
     }
 
     return(
@@ -245,31 +273,39 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                         </div>
                         
 
-                        <div className="grid">
+                        <div className="grid grid-cols-2">
+                            <div>
+                                <button 
+                                type="submit" 
+                                disabled={submitBtnDisabled}
+                                className="bg-blue-600
+                                    active:bg-blue-800
+                                    text-amber-50 
+                                    disabled:bg-blue-800
+                                    rounded-sm 
+                                    py-1
+                                    w-30
+                                    flex
+                                    gap-2
+                                    justify-center
+                                    items-center
+                                ">
+                                    {submitBtnDisabled&&(
+                                        <ImSpinner2  size={20} className="animate-spin"/>
+                                    )}
+                                    <span className="text-amber-50">{submitBtnDisabled?"Saving...":"Submit"}</span>
+                                </button>
 
-                            <button type="submit" 
-                             disabled={submitBtnDisabled}
-                             className="bg-blue-600
-                                active:bg-blue-800
-                                text-amber-50 
-                                disabled:bg-blue-800
-                                rounded-sm 
-                                py-1
-                                w-30
-                                flex
-                                gap-2
-                                justify-center
-                                items-center
-                              ">
-                                {submitBtnDisabled&&(
-                                    <ImSpinner2  size={20} className="animate-spin"/>
+                                {submitError&&(
+                                    <p className="bg-red-600">{submitError}</p>
                                 )}
-                                <span className="text-amber-50">{submitBtnDisabled?"Saving...":"Submit"}</span>
-                            </button>
+                            </div>
+                            <div className="flex justify-end px-2">
+                                <button type="button" className="text-gray-400 cursor-pointer" onClick={copyNow}>
+                                   <IoIosCopy/>
+                                </button>
 
-                            {submitError&&(
-                                <p className="bg-red-600">{submitError}</p>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </form>
