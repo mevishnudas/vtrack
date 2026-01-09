@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
 import { Outlet } from "react-router-dom";
 import {fetchRequest} from "./services/Fetch";
 import Head from './pages/layout/Head';
 import { ToastContainer } from 'react-toastify';
+import { ImSpinner3 } from "react-icons/im";
 // import './App.css'
 
 function App() {
+  const [authorized,setAuthorized] = useState(false);
 
   const tokenValidate = async () =>{
     let params = {
@@ -14,8 +16,7 @@ function App() {
         auth:true
     }
     await fetchRequest(params);
-
-    //console.log(response);
+    setAuthorized(true);
   }
 
   useEffect(()=>{
@@ -30,14 +31,23 @@ function App() {
   },[]);
   return (
     <>
-      <main>
-        <Head/>
-        <div>
-          <Outlet/>  
-        </div>
-      </main>
-
-      <ToastContainer/>
+    {authorized?(
+      <>
+        <main>
+          <Head/>
+          <div>
+            <Outlet/>  
+          </div>
+        </main>
+        <ToastContainer/>
+      </>
+      ):(
+        <>
+          <div className='p-2 flex justify-center items-center h-dvh'>
+            <ImSpinner3 className='animate-spin text-white' size={20}/>
+          </div>
+        </>
+      )}
     </>
   )
 }
