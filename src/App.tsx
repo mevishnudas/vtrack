@@ -35,7 +35,7 @@ function App() {
       <>
         <main>
           <Head/>
-          <div>
+          <div className='pt-12'>
             <Outlet/>  
           </div>
         </main>

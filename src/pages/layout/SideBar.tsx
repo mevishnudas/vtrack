@@ -49,7 +49,7 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
                     
                     <div>
                         <div onClick={()=>navScreen('/','dash')} className={`${activeMenu==="dash"?"bg-gray-600":"bg-gray-800"} px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700 select-none`}><MdDashboard size={20}/> Dashboard</div>
-                        <div onClick={()=>navScreen('splitwise','splitwise')} className={`${activeMenu==="splitwise"?"bg-gray-600":"bg-gray-800"} px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700 select-none`}><TbMailDollar size={20}/> Splitwise</div>
+                        <div onClick={()=>navScreen('splitwise','splitwise')} className={`${activeMenu==="splitcheyu"?"bg-gray-600":"bg-gray-800"} px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center gap-2 hover:bg-gray-700 select-none`}><TbMailDollar size={20}/> Splitwise</div>
                         
                         <div onClick={()=>toggleMenu('repayment')} className={`${activeMenu==="repayment"?"bg-gray-600":"bg-gray-800"} px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center justify-between gap-2 hover:bg-gray-700 select-none`}>
                             <div className="flex gap-2 justify-left items-center"><SlCalender size={20}/>Repayment</div>

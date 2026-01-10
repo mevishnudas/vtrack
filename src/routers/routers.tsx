@@ -3,7 +3,7 @@ import App from "../App";
 import Login from "../pages/login/Login";
 import Dash from "../pages/dashboard/Dash";
 
-import Splitwise from "../pages/splitwise/Splitwise";
+import Splitwise from "../pages/splitcheyu/Splitwise";
 
 import { Repayment } from "../pages/repayment/Repayment";
 import Emi from "../pages/repayment/Emi";
