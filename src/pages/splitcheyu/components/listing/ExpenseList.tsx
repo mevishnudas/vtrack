@@ -28,15 +28,18 @@ const ExpenseList = () =>{
     }
     
     const splitListYouOwe = [{
+        id:1,
         name:"Vishnu Gopalan"
     }
     ];
 
     const splitListYouAreOwe = [
     {
+        id:2,
         name:"Abhinad PS"
     },
     {
+        id:3,
         name:"Albin Popular"
     }
     ];
@@ -49,7 +52,7 @@ const ExpenseList = () =>{
 
                     <div className="pt-2 grid gap-1">
                         {splitListYouOwe.map((row)=>(
-                            <FriendBrief info={row} you_owe={true}/>
+                            <FriendBrief info={row} key={row.id} you_owe={true}/>
                         ))}
                     </div>
 
@@ -59,7 +62,7 @@ const ExpenseList = () =>{
 
                     <div className="pt-2 grid gap-1">
                         {splitListYouAreOwe.map((row)=>(
-                            <FriendBrief info={row} you_owe={false}/>
+                            <FriendBrief info={row} key={row.id} you_owe={false}/>
                         ))}
                     </div>
                 </div>
