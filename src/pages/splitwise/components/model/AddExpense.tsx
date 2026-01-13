@@ -110,6 +110,7 @@ const AddExpense = ({openModel,setOpenModel,friends}:AddExpenseProps) =>{
         return()=>{
             reset();
             setSplitMethod("equally");
+            setSubmitError(null);
         };
 
    },[openModel]);
