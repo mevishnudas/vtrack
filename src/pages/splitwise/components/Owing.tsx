@@ -2,13 +2,16 @@ import OverviewBalance from "./overview/OverviewBalance";
 import ExpenseList from "./listing/ExpenseList";
 import TitleHead from "./title/TitleHead";
 
-const Owing = () =>{
+type OwingProps = {
+    addExpense:any
+}
+const Owing = ({addExpense}:OwingProps) =>{
     return(
         <>
             <div className="grid grid-cols-3 px-2">
 
                 <div className="col-span-3">
-                    <TitleHead title="Overview"/>
+                    <TitleHead title="Overview" addExpense={addExpense}/>
                 </div>
                 
                 <div className="col-span-3">
