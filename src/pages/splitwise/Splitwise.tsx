@@ -82,10 +82,14 @@ const Splitwise = () =>{
 
     }
 
+    const refreshExpenseList = async () =>{
+        loadExpenseSummary();
+        loadExpense();
+    }
     useEffect(()=>{
         loadFriends(); //load friends
-        loadExpense(); //load expense
         loadExpenseSummary(); //load expense summary
+        loadExpense(); //load expense
     },[]);
 
     return(
@@ -121,6 +125,7 @@ const Splitwise = () =>{
                 openModel={addExpenseModel}
                 setOpenModel={setAddExpenseModel}
                 friends={friends}
+                refreshExpenseList={refreshExpenseList}
             />
         </>
     );

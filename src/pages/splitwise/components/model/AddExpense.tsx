@@ -15,7 +15,8 @@ import { error_message } from "../../../../utils/ErrorMessages";
 type AddExpenseProps = {
     openModel:boolean,
     setOpenModel:any,
-    friends:any[]
+    friends:any[],
+    refreshExpenseList:any
 };
 
 const addExpenseSchema = yup
@@ -27,7 +28,7 @@ const addExpenseSchema = yup
   })
 .required();
 
-const AddExpense = ({openModel,setOpenModel,friends}:AddExpenseProps) =>{
+const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpenseProps) =>{
    const [splitOptionShow,setSplitOptionShow] = useState(false);
    const [splitMethod,setSplitMethod] = useState("equally");
    const [submitting,setSubmitting] = useState(false);
@@ -92,6 +93,7 @@ const AddExpense = ({openModel,setOpenModel,friends}:AddExpenseProps) =>{
 
         if(response.request){
             setOpenModel(false);
+            refreshExpenseList();
         }else{
             setSubmitError("Please try again.");
         }
