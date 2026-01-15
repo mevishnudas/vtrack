@@ -1,12 +1,18 @@
+import { useState,useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 
-const ExpenseList = () =>{
+type ExpenseListProps = {
+    expenseListOwsYou:any[],
+    expenseListYouOws:any[],
+}
+const ExpenseList = ({expenseListOwsYou,expenseListYouOws}:ExpenseListProps) =>{
 
     type FriendBriefProps = {
         info:any,
         you_owe:boolean
     };
     const FriendBrief = ({info,you_owe}:FriendBriefProps) =>{
+        
         return(
             <div className="bg-slate-800 hover:bg-slate-700 p-2 flex cursor-pointer">
                 <div className="flex justify-center items-center">
@@ -17,33 +23,21 @@ const ExpenseList = () =>{
                     <h1 className="text-base font-bold">{info.name}</h1>
 
                     {you_owe?(
-                        <h2 className="text-red-300 text-sm">you owe Rs.85</h2>
+                        <h2 className="text-red-300 text-sm">you owe {info.balance.toLocaleString("en-IN")}</h2>
                     ):(
-                        <h2 className="text-green-300 text-sm">owe you Rs.85</h2>
+                        <h2 className="text-green-300 text-sm">owe you {info.balance.toLocaleString("en-IN")}</h2>
                     )}
                     
                 </div>
             </div>
         );
     }
-    
-    const splitListYouOwe = [{
-        id:1,
-        name:"Vishnu Gopalan"
-    }
-    ];
 
-    const splitListYouAreOwe = [
-    {
-        id:2,
-        name:"Abhinad PS"
-    },
-    {
-        id:3,
-        name:"Albin Popular"
-    }
-    ];
+    // useEffect(()=>{
+    //     //setExpenseListOwsYou(expenseList?.ows_you);
+    //     //console.log(expenseListOwsYou?.ows_you);
 
+    // },[]);
     return(
         <>
         <div className="grid grid-cols-2 gap-2 p-2">
@@ -51,9 +45,10 @@ const ExpenseList = () =>{
                     <h1 className="uppercase text-sm">You owe</h1>
 
                     <div className="pt-2 grid gap-1">
-                        {splitListYouOwe.map((row)=>(
+                        {expenseListYouOws.length==0&&(<p className="text-gray-400 text-center text-sm">You owe nothing to anyone.</p>)}
+                        {expenseListYouOws.map((row)=>(
                             <FriendBrief info={row} key={row.id} you_owe={true}/>
-                        ))}
+                        ))} 
                     </div>
 
                 </div>
@@ -61,7 +56,7 @@ const ExpenseList = () =>{
                     <h1 className="uppercase text-end text-sm">You are owed</h1>
 
                     <div className="pt-2 grid gap-1">
-                        {splitListYouAreOwe.map((row)=>(
+                        {expenseListOwsYou.map((row)=>(
                             <FriendBrief info={row} key={row.id} you_owe={false}/>
                         ))}
                     </div>
