@@ -4,17 +4,21 @@ import { FaRegUserCircle } from "react-icons/fa";
 type ExpenseListProps = {
     expenseListOwsYou:any[],
     expenseListYouOws:any[],
+    //setSelectedFriend:(friend: any) => void
+    loadFriendTransaction:(id:number,name:string)=>void
 }
-const ExpenseList = ({expenseListOwsYou,expenseListYouOws}:ExpenseListProps) =>{
+
+const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction}:ExpenseListProps) =>{
 
     type FriendBriefProps = {
         info:any,
-        you_owe:boolean
+        you_owe:boolean,
+        onClick:()=>void
     };
-    const FriendBrief = ({info,you_owe}:FriendBriefProps) =>{
+    const FriendBrief = ({info,you_owe,...rest}:FriendBriefProps) =>{
         
         return(
-            <div className="bg-slate-800 hover:bg-slate-700 p-2 flex cursor-pointer">
+            <div {...rest} className="bg-slate-800 hover:bg-slate-700 p-2 flex cursor-pointer">
                 <div className="flex justify-center items-center">
                     <FaRegUserCircle size={30} />
                 </div>
@@ -33,11 +37,6 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws}:ExpenseListProps) =>{
         );
     }
 
-    // useEffect(()=>{
-    //     //setExpenseListOwsYou(expenseList?.ows_you);
-    //     //console.log(expenseListOwsYou?.ows_you);
-
-    // },[]);
     return(
         <>
         <div className="grid grid-cols-2 gap-2 p-2">
@@ -47,7 +46,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws}:ExpenseListProps) =>{
                     <div className="pt-2 grid gap-1">
                         {expenseListYouOws.length==0&&(<p className="text-gray-400 text-center text-sm">You owe nothing to anyone.</p>)}
                         {expenseListYouOws.map((row)=>(
-                            <FriendBrief info={row} key={row.id} you_owe={true}/>
+                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name)} key={row.id} you_owe={true}/>
                         ))} 
                     </div>
 
@@ -57,7 +56,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws}:ExpenseListProps) =>{
 
                     <div className="pt-2 grid gap-1">
                         {expenseListOwsYou.map((row)=>(
-                            <FriendBrief info={row} key={row.id} you_owe={false}/>
+                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name)} key={row.id} you_owe={false}/>
                         ))}
                     </div>
                 </div>

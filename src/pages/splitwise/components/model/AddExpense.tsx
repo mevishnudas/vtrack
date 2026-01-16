@@ -102,9 +102,9 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
 
    const onFriendChange = (selectedFriends) =>{
         const friends = selectedFriends.map(item => item.value);
-        //const ids = data.map(({ value }) => value);
         setValue("friends",friends);
    }
+
    useEffect(()=>{
         setSplitOptionShow(false);
         setValue("split_method",splitMethod);
@@ -120,7 +120,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
    return(
         <SimpleModel isOpen={openModel} setModelStatus={setOpenModel}>
 
-                    <div className="bg-green-600 text-gray-50 px-2 py-1 text-shadow-sm text-shadow-gray-500 rounded-t-sm">Add an expense</div>
+                    <div className="bg-orange-600 text-gray-50 px-2 py-1 text-shadow-sm text-shadow-gray-600 rounded-t-sm">Add an expense</div>
                     <div className="flex gap-2 justify-center items-start">
 
                         <div className="py-2 px-2 w-100 bg-slate-800 rounded-b-sm">
@@ -168,7 +168,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
                                 <div className="pt-5 flex justify-end gap-2">
                                     <p className="text-red-400">{submittingError}</p>
                                     <button className="text-black bg-gray-300 px-2 py-1 rounded-sm w-20 cursor-pointer" onClick={()=>setOpenModel(false)} disabled={submitting}>Cancel</button>
-                                    <button className="text-white bg-green-600 disabled:bg-green-800 px-2 py-1 rounded-sm w-20 flex gap-2 items-center justify-center cursor-pointer" type="submit" disabled={submitting}>
+                                    <button className="text-white bg-orange-600 disabled:bg-orange-800 px-2 py-1 rounded-sm w-20 flex gap-2 items-center justify-center cursor-pointer" type="submit" disabled={submitting}>
                                         {submitting?(<ImSpinner2  size={20} className="animate-spin"/>):(<>Save</>)}
                                     </button>
                                 </div>
