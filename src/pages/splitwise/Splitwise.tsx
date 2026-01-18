@@ -62,7 +62,7 @@ const Splitwise = () =>{
             let data = response.data?.data;
             
             setExpenseListOwsYou(data?.ows_you);
-            setExpenseListYouOws(data?.you_owe)
+            setExpenseListYouOws(data?.you_owe);
             //console.log(data);
         }
     }   
@@ -93,14 +93,16 @@ const Splitwise = () =>{
         loadExpense();
     }
 
-    const loadFriendTransaction = async (id:number,name:string) =>{
+    const loadFriendTransaction = async (id:number,name:string,balance:number,ows_you:boolean) =>{
 
         setFriendTransitions([]); //empty the list 
         
         setSelectedFriend((prev:any) => ({ // setup selected user 
             ...prev, 
-            id: id,
+            id:id,
             name:name,
+            balance:balance,
+            ows_you:ows_you
         }));
 
         let response = await fetchRequest({
@@ -117,7 +119,6 @@ const Splitwise = () =>{
             setFriendTransitions(data);
         }else{
             //error
-
         }
 
         //console.log(selectedFriend);
@@ -129,6 +130,16 @@ const Splitwise = () =>{
         loadExpense(); //load expense
     },[]);
 
+    useEffect(()=>{
+        console.log("Changed");
+        
+        if(selectedFriend){
+            //loadFriendTransaction = async (id:number,name:string,balance:number,ows_you:boolean)
+
+            //const result = array.filter(item => item.id === id);
+        }
+
+    },[expenseListOwsYou,expenseListYouOws]);
     return(
         <>
             <PageTitle pageName="Splitwise"/>
@@ -151,15 +162,19 @@ const Splitwise = () =>{
                             expenseListOwsYou={expenseListOwsYou}
                             expenseListYouOws={expenseListYouOws}
                             loadFriendTransaction={loadFriendTransaction}
+                            selectedFriend={selectedFriend}
                             //setSelectedFriend={setSelectedFriend}
                         />
                         
                     </div>
 
-                    <div className="col-span-1"><RightSideBar 
-                                                    selectedFriend={selectedFriend}
-                                                    friendTransitions={friendTransitions}
-                                                /></div>
+                    <div className="col-span-1">
+                        <RightSideBar 
+                            selectedFriend={selectedFriend}
+                            friendTransitions={friendTransitions}
+                        />
+                    </div>
+
                 </div>
 
             </div>

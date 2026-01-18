@@ -5,10 +5,11 @@ type ExpenseListProps = {
     expenseListOwsYou:any[],
     expenseListYouOws:any[],
     //setSelectedFriend:(friend: any) => void
-    loadFriendTransaction:(id:number,name:string)=>void
+    loadFriendTransaction:(id:number,name:string)=>void,
+    selectedFriend:any[]
 }
 
-const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction}:ExpenseListProps) =>{
+const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,selectedFriend}:ExpenseListProps) =>{
 
     type FriendBriefProps = {
         info:any,
@@ -46,7 +47,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction}
                     <div className="pt-2 grid gap-1">
                         {expenseListYouOws.length==0&&(<p className="text-gray-400 text-center text-sm">You owe nothing to anyone.</p>)}
                         {expenseListYouOws.map((row)=>(
-                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name)} key={row.id} you_owe={true}/>
+                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name,row.balance,false)} key={row.id} you_owe={true}/>
                         ))} 
                     </div>
 
@@ -55,8 +56,9 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction}
                     <h1 className="uppercase text-end text-sm">You are owed</h1>
 
                     <div className="pt-2 grid gap-1">
+                        {expenseListOwsYou.length==0&&(<p className="text-gray-400 text-center text-sm">No data.</p>)}
                         {expenseListOwsYou.map((row)=>(
-                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name)} key={row.id} you_owe={false}/>
+                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name,row.balance,true)} key={row.id} you_owe={false}/>
                         ))}
                     </div>
                 </div>
