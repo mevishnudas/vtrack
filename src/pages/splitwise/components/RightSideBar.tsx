@@ -1,11 +1,13 @@
 import Transaction from "./transactions/Transactions";
 import { useEffect } from "react";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 type RightSideBarProps = {
     selectedFriend:any[]
-    friendTransitions:any[]
+    friendTransitions:any[],
+    friendTransitionLoading:boolean
 };
-const RightSideBar = ({selectedFriend,friendTransitions}:RightSideBarProps) =>{
+const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}:RightSideBarProps) =>{
   
     // useEffect(()=>{
 
@@ -29,6 +31,16 @@ const RightSideBar = ({selectedFriend,friendTransitions}:RightSideBarProps) =>{
                     </div>
 
                     <div className="max-h-120 overflow-y-auto custom-overflow-track pr-1 pt-1">
+                        
+
+                        {friendTransitionLoading&&(
+                            <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
+                                <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                            </div>
+                        )}
+
+                        {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No data.</p>)}
+
                         {friendTransitions.map((row)=>(
                             <Transaction key={row.id} info={row}/>
                         ))}

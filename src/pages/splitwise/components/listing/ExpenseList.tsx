@@ -47,7 +47,20 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                     <div className="pt-2 grid gap-1">
                         {expenseListYouOws.length==0&&(<p className="text-gray-400 text-center text-sm">You owe nothing to anyone.</p>)}
                         {expenseListYouOws.map((row)=>(
-                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name,row.balance,false)} key={row.id} you_owe={true}/>
+                            <FriendBrief 
+                                info={row} 
+                                
+                                onClick={()=>loadFriendTransaction({
+                                    id:row.id,
+                                    name:row.name,
+                                    balance:row.balance,
+                                    ows_you:false
+                                })} 
+                                
+                                key={row.id} 
+                                you_owe={true}
+
+                                />
                         ))} 
                     </div>
 
@@ -58,7 +71,19 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                     <div className="pt-2 grid gap-1">
                         {expenseListOwsYou.length==0&&(<p className="text-gray-400 text-center text-sm">No data.</p>)}
                         {expenseListOwsYou.map((row)=>(
-                            <FriendBrief info={row} onClick={()=>loadFriendTransaction(row.id,row.name,row.balance,true)} key={row.id} you_owe={false}/>
+                            <FriendBrief 
+                                info={row} 
+                                
+                                onClick={()=>loadFriendTransaction({
+                                    id:row.id,
+                                    name:row.name,
+                                    balance:row.balance,
+                                    ows_you:true
+                                })} 
+                                
+                                key={row.id} 
+                                you_owe={false}
+                            />
                         ))}
                     </div>
                 </div>

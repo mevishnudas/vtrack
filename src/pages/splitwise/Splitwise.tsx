@@ -20,6 +20,7 @@ const Splitwise = () =>{
     
     const [selectedFriend,setSelectedFriend] = useState();
     const [friendTransitions,setFriendTransitions] = useState([]);
+    const [friendTransitionLoading,setFriendTransitionLoading] = useState(false);
 
     const [expenseSummary,setExpenseSummary] = useState({
         ows_you:0,
@@ -93,8 +94,16 @@ const Splitwise = () =>{
         loadExpense();
     }
 
-    const loadFriendTransaction = async (id:number,name:string,balance:number,ows_you:boolean) =>{
+    type loadFriendTransactionProps = {
+        id:number,
+        name:string,
+        balance:number,
+        ows_you:boolean
+    }
 
+    const loadFriendTransaction = async ({id,name,balance,ows_you}:loadFriendTransactionProps) =>{
+
+        setFriendTransitionLoading(true);
         setFriendTransitions([]); //empty the list 
         
         setSelectedFriend((prev:any) => ({ // setup selected user 
@@ -114,6 +123,7 @@ const Splitwise = () =>{
             }
         });
 
+        setFriendTransitionLoading(false);
         if(response.request){
             let data = response.data?.data;
             setFriendTransitions(data);
@@ -131,12 +141,41 @@ const Splitwise = () =>{
     },[]);
 
     useEffect(()=>{
-        console.log("Changed");
+        // console.log("Changed");
         
         if(selectedFriend){
-            //loadFriendTransaction = async (id:number,name:string,balance:number,ows_you:boolean)
+            //checking ows you
+            const owsYou = expenseListOwsYou.find(item => item.id === selectedFriend.id);
+            
+            if(owsYou){
+                loadFriendTransaction({
+                    id:selectedFriend.id,
+                    name:selectedFriend.name,
+                    balance:owsYou.balance,
+                    ows_you:true
+                });
 
-            //const result = array.filter(item => item.id === id);
+                //console.log("Ows you"+owsYou.balance);
+
+            }else{
+                
+                //checking on you ows
+                const youOwe = expenseListYouOws.find(item => item.id === selectedFriend.id);
+                
+                console.log("You owe"+youOwe.balance);
+
+                if(youOwe){
+                    // reload friend transactions
+                    loadFriendTransaction({
+                        id:selectedFriend.id,
+                        name:selectedFriend.name,
+                        balance:youOwe.balance,
+                        ows_you:false
+                    });
+                }
+
+            }
+
         }
 
     },[expenseListOwsYou,expenseListYouOws]);
@@ -172,6 +211,7 @@ const Splitwise = () =>{
                         <RightSideBar 
                             selectedFriend={selectedFriend}
                             friendTransitions={friendTransitions}
+                            friendTransitionLoading={friendTransitionLoading}
                         />
                     </div>
 
