@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 type TransactionProps = {
     info:any[]
 };
@@ -5,7 +7,7 @@ const Transaction = ({info}:TransactionProps) =>{
     return(
         <div className="grid grid-cols-2 py-2 border-b-1 border-b-gray-800 px-2 mb-1">
             <div>
-                <p className="text-xs text-gray-400">16-Jan-2026</p>
+                <p className="text-xs text-gray-400">{format(new Date(info.date), "dd-MMM-yyyy")} | {format(new Date(info.date), "hh:mm a")}</p>
             </div>
             
             <div>

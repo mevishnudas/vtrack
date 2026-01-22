@@ -4,6 +4,7 @@ import { SlCalender } from "react-icons/sl";
 import { useState } from "react";
 import { MdKeyboardArrowRight,MdKeyboardArrowDown  } from "react-icons/md";
 import { TbMailDollar } from "react-icons/tb";
+import { IoSettingsOutline } from "react-icons/io5";
 
 type props ={
     setSideBarShow:any,
@@ -63,6 +64,17 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
                             </ul>
                         </div>
                         
+                        <div onClick={()=>toggleMenu('settings')} className={`${activeMenu==="settings"?"bg-gray-600":"bg-gray-800"} px-2 py-2 cursor-pointer text-amber-50 border-b-1 border-b-gray-700 flex justify-left items-center justify-between gap-2 hover:bg-gray-700 select-none`}>
+                            <div className="flex gap-2 justify-left items-center"><IoSettingsOutline size={20}/>Settings</div>
+                            <div>{openedMenu == "settings"?(<MdKeyboardArrowDown />):(<MdKeyboardArrowRight />)}</div>
+                        </div>
+
+                        <div className={`bg-slate-800 overflow-hidden transition-all duration-300 ease-in-out ${openedMenu == "settings" ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+                            <ul>
+                                <li onClick={()=>navScreen('/settings/users','settings')} className="text-white px-5 hover:bg-slate-700 py-1 cursor-pointer border-b-1 border-b-slate-700">Users</li>
+                            </ul>
+                        </div>
+
                     </div>
                     
                 </div>

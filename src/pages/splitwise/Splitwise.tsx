@@ -187,7 +187,7 @@ const Splitwise = () =>{
                 <h1 className="font-bold text-white">Splitwise</h1>
 
                 <div className="grid grid-cols-4 text-white px-2 py-2 gap-2">
-                    <div className="col-span-1"><LeftSideBar/></div>
+                    <div className="col-span-1"><LeftSideBar friends={friends}/></div>
 
                     <div className="col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
                         

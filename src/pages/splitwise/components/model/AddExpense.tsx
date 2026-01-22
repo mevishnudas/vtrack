@@ -132,7 +132,9 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
                                         isMulti 
                                         // name="friends"  
                                         className="text-black bg-amber-900" 
-                                        classNamePrefix="select"
+                                        classNamePrefix="select"    
+
+                                        autoFocus={true}
 
                                         onChange={onFriendChange}
                                     />
@@ -141,7 +143,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
 
                                 <div className="pt-2">
                                     <label className="text-sm text-gray-300">Amount</label>
-                                    <input type="number" autoFocus={true} 
+                                    <input type="number" 
                                         className="w-full bg-slate-700 outline-none px-2 py-1 font-bold text-white rounded-sm border-t-0 border-l-0 border-r-0 [appearance:textfield]
                                         [&::-webkit-outer-spin-button]:appearance-none
                                         [&::-webkit-inner-spin-button]:appearance-none"

@@ -8,6 +8,8 @@ import Splitwise from "../pages/splitwise/Splitwise";
 import { Repayment } from "../pages/repayment/Repayment";
 import Emi from "../pages/repayment/Emi";
 
+import Users from "../pages/settings/users/users";
+
 const MainRoute = () =>{
     return(
         <Routes>
@@ -17,6 +19,8 @@ const MainRoute = () =>{
                 <Route path="/splitwise" element={<Splitwise />}/>
                 <Route path="/repayment" element={<Repayment />}/>
                 <Route path="/repayment/emi" element={<Emi />}/>
+
+                <Route path="/settings/users" element={<Users />}/>
                 {/* <Route path="dashboard" element={<Dash/>}/> */}
             </Route>
 

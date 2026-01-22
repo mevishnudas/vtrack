@@ -64,7 +64,7 @@ const PaymentDetailCard = ({listData,className}:param) =>{
 
                     <div className="relative">
                         <div className="absolute right-0 -bottom-0.5">
-                            <button className="text-black" onClick={copyNow}>
+                            <button className="text-black cursor-pointer" onClick={copyNow}>
                                 <IoIosCopy/>
                             </button>
                         </div>

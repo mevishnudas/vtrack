@@ -1,4 +1,12 @@
-const LeftSideBar = () =>{
+import { useState } from "react";
+
+type LeftSideBarProps = {
+    friends:any[]
+};
+
+const LeftSideBar = ({friends}:LeftSideBarProps) =>{
+    const [showFriendList,setShowFriendList] = useState(false);
+
     return(
         <>
             <div>
@@ -13,11 +21,14 @@ const LeftSideBar = () =>{
                     </div>
 
                     <div>
-                        <h1 className=" px-2 py-1 font-bold text-green-300">Friends</h1>
-                        <ul>
-                            <li className="px-2 py-1 border-b-1 border-slate-700 hover:bg-slate-700 cursor-pointer">Vishnu</li>
-                            <li className="px-2 py-1 border-b-1 border-slate-700 hover:bg-slate-700 cursor-pointer">Neethu</li>
-                        </ul>
+                        <h1 className=" px-2 py-1 font-bold text-green-300 cursor-pointer select-none" onClick={()=>setShowFriendList(!showFriendList)}>Friends</h1>
+                        {showFriendList&&(
+                            <ul>
+                                {friends.map((row)=>(
+                                    <li className="px-2 py-1 border-b-1 border-slate-700 hover:bg-slate-700 cursor-pointer">{row.label}</li>    
+                                ))}
+                            </ul>
+                        )}
                     </div>
 
                 </div>
