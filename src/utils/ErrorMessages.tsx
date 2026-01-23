@@ -4,7 +4,9 @@ const error_message = {
     invalid_date:"Please input valid date",
     submit_error:"Unable to submit try again",
     number_error:"Value must be a number",
-    number_more_than_error:"Value must be greater than zero"
+    number_more_than_error:"Value must be greater than zero",
+    invalid_email:"Invalid email id",
+    invalid_length:"Invalid length"
 };
 
 export {error_message};

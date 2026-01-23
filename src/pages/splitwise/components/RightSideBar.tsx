@@ -25,7 +25,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                             <h2 className="text-green-400">{selectedFriend.name} owes you</h2>
                             <h1 className="text-2xl font-bold text-green-400">₹ {selectedFriend.balance.toLocaleString("en-IN")}</h1>
                         </>):(<>
-                            <h2 className="text-red-400">{selectedFriend.name} owes you</h2>
+                            <h2 className="text-red-400">You ows {selectedFriend.name}</h2>
                             <h1 className="text-2xl font-bold text-red-400">₹ {selectedFriend.balance.toLocaleString("en-IN")}</h1>
                         </>)}
                     </div>
