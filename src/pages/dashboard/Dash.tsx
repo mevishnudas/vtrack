@@ -19,6 +19,12 @@ const Dash = () =>{
                         <Card className="from-slate-800 to-slate-900" title="EMI" count={200}/>
                     </div>
 
+                </div>  
+
+
+                <div className="w-50 bg-green-400 rounded-sm">
+                    <h1>Indusind Bank</h1>
+                    <h1>**** **** **** 6565 </h1>
                 </div>
                 
                 

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 type SimpleModelProps ={
     isOpen:boolean,
@@ -8,6 +8,22 @@ type SimpleModelProps ={
 
 const SimpleModel = ({isOpen,setModelStatus,children}:SimpleModelProps) =>{
 
+    useEffect(()=>{
+
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+               setModelStatus(false);
+            }
+        };
+        
+        
+        window.addEventListener("keydown", handleEsc);
+
+        return () => {
+            window.removeEventListener("keydown", handleEsc);
+        };
+
+    },[]);
     return(<>
         {isOpen&&(
             <div 

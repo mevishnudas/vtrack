@@ -27,7 +27,12 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
     }
 
     const toggleMenu = (menu:string) =>{
-        openedMenu?setOpenMenu(""):setOpenMenu(menu);
+        
+        if(menu==openedMenu){
+            setOpenMenu("");
+        }else{
+            setOpenMenu(menu)
+        }
     }
 
     return(

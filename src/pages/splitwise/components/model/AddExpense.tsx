@@ -51,7 +51,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
 
         switch (splitMethod) {
             case 'ows_you':
-                return <p className="text-center text-green-400 font-bold border-2 border-green-400 py-1 px-2 cursor-pointer">Owes you</p>;
+                return <p className="text-center text-green-400 font-bold border-2 border-green-400 py-1 px-2 cursor-pointer">You Paid</p>;
                 break;
 
             case 'you_ows':
@@ -181,7 +181,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
                                 <div className={`bg-slate-800 px-2 py-2 rounded-sm transition-all duration-400 ease-in-out absolute bottom-58 w-full -z-1 ${splitOptionShow?("left-100 opacity-100"):("opacity-0 left-50")}`}>
                                     <div>
                                         <p className="text-center text-white font-bold border-2 border-slate-600 py-1 px-2 cursor-pointer" onClick={()=>selectSplitMethod("equally")}>Paid by you and split equally</p>
-                                        <p className="text-center mt-2 text-green-400 font-bold border-2 border-slate-600 py-1 px-2 cursor-pointer" onClick={()=>selectSplitMethod("ows_you")}>Owes you</p>
+                                        <p className="text-center mt-2 text-green-400 font-bold border-2 border-slate-600 py-1 px-2 cursor-pointer" onClick={()=>selectSplitMethod("ows_you")}>You Paid</p>
                                         <p className="text-center mt-2 text-red-400 font-bold border-2 border-slate-600 py-1 px-2 cursor-pointer" onClick={()=>selectSplitMethod("you_ows")}>You owe</p>
                                     </div>
                                 </div>

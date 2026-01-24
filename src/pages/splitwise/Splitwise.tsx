@@ -17,7 +17,8 @@ const Splitwise = () =>{
     const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
     const [expenseListOwsYou,setExpenseListOwsYou] = useState([]);
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
-    
+    const [loadingExpenseSummary,setLoadingExpenseSummary] = useState(true);
+
     const [selectedFriend,setSelectedFriend] = useState();
     const [friendTransitions,setFriendTransitions] = useState([]);
     const [friendTransitionLoading,setFriendTransitionLoading] = useState(false);
@@ -53,12 +54,14 @@ const Splitwise = () =>{
 
     const loadExpense = async () =>{
 
+        setLoadingExpenseSummary(true);
         let response = await fetchRequest({
           path:"splitwise/expense/list",
           auth:true,
           method:"POST"
         });
 
+        setLoadingExpenseSummary(false);
         if(response.request){
             let data = response.data?.data;
             
@@ -187,7 +190,7 @@ const Splitwise = () =>{
                 <h1 className="font-bold text-white">Splitwise</h1>
 
                 <div className="grid grid-cols-4 text-white px-2 py-2 gap-2">
-                    <div className="col-span-1"><LeftSideBar friends={friends}/></div>
+                    <div className="col-span-1"><LeftSideBar friends={friends} setSelectedFriend={setSelectedFriend}/></div>
 
                     <div className="col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
                         
@@ -202,6 +205,7 @@ const Splitwise = () =>{
                             expenseListYouOws={expenseListYouOws}
                             loadFriendTransaction={loadFriendTransaction}
                             selectedFriend={selectedFriend}
+                            loadingExpenseSummary={loadingExpenseSummary}
                             //setSelectedFriend={setSelectedFriend}
                         />
                         
