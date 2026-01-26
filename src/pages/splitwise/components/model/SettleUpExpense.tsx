@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { error_message } from "../../../../utils/ErrorMessages";
+import { FaArrowDown,FaArrowUp  } from "react-icons/fa";
 
 type SettleUpExpense = {
     openModel:boolean,
@@ -40,6 +41,7 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
 
     const [submitting,setSubmitting] = useState(false);
     const [submittingError,setSubmitError] = useState(null);
+    const [paymentMode,setPaymentMode] = useState("RECEIVED");
 
     const onSubmit = async (data) =>{
         
@@ -72,11 +74,18 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
         setValue("friend",selectedFriends.value);
     }
 
+    const changePayment = (status:string) =>{
+        if(!submitting){
+            setPaymentMode(status);
+        }
+    }   
+
     useEffect(()=>{
 
         return()=>{
             reset();
             setSubmitError(null);
+            setPaymentMode("RECEIVED");
         };
 
    },[openModel]);
@@ -90,7 +99,12 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
                         <div className="py-2 px-2 w-100 bg-slate-800 rounded-b-sm">
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div>
-                                    <label className="text-gray-300 text-sm">Paid by</label>
+                                    {/* <label className="text-gray-300 text-sm">Paid by</label> */}
+                                    <div className="grid grid-cols-2 py-1 gap-1">
+                                        <div onClick={()=>changePayment("RECEIVED")} className={`col-span-1 px-2 text-white cursor-pointer ${paymentMode=="RECEIVED"&&("bg-green-600")} flex justify-center items-center`}><FaArrowDown/>&nbsp;&nbsp;Received</div>
+                                        <div onClick={()=>changePayment("PAID")} className={`col-span-1 px-2 text-white cursor-pointer ${paymentMode=="PAID"&&("bg-orange-600")}  flex justify-center items-center`}><FaArrowUp />&nbsp;&nbsp;Paid</div>
+                                    </div>
+
                                     <Select 
                                         options={friends}  
                                         className="text-black bg-amber-900" 

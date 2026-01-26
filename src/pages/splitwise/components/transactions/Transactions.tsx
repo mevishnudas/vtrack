@@ -12,11 +12,11 @@ const Transaction = ({info}:TransactionProps) =>{
             
             <div>
                 {info.payment_type=="PAID"?(
-                    <p className="text-end text-xs text-gray-400 text-red-300">You paid</p>
+                    <p className="text-end text-xs text-gray-400 text-green-300">You lent</p>
                 ):(
-                    <p className="text-end text-xs text-gray-400 text-green-300">You received</p>
+                    <p className="text-end text-xs text-gray-400 text-red-300">You borrowed</p>
                 )}
-                
+                {/* need paid you */}
             </div>
 
             <div>
