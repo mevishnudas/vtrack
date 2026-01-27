@@ -36,7 +36,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                         
 
                         {friendTransitionLoading&&(
-                            <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
+                            <div className="flex justify-center h-10 gap-2 pt-2 text-gray-200 text-sm">
                                 <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
                             </div>
                         )}
@@ -44,7 +44,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                         {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No data.</p>)}
 
                         {friendTransitions.map((row)=>(
-                            <Transaction key={row.id} info={row}/>
+                            <Transaction key={row.id} info={row} selectedFriend={selectedFriend}/>
                         ))}
                     </div>
                 </div>

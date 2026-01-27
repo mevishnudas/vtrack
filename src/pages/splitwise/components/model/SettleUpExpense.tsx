@@ -24,6 +24,7 @@ const settleUpExpenseSchema = yup
     friend: yup.number().positive().typeError(error_message.required).required(error_message.required),
     amount: yup.number().positive().typeError(error_message.required).required(error_message.required),
     remarks: yup.string().nullable(),
+    payment_mode: yup.string().required(),
   })
 .required();
 
@@ -33,6 +34,7 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
         register,
         handleSubmit,
         setValue,
+        getValues,
         reset,
         formState: { errors },
       } = useForm({
@@ -55,6 +57,7 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
             body:{
                 friend:data.friend,
                 amount:data.amount,
+                payment_mode:getValues("payment_mode"),
                 remarks:data.remarks
             }
         });
@@ -77,10 +80,12 @@ const SettleUpExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:Set
     const changePayment = (status:string) =>{
         if(!submitting){
             setPaymentMode(status);
+            setValue("payment_mode",status);
         }
     }   
 
     useEffect(()=>{
+        setValue("payment_mode","RECEIVED");
 
         return()=>{
             reset();

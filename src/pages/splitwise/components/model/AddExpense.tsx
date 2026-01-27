@@ -51,7 +51,7 @@ const AddExpense = ({openModel,setOpenModel,friends,refreshExpenseList}:AddExpen
 
         switch (splitMethod) {
             case 'ows_you':
-                return <p className="text-center text-green-400 font-bold border-2 border-green-400 py-1 px-2 cursor-pointer">You Paid</p>;
+                return <p className="text-center text-green-400 font-bold border-2 border-green-400 py-1 px-2 cursor-pointer">Ows you</p>;
                 break;
 
             case 'you_ows':

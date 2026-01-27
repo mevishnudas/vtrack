@@ -39,7 +39,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                     {you_owe?(
                         <h2 className="text-red-300 text-sm">you owe {Number(info.balance).toLocaleString("en-IN")}</h2>
                     ):(
-                        <h2 className="text-green-300 text-sm">owe you {Number(info.balance).toLocaleString("en-IN")}</h2>
+                        <h2 className="text-green-300 text-sm">ows you {Number(info.balance).toLocaleString("en-IN")}</h2>
                     )}
                     
                 </div>
@@ -55,7 +55,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
 
                     <div className="pt-2 grid gap-1 max-h-120 overflow-y-auto custom-overflow-track pr-2">
                         {loadingExpenseSummary&&(
-                            <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
+                            <div className="flex justify-center h-10 gap-2 pt-2 text-gray-200 text-sm">
                                 <CgSpinnerTwoAlt size={20} className="animate-spin"/>
                             </div>
                         )}
@@ -86,7 +86,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
 
                     <div className="pt-2 grid gap-1 max-h-120 overflow-y-auto custom-overflow-track pr-2">
                         {loadingExpenseSummary&&(
-                            <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
+                            <div className="flex justify-center h-10 gap-2 pt-2 text-gray-200 text-sm">
                                 <CgSpinnerTwoAlt size={20} className="animate-spin"/>
                             </div>
                         )}
