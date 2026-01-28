@@ -1,30 +1,8 @@
-import { Link } from "react-router-dom";
 import PageTitle from "../../utils/PageTitle";
-import CreditCardBox from "./components/CreditCardBox";
-import { useEffect, useState } from "react";
-import { fetchRequest } from "../../services/Fetch";
-//import Card from "./components/Card";
+import CreditCard from "../creditcard/CreditCard";
 
 const Dash = () =>{
-    const [creditCardList,setCreditCardList]= useState([]);
 
-    const loadCreditCardList = async () =>{
-
-        let response = await fetchRequest({
-                            path:"master/credit-card/list",
-                            method:"GET",
-                            auth:true
-                        });
-
-        if(response.request){
-            setCreditCardList(response.data.data);
-        }
-    }
-
-    useEffect(()=>{
-        // loadCreditCardList(); //load credit card list
-
-    },[]);
     return(
         <>  
             <PageTitle pageName="Dashboard"/>
@@ -32,11 +10,7 @@ const Dash = () =>{
                 <h1 className="font-bold text-white">Dashboard</h1>
                 
                 <div className="pt-2 px-1">
-                    <div className="grid sm:grid-cols-5 gap-2">
-                        {creditCardList.map((row)=>(
-                            <CreditCardBox key={row.id} info={row}/>
-                        ))}
-                    </div>
+                    <CreditCard/>
                 </div>
 
             </div>

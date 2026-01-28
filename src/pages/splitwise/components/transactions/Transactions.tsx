@@ -10,6 +10,10 @@ const Transaction = ({info,selectedFriend}:TransactionProps) =>{
             <>
               <div className={`py-1 px-1 border-b-1 border-b-gray-800 bg-green-950 text-white mb-1`}>
                 
+                <div>
+                    <p className="text-xs text-gray-400 pb-1">{format(new Date(info.date), "dd-MMM-yyyy")} | {format(new Date(info.date), "hh:mm a")}</p>
+                </div>
+
                 {info.payment_type=="PAID"?(
                     <p className="text-sm text-center "><span className="font-bold">₹{Number(info.amount).toLocaleString("en-IN")}</span> paid to {selectedFriend.name}</p>
                 ):(

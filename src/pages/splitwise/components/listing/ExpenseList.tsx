@@ -27,6 +27,9 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                                 hover:bg-slate-700 p-2 
                                 flex 
                                 cursor-pointer
+
+                                rounded-sm
+                                px-2
                                 
                                 `}>
                 <div className="flex justify-center items-center">
