@@ -18,7 +18,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
     return(
         <>  
             <div>
-            {selectedFriend?(
+            {selectedFriend.length!=0?(
                 <div>
                     <h1 className="text-white uppercase">Your balance</h1>
 

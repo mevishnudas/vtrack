@@ -19,7 +19,7 @@ const Splitwise = () =>{
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
     const [loadingExpenseSummary,setLoadingExpenseSummary] = useState(true);
 
-    const [selectedFriend,setSelectedFriend] = useState();
+    const [selectedFriend,setSelectedFriend] = useState([]);
     const [friendTransitions,setFriendTransitions] = useState([]);
     const [friendTransitionLoading,setFriendTransitionLoading] = useState(false);
 
@@ -150,6 +150,7 @@ const Splitwise = () =>{
             //checking ows you
             const owsYou = expenseListOwsYou.find(item => item.id === selectedFriend.id);
             
+            let dataExist = false;
             if(owsYou){
                 loadFriendTransaction({
                     id:selectedFriend.id,
@@ -157,15 +158,15 @@ const Splitwise = () =>{
                     balance:owsYou.balance,
                     ows_you:true
                 });
-
+                dataExist = true;
                 //console.log("Ows you"+owsYou.balance);
-
+                //console.log("Ows you data und");
             }else{
                 
                 //checking on you ows
                 const youOwe = expenseListYouOws.find(item => item.id === selectedFriend.id);
                 
-                console.log("You owe"+youOwe.balance);
+                // console.log("You owe"+youOwe.balance);
 
                 if(youOwe){
                     // reload friend transactions
@@ -175,10 +176,22 @@ const Splitwise = () =>{
                         balance:youOwe.balance,
                         ows_you:false
                     });
+
+                    //console.log("Ows you data und");
+                    dataExist = true;
                 }
+
+                
 
             }
 
+            //clear if no data
+            if(!dataExist)
+            { 
+              //console.log("No Data");
+              setSelectedFriend([]); 
+              //loadFriendTransaction([]);
+            }
         }
 
     },[expenseListOwsYou,expenseListYouOws]);
