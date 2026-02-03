@@ -21,7 +21,7 @@ const CreditCard = () =>{
     }
 
     useEffect(()=>{
-        loadCreditCardList(); //load credit card list
+        // loadCreditCardList(); //load credit card list
     },[]);
 
     const CreditUsage = () =>{

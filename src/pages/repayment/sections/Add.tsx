@@ -116,15 +116,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
         try {
 
             let repaymentDetails = {
-                amount:getValues("amount").toLocaleString("en-IN")|0,
-                pr_fee:getValues("pr_fee").toLocaleString("en-IN")|0,
-                charges:getValues("charges").toLocaleString("en-IN")|0,
-                totalAmount:totalAmount.toLocaleString("en-IN"),
+                amount:getValues("amount")|0,
+                pr_fee:getValues("pr_fee")|0,
+                charges:getValues("charges")|0,
+                totalAmount:totalAmount,
                 payment_date:format(new Date(getValues("payment_date")), "MMM dd-yyyy")
             }
 
             await copyToClipBoard({
-                message:`Amount : ${repaymentDetails.amount}\nPr.Fee : ${repaymentDetails.pr_fee}\nCharges : ${repaymentDetails.charges}\n\nTotal : *Rs.${repaymentDetails.totalAmount}*\nPayment Date : *${repaymentDetails.payment_date}*`
+                message:`Amount : ${repaymentDetails.amount.toLocaleString("en-IN")}\nPr.Fee : ${repaymentDetails.pr_fee.toLocaleString("en-IN")}\nCharges : ${repaymentDetails.charges.toLocaleString("en-IN")}\n\nTotal : *Rs.${repaymentDetails.totalAmount.toLocaleString("en-IN")}*\nPayment Date : *${repaymentDetails.payment_date}*`
             });
 
         } catch (error) {

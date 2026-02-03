@@ -116,15 +116,15 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
         try {
 
             let emiDetails = {
-                amount:getValues("amount").toLocaleString("en-IN")|0,
-                pr_fee:getValues("pr_fee").toLocaleString("en-IN")|0,
-                emi_amount:getValues("emi_amount").toLocaleString("en-IN"),
-                duration:getValues("duration"),
+                amount:getValues("amount")|0,
+                pr_fee:getValues("pr_fee")|0,
+                emi_amount:getValues("emi_amount")|0,
+                duration:getValues("duration")|0,
                 payment_date:format(new Date(getValues("payment_date")), "MMM dd-yyyy")
             }
 
             await copyToClipBoard({
-                message:`Amount : Rs.${emiDetails.amount}\nEMI(${emiDetails.duration}) : ${emiDetails.emi_amount} + GST\nPr.Fee : ${emiDetails.pr_fee}\n\nPayment Date : *${emiDetails.payment_date}*`
+                message:`Amount : Rs.${emiDetails.amount.toLocaleString("en-IN")}\nEMI(${emiDetails.duration}) : ${emiDetails.emi_amount.toLocaleString("en-IN")} + GST\nPr.Fee : ${emiDetails.pr_fee.toLocaleString("en-IN")}\n\nPayment Date : *${emiDetails.payment_date}*`
             });
 
         } catch (error) {
