@@ -1,5 +1,4 @@
 import PageTitle from "../../utils/PageTitle";
-import CreditCard from "../creditcard/CreditCard";
 
 const Dash = () =>{
 
@@ -10,7 +9,7 @@ const Dash = () =>{
                 <h1 className="font-bold text-white">Dashboard</h1>
                 
                 <div className="pt-2 px-1">
-                    <CreditCard/>
+                    
                 </div>
 
             </div>

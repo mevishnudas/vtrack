@@ -3,10 +3,10 @@ type CreditCardBoxProps = {
     info:any[]
 };
 
-const CreditCardBox = ({info}:CreditCardBoxProps) =>{
+const CreditCardBox = ({info,...rest}:CreditCardBoxProps) =>{
     return(
         <>
-        <div  className={`cursor-pointer rounded-sm grid border-1 bg-linear-to-b from-slate-900 to-slate-950 border-slate-700 overflow-hidden`}>
+        <div {...rest} className={`cursor-pointer rounded-sm grid border-1 bg-linear-to-b from-slate-900 to-slate-950 border-slate-700 overflow-hidden`}>
 
                 <div className="py-1 px-2">
                     <h1 className="text-white">{info.nick_name}</h1>

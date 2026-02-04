@@ -9,6 +9,7 @@ import { Repayment } from "../pages/repayment/Repayment";
 import Emi from "../pages/repayment/Emi";
 
 import Users from "../pages/settings/users/users";
+import CreditCard from './../pages/creditcard/CreditCard';
 
 const MainRoute = () =>{
     return(
@@ -17,6 +18,9 @@ const MainRoute = () =>{
             <Route path="/" element={<App />}>
                 <Route index element={<Dash />}/>
                 <Route path="/splitwise" element={<Splitwise />}/>
+
+                <Route path="/credit-card" element={<CreditCard />}/>
+
                 <Route path="/repayment" element={<Repayment />}/>
                 <Route path="/repayment/emi" element={<Emi />}/>
 
