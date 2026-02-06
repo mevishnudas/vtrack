@@ -1,6 +1,7 @@
 
 import { useEffect } from "react";
 import { IoIosClose } from "react-icons/io";
+import { fetchRequest } from "../../../services/Fetch";
 
 type CreditCardDetailProps = {
     selectedCreditCard:number
@@ -9,8 +10,14 @@ type CreditCardDetailProps = {
 const CreditCardDetail = ({selectedCreditCard}) =>{
     
     
-    const loadCreditCardDetails = () =>{
+    const loadCreditCardDetails = async () =>{
         console.log("Loading credit card details");
+        
+        // await fetchRequest({
+        //     path:"",
+        //     method:"GET",
+        //     auth:true
+        // });
     }
 
     

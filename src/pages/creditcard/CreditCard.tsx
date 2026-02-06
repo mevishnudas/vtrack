@@ -13,7 +13,7 @@ const CreditCard = () =>{
     const loadCreditCardList = async () =>{
 
         let response = await fetchRequest({
-                            path:"master/credit-card/list",
+                            path:"credit-card/list",
                             method:"GET",
                             auth:true
                         });
