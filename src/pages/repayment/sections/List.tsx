@@ -61,9 +61,9 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
 
     },[refreshList]);
 
-    const test = () =>{
-        console.log(format(new Date(), "M"));
-    }
+    // const test = () =>{
+    //     console.log(format(new Date(), "M"));
+    // }
     return(
         <>  
             <div>

@@ -36,7 +36,6 @@ const CreditCard = () =>{
         );
     }
 
-
     return(
         <>  
             <PageTitle pageName="Credit Card"/>
