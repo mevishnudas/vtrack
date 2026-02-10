@@ -63,7 +63,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                             </div>
                         )}
 
-                        {expenseListYouOws.length==0&&!loadingExpenseSummary&&(<p className="text-gray-400 text-center text-sm">You owe nothing to anyone.</p>)}
+                        {expenseListYouOws.length==0&&!loadingExpenseSummary&&(<p className="text-gray-400 text-center text-sm">No Data.</p>)}
                         
                         {expenseListYouOws.map((row)=>(
                             <FriendBrief 
@@ -71,9 +71,9 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                                 
                                 onClick={()=>loadFriendTransaction({
                                     id:row.id,
-                                    name:row.name,
-                                    balance:row.balance,
-                                    ows_you:false
+                                    //name:row.name,
+                                    //balance:row.balance,
+                                    //ows_you:false
                                 })} 
                                 
                                 key={row.id} 
@@ -93,7 +93,7 @@ const ExpenseList = ({expenseListOwsYou,expenseListYouOws,loadFriendTransaction,
                                 <CgSpinnerTwoAlt size={20} className="animate-spin"/>
                             </div>
                         )}
-                        {expenseListOwsYou.length==0&&!loadingExpenseSummary&&(<p className="text-gray-400 text-center text-sm">No one is owing you.</p>)}
+                        {expenseListOwsYou.length==0&&!loadingExpenseSummary&&(<p className="text-gray-400 text-center text-sm">No Data.</p>)}
                         {expenseListOwsYou.map((row)=>(
                             <FriendBrief 
                                 info={row} 

@@ -22,6 +22,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                 <div>
                     <h1 className="text-white uppercase">Your balance</h1>
 
+                    {!friendTransitionLoading&&(
                     <div className="py-2 border-b border-b-gray-700">
                         {selectedFriend.ows_you?(<>
                             <h2 className="text-green-400"><label className="font-bold">{selectedFriend.name}</label> owes you</h2>
@@ -31,6 +32,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                             <h1 className="text-2xl font-bold text-red-400">₹ {Number(selectedFriend.balance).toLocaleString("en-IN")}</h1>
                         </>)}
                     </div>
+                    )}
 
                     <div className="max-h-120 overflow-y-auto custom-overflow-track pr-1 pt-1">
                         

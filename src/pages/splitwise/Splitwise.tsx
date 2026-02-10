@@ -4,25 +4,33 @@ import Owing from "./components/Owing";
 import {fetchRequest} from "../../services/Fetch";
 
 import PageTitle from "../../utils/PageTitle";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 
 import AddExpense from "./components/model/AddExpense";
 import SettleUpExpense from "./components/model/SettleUpExpense";
 import ExpenseList from "./components/listing/ExpenseList";
-import { SimpleInput } from "../../components/formElements/SimpleInputs";
+
 
 const Splitwise = () =>{
 
     const [friends,setFriends] = useState([]);
     const [addExpenseModel,setAddExpenseModel] = useState(false);
     const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
+    
     const [expenseListOwsYou,setExpenseListOwsYou] = useState([]);
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
+    const [expenseListOwsYouList,setExpenseListOwsYouList] = useState([]);
+    const [expenseListYouOwsList,setExpenseListYouOwsList] = useState([]);
+
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [clearSearch,setClearSearch] = useState(false);
+
     const [loadingExpenseSummary,setLoadingExpenseSummary] = useState(true);
 
     const [selectedFriend,setSelectedFriend] = useState([]);
     const [friendTransitions,setFriendTransitions] = useState([]);
     const [friendTransitionLoading,setFriendTransitionLoading] = useState(false);
+    
 
     const [expenseSummary,setExpenseSummary] = useState({
         ows_you:0,
@@ -68,7 +76,10 @@ const Splitwise = () =>{
             
             setExpenseListOwsYou(data?.ows_you);
             setExpenseListYouOws(data?.you_owe);
-            //console.log(data);
+            
+            //set for backup
+            setExpenseListOwsYouList(data?.ows_you);
+            setExpenseListYouOwsList(data?.you_owe);
         }
     }   
 
@@ -96,16 +107,21 @@ const Splitwise = () =>{
     const refreshExpenseList = async () =>{
         loadExpenseSummary();
         loadExpense();
+
+        //load if user selected
+        if(selectedFriend){
+            loadFriendTransaction({id:selectedFriend.id});
+        }
     }
 
     type loadFriendTransactionProps = {
         id:number,
-        name:string,
-        balance:number,
-        ows_you:boolean
+        // name:string,
+        // balance:number,
+        // ows_you:boolean
     }
 
-    const loadFriendTransaction = async ({id,name,balance,ows_you}:loadFriendTransactionProps) =>{
+    const loadFriendTransaction = async ({id}:loadFriendTransactionProps) =>{
 
         setFriendTransitionLoading(true);
         setFriendTransitions([]); //empty the list 
@@ -113,13 +129,10 @@ const Splitwise = () =>{
         setSelectedFriend((prev:any) => ({ // setup selected user 
             ...prev, 
             id:id,
-            name:name,
-            balance:balance,
-            ows_you:ows_you
         }));
 
         let response = await fetchRequest({
-            path:"splitwise/expense/transaction/list",
+            path:"splitwise/expense/friend/summary",
             auth:true,
             method:"POST",
             body:{
@@ -130,12 +143,26 @@ const Splitwise = () =>{
         setFriendTransitionLoading(false);
         if(response.request){
             let data = response.data?.data;
-            setFriendTransitions(data);
+            setFriendTransitions(data?.transactions);
+            
+            let ows_you = true;
+            if(data?.summary?.ows_status=="YOU_OWS"){
+                ows_you = false;
+            }
+
+            //SETTLED_UP pending
+
+            setSelectedFriend((prev:any) => ({ // setup selected user 
+                ...prev, 
+                name:data?.summary?.name,
+                balance:data?.summary?.balance,
+                ows_you:ows_you
+            }));
+
         }else{
             //error
         }
 
-        //console.log(selectedFriend);
     }
 
     useEffect(()=>{
@@ -144,61 +171,38 @@ const Splitwise = () =>{
         loadExpense(); //load expense
     },[]);
 
-    /*useEffect(()=>{
-        // console.log("Changed");
-        
-        if(selectedFriend){
-            //checking ows you
-            const owsYou = expenseListOwsYou.find(item => item.id === selectedFriend.id);
-            
-            let dataExist = false;
-            if(owsYou){
-                loadFriendTransaction({
-                    id:selectedFriend.id,
-                    name:selectedFriend.name,
-                    balance:owsYou.balance,
-                    ows_you:true
-                });
-                dataExist = true;
-                //console.log("Ows you"+owsYou.balance);
-                //console.log("Ows you data und");
-            }else{
-                
-                //checking on you ows
-                const youOwe = expenseListYouOws.find(item => item.id === selectedFriend.id);
-                
-                // console.log("You owe"+youOwe.balance);
-
-                if(youOwe){
-                    // reload friend transactions
-                    loadFriendTransaction({
-                        id:selectedFriend.id,
-                        name:selectedFriend.name,
-                        balance:youOwe.balance,
-                        ows_you:false
-                    });
-
-                    //console.log("Ows you data und");
-                    dataExist = true;
-                }
-
-                
-
-            }
-
-            //clear if no data
-            if(!dataExist)
-            { 
-              //console.log("No Data");
-              setSelectedFriend([]); 
-              //loadFriendTransaction([]);
-            }
-        }
-
-    },[expenseListOwsYou,expenseListYouOws]);*/
 
     const searchUser = (event) =>{
-        console.log(event.target.value)
+
+        let search = event.target.value;
+        search = search.toLowerCase();
+
+        if(search.length!=""){
+            //Ows You
+            const ows_you = expenseListOwsYouList.filter(row =>
+                row.name.toLowerCase().includes(search)
+            );
+            setExpenseListOwsYou(ows_you);
+
+            //You Owe
+            const you_owe = expenseListYouOwsList.filter(row =>
+                row.name.toLowerCase().includes(search)
+            );
+            setExpenseListYouOws(you_owe);
+
+            setClearSearch(true);
+        }else{
+            clearSearchResult();
+        }
+    }
+
+    const clearSearchResult = () =>{
+        
+        inputRef.current.value = "";
+
+        setClearSearch(false);
+        setExpenseListOwsYou(expenseListOwsYouList);
+        setExpenseListYouOws(expenseListYouOwsList);
     }
 
     return(
@@ -210,14 +214,15 @@ const Splitwise = () =>{
 
                 <div className="grid grid-cols-4 text-white px-2 py-2 gap-2">
                     <div className="col-span-1">
-                        <SimpleInput 
-                            customClassName="border-1 rounded-sm bg-slate-900 border-gray-600 text-sm"
-                            placeholder="Search"
-                            autoFocus 
+                        <LeftSideBar 
+                            friends={friends} 
+                            setSelectedFriend={setSelectedFriend}
 
-                            onKeyUp={searchUser}
+                            searchUser={searchUser}
+                            clearSearch={clearSearch}
+                            inputRef={inputRef}
+                            clearSearchResult={clearSearchResult}
                         />
-                        <LeftSideBar friends={friends} setSelectedFriend={setSelectedFriend}/>
                     </div>
 
                     <div className="col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
