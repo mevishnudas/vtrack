@@ -9,6 +9,7 @@ import { useState,useEffect } from "react";
 import AddExpense from "./components/model/AddExpense";
 import SettleUpExpense from "./components/model/SettleUpExpense";
 import ExpenseList from "./components/listing/ExpenseList";
+import { SimpleInput } from "../../components/formElements/SimpleInputs";
 
 const Splitwise = () =>{
 
@@ -143,7 +144,7 @@ const Splitwise = () =>{
         loadExpense(); //load expense
     },[]);
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         // console.log("Changed");
         
         if(selectedFriend){
@@ -194,7 +195,12 @@ const Splitwise = () =>{
             }
         }
 
-    },[expenseListOwsYou,expenseListYouOws]);
+    },[expenseListOwsYou,expenseListYouOws]);*/
+
+    const searchUser = (event) =>{
+        console.log(event.target.value)
+    }
+
     return(
         <>
             <PageTitle pageName="Splitwise"/>
@@ -203,7 +209,16 @@ const Splitwise = () =>{
                 <h1 className="font-bold text-white">Splitwise</h1>
 
                 <div className="grid grid-cols-4 text-white px-2 py-2 gap-2">
-                    <div className="col-span-1"><LeftSideBar friends={friends} setSelectedFriend={setSelectedFriend}/></div>
+                    <div className="col-span-1">
+                        <SimpleInput 
+                            customClassName="border-1 rounded-sm bg-slate-900 border-gray-600 text-sm"
+                            placeholder="Search"
+                            autoFocus 
+
+                            onKeyUp={searchUser}
+                        />
+                        <LeftSideBar friends={friends} setSelectedFriend={setSelectedFriend}/>
+                    </div>
 
                     <div className="col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
                         
