@@ -7,11 +7,12 @@ type LeftSideBarProps = {
     searchUser:()=>void,
     clearSearchResult:()=>void,
     clearSearch:any[],
-    inputRef:any[]
+    inputRef:any[],
+    loadFriendTransaction:()=>void
 };
 
-const LeftSideBar = ({friends,setSelectedFriend,searchUser,clearSearch,inputRef,clearSearchResult}:LeftSideBarProps) =>{
-    const [showFriendList,setShowFriendList] = useState(false);
+const LeftSideBar = ({friends,setSelectedFriend,searchUser,clearSearch,inputRef,clearSearchResult,loadFriendTransaction}:LeftSideBarProps) =>{
+    const [showFriendList,setShowFriendList] = useState(true);
 
     return(
         <>
@@ -20,7 +21,7 @@ const LeftSideBar = ({friends,setSelectedFriend,searchUser,clearSearch,inputRef,
                     
                     <div className="">
                         <ul className="mb-2">
-                            <li className="px-2 py-1 text-white hover:bg-stone-300 hover:text-black cursor-pointer select-none" onClick={()=>setSelectedFriend(false)}>Overview</li>
+                            <li className="px-2 py-1 text-white hover:bg-stone-300 hover:text-black cursor-pointer select-none" onClick={()=>setSelectedFriend([])}>Overview</li>
                             <li className="px-2 py-1 text-white hover:bg-stone-300 hover:text-black cursor-pointer select-none">Recent Activity</li>
                         </ul>
                     </div>
@@ -45,13 +46,27 @@ const LeftSideBar = ({friends,setSelectedFriend,searchUser,clearSearch,inputRef,
                     </div>
 
                     <div>
-                        <h1 className=" px-2 py-1 font-bold text-green-300 cursor-pointer select-none" onClick={()=>setShowFriendList(!showFriendList)}>Friends</h1>
+                        <h1 className=" px-2 py-1 font-bold text-green-300 select-none" 
+                            // onClick={()=>setShowFriendList(!showFriendList)}
+                        >Friends</h1>
                             
                             <div className="max-h-120 custom-overflow-track overflow-y-auto pr-2">
                                 {showFriendList&&(
                                     <ul>
                                         {friends.map((row)=>(
-                                            <li key={row.value} className="px-2 py-1 border-b-1 border-slate-700 hover:bg-slate-700 cursor-pointer">{row.label}</li>    
+                                            <li key={row.value} 
+
+                                                className="px-2 py-1 
+                                                            border-b-1 
+                                                            border-slate-700
+                                                            hover:bg-slate-700 
+                                                            cursor-pointer"
+
+                                                onClick={()=>{
+                                                    loadFriendTransaction({id:row.value});
+                                                }}
+
+                                            >{row.label}</li>    
                                         ))}
                                     </ul>
                                 )}
