@@ -44,6 +44,14 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
         }
         
     }
+    
+    const GatheringData = () =>{
+        return(
+            <div className="flex justify-center h-10 gap-2 pt-2 text-gray-200 text-sm">
+                <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+            </div>
+        );
+    }
     return(
         <>  
             <div>
@@ -61,9 +69,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                         
 
                         {friendTransitionLoading&&(
-                            <div className="flex justify-center h-10 gap-2 pt-2 text-gray-200 text-sm">
-                                <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
-                            </div>
+                            <GatheringData/>
                         )}
 
                         {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No transactions found.</p>)}
@@ -74,7 +80,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                     </div>
                 </div>
             ):(<>
-                 <BarChart/>
+                {friendTransitionLoading?(<GatheringData/>):(<BarChart/>)}
                </>
             )}
             </div>
