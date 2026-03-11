@@ -76,42 +76,48 @@ const Users = () =>{
             
             <div className="grid grid-cols-4">
                 
-                <div className="max-h-140 pt-2 overflow-x-auto custom-overflow-track">
-                    <div className="px-2">
-                        <CustomInput
-                            name="search"
-                            placeholder="Search"
-                            
-                            onKeyUp={searchUser}
-                            ref={inputRef}
-                            
-                        />
-                        {clearSearch&&(
-                            <div className="relative bg-green-300 items-end justify-end flex">
-                                <div className="cursor-pointer absolute h-8.5 px-2 text-white bg-red-400 flex justify-center items-center rounded-r-sm" onClick={clearSearchResult}>
-                                    <IoCloseSharp size={18}/>
-                                </div>
+                <div className="pt-2">
+
+                        <div className="py-1">
+                            <div className="px-2">
+                                <CustomInput
+                                    name="search"
+                                    placeholder="Search"
+                                    
+                                    onKeyUp={searchUser}
+                                    ref={inputRef}
+                                    
+                                />
+                                {clearSearch&&(
+                                    <div className="relative bg-green-300 items-end justify-end flex">
+                                        <div className="cursor-pointer absolute h-8.5 px-2 text-white bg-red-400 flex justify-center items-center rounded-r-sm" onClick={clearSearchResult}>
+                                            <IoCloseSharp size={18}/>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
 
-                    {usersLoading&&(
-                        <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
-                            <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                            {usersLoading&&(
+                                <div className="flex justify-center gap-2 pt-2 text-gray-200 text-sm">
+                                    <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                                </div>
+                            )}
+
+                            {userList.length==0&&!usersLoading&&(
+                                <p className="text-center text-gray-600">No data</p>
+                            )}
                         </div>
-                    )}
 
-                    {userList.length==0&&!usersLoading&&(
-                        <p className="text-center text-gray-600">No data</p>
-                    )}
-
-                    <div className="pt-2">
-                        {userList.map(row=>(
-                            <p key={row.id} className="text-white border-b-1 border-b-gray-800 py-1 pl-2 cursor-pointer select-none hover:bg-slate-600">{row.name}</p>
-                        ))}
-                    </div>
+                        <div className="max-h-140 overflow-x-auto custom-overflow-track">
+                            <div className="pt-2">
+                                {userList.map(row=>(
+                                    <p key={row.id} className="text-white border-b-1 border-b-gray-800 py-1 pl-2 cursor-pointer select-none hover:bg-slate-600">{row.name}</p>
+                                ))}
+                            </div>
+                        </div>
 
                 </div>
+                
                 <div className="col-span-3 p-2">
 
                     <div className="w-60 bg-slate-900 rounded-sm overflow-hidden">
@@ -125,6 +131,7 @@ const Users = () =>{
                     </div>
 
                 </div>
+                
             </div>
 
         </div>

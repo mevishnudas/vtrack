@@ -136,7 +136,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
     return(
         <>  
             <div className="bg-slate-900 border-1 border-gray-700 rounded-sm">
-                <h1 className="font-bold bg-blue-900 text-gray-50 px-4 py-1">New Record</h1>
+                <h1 className="font-bold bg-blue-900 text-gray-50 px-4 py-1 text-sm">New Record</h1>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate> 
                     <div className="px-4 py-3">
 

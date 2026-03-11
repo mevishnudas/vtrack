@@ -143,13 +143,16 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                 </>
             ):(
                 <>
-                    <div className="bg-slate-900 border-1 border-gray-700 rounded-sm">
-                        <h1 className="font-bold bg-orange-700 text-gray-50 px-4 py-1">Update Record</h1>
-                        
+                    <div className="bg-slate-900 border-1 border-gray-700 rounded-sm overflow-hidden">
+
+                        <div className="font-bold bg-orange-700 text-gray-50 px-4 py-1 text-sm">
+                            <div>{paymentInfo.payee}</div> 
+                        </div>
+
                         <div className="px-4 py-2">
 
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="grid grid-rows-4 grid-cols-2 gap-2">
+                                <div className="grid grid-cols-2 gap-2">
 
                                     <div className="col-span-1">
                                         <label className="text-white font-bold">Payment Status</label>
@@ -196,6 +199,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                         />
                                         {errors.amount && <span className="text-red-300">{errors.amount?.message}</span>}
                                     </div>
+
                                     <div className="col-span-1">
                                         <label className="text-white font-bold">Pr.Fee</label>
                                         <CustomInput
@@ -248,6 +252,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                         />
                                         {errors.distributed_date && <span className="text-red-300">{errors.distributed_date?.message}</span>}
                                     </div>
+                                    
                                     <div className="col-span-1">
                                         <label className="text-white font-bold">Payment Date</label>
                                         <CustomInput

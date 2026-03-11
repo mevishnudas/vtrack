@@ -8,6 +8,7 @@ import { useState,useEffect,useRef } from "react";
 
 import AddExpense from "./components/model/AddExpense";
 import SettleUpExpense from "./components/model/SettleUpExpense";
+import EditTransaction from "./components/model/EditTransaction";
 import ExpenseList from "./components/listing/ExpenseList";
 
 
@@ -17,8 +18,11 @@ const Splitwise = () =>{
     const [friendFilteredList,setFriendsFilteredList] = useState([]);
 
     const [addExpenseModel,setAddExpenseModel] = useState(false);
-    const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
     
+    const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
+    const [editTransactionModel,setEditTransactionModel] = useState(false);
+    const [selectedTransaction,setSelectedTransaction] = useState([]);
+
     const [expenseListOwsYou,setExpenseListOwsYou] = useState([]);
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
     const [expenseListOwsYouList,setExpenseListOwsYouList] = useState([]);
@@ -201,6 +205,12 @@ const Splitwise = () =>{
         setFriendsFilteredList(friends);
     }
 
+    const editTransaction = (transactionInfo:any) =>{
+        console.log(transactionInfo)
+        setSelectedTransaction(transactionInfo);
+        setEditTransactionModel(true);
+    }
+
     return(
         <>
             <PageTitle pageName="Splitwise"/>
@@ -246,6 +256,7 @@ const Splitwise = () =>{
                             selectedFriend={selectedFriend}
                             friendTransitions={friendTransitions}
                             friendTransitionLoading={friendTransitionLoading}
+                            editTransaction={editTransaction}
                         />
                     </div>
 
@@ -266,6 +277,12 @@ const Splitwise = () =>{
                 setOpenModel={setSettleUpExpenseModel}
                 friends={friends}
                 refreshExpenseList={refreshExpenseList}
+            />
+
+            <EditTransaction
+                openModel={editTransactionModel}
+                setOpenModel={setEditTransactionModel}
+                selectedTransaction={selectedTransaction}
             />
         </>
     );
