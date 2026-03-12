@@ -6,10 +6,11 @@ import {SimpleInput} from "../../../../components/formElements/SimpleInputs";
 type EditTransactionProps = {
     openModel:any,
     setOpenModel:()=>void,
-    selectedTransaction:any
+    selectedTransaction:any,
+    selectedFriend:any
 }
 
-const EditTransaction = ({openModel,setOpenModel,selectedTransaction}:EditTransactionProps) =>{
+const EditTransaction = ({openModel,setOpenModel,selectedTransaction,selectedFriend}:EditTransactionProps) =>{
     return(<>
         {openModel&&
             <SimpleModel isOpen={true} setModelStatus={setOpenModel}>
@@ -19,12 +20,14 @@ const EditTransaction = ({openModel,setOpenModel,selectedTransaction}:EditTransa
                     </div>
 
                     <div className="bg-slate-800 p-2">
-
+                        <p className="text-sm text-white">{selectedFriend.name}</p>
                         <div className="pb-2">
                             <SimpleInput 
                                 customClassName="w-full bg-slate-700 outline-none px-2 py-1 font-bold text-white rounded-sm border-t-0 border-l-0 border-r-0"
                                 placeholder="Amount"
                                 type="number"
+                                defaultValue={selectedTransaction.amount}
+                                autoFocus
                             />
 
                         </div>
@@ -37,8 +40,8 @@ const EditTransaction = ({openModel,setOpenModel,selectedTransaction}:EditTransa
                             </div>
 
                             <div className="flex gap-2">
-                                <button onClick={()=>setOpenModel(false)} className="bg-gray-300 text-black rounded-sm px-2">Cancel</button>
-                                <button className="bg-green-800 text-white rounded-sm px-2">Update</button>
+                                <button onClick={()=>setOpenModel(false)} className="bg-gray-300 text-black rounded-sm px-2 text-sm">Cancel</button>
+                                <button className="bg-green-800 text-white rounded-sm px-2 text-sm">Update</button>
                             </div>
                         </div>
 

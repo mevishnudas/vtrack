@@ -5,17 +5,15 @@ import Add from "./sections/Add";
 import {fetchRequest} from "../../services/Fetch";
 
 import PageTitle from "../../utils/PageTitle";
+import { format } from "date-fns";
+
 const Repayment = () =>{
-    const [refreshList,setRefreshList] = useState(0);
     const [bankList,setBankList] = useState([]);
     const [userList,setUserList] = useState([]);
     const [yearList,setYearList] = useState([]);
     const [paymentList,setPaymentList] = useState([]);
     const [selectedPaymentDetail,setPaymentDetail] = useState([]);
 
-    const refreshTheList = () =>{
-        setRefreshList(prev=>prev+1);
-    }
 
     const loadBanks = async () =>{
       
@@ -26,7 +24,6 @@ const Repayment = () =>{
         });
 
         if(response.request){
-            console.log("Response ",response.data?.data);
             setBankList(response.data?.data);
         }
     }
@@ -40,7 +37,6 @@ const Repayment = () =>{
         });
 
         if(response.request){
-            //console.log("Response ",response.data?.data);
             setUserList(response.data?.data);
         }
     }
@@ -81,8 +77,47 @@ const Repayment = () =>{
     }
 
     const selectedPaymentInfo = (row:any) =>{
-        //console.log(row);
         setPaymentDetail(row);
+    }
+
+    
+    const [repaymentList,setRepaymentList] = useState([]);
+    const [repaymentListLoading,setRepaymentListLoading] = useState(false);
+
+    const [selectedMonth,setSelectedMonth] = useState(format(new Date(), "M"));
+    const [selectedYear,setSelectedYear] = useState(format(new Date(), "yyyy"));
+    const [selectedUser,setSelectedUser] = useState(0);
+
+    const loadRepayments = async (refresh=false) =>{
+
+        setRepaymentListLoading(true);
+        if(!refresh) //if not refresh
+        { setRepaymentList([]);}
+
+        let body = {
+            year:selectedYear,
+            month:selectedMonth,
+            payee:selectedUser
+        };
+
+        let params = {
+            path:"repayment/list",
+            method:"POST",
+            auth:true,
+            body:body
+        }
+
+        let response = await fetchRequest(params);
+        if(response.request){
+            if (Array.isArray(response.data?.data)) {
+                setRepaymentList(response.data?.data);
+            }
+        }
+        setRepaymentListLoading(false);
+    }
+
+    const refreshTheList = () =>{
+        loadRepayments(true);
     }
 
     useEffect(()=>{
@@ -92,6 +127,8 @@ const Repayment = () =>{
       loadYears(); //load year list
       loadPaymentStatus(); //Payment status list
       
+
+      loadRepayments(); //Load Repayment List
       return ()=>{
 
       }
@@ -108,11 +145,23 @@ const Repayment = () =>{
                     
                       <div className="col-span-1 py-2 px-1">
                         <List 
-                              refreshList={refreshList} 
                               userList={userList}
+                              selectedUser={selectedUser}
+                              setSelectedUser={setSelectedUser}
+
                               yearList={yearList}
-                              selectedPaymentInfo={selectedPaymentInfo}
                               
+                              selectedYear={selectedYear}
+                              setSelectedYear={setSelectedYear}
+
+                              selectedMonth={selectedMonth}
+                              setSelectedMonth={setSelectedMonth}
+
+                              loading={repaymentListLoading}
+                              repaymentList={repaymentList}
+                              
+                              selectedPaymentInfo={selectedPaymentInfo}
+                              loadRepayments={loadRepayments}
                         />
                       </div>
                       

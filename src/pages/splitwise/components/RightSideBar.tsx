@@ -12,11 +12,9 @@ type RightSideBarProps = {
 };
 const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,editTransaction}:RightSideBarProps) =>{
     
-    // useEffect(()=>{
 
-    // },[selectedFriend]);
     const FriendOwsStatus = ({friendInfo}:any) =>{
-        // console.log(friendInfo);
+  
         switch (friendInfo.ows_status) {
             
             case "OWS_YOU":
@@ -76,7 +74,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,
                         {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No transactions found.</p>)}
 
                         {friendTransitions.map((row)=>(
-                            <div className="cursor-pointer hover:bg-slate-800" onClick={()=>editTransaction(row)}>
+                            <div key={row.id} className="cursor-pointer hover:bg-slate-800" onClick={()=>editTransaction(row)}>
                                 <Transaction key={row.id} info={row} selectedFriend={selectedFriend}/>
                             </div>
                         ))}

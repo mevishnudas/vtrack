@@ -206,7 +206,6 @@ const Splitwise = () =>{
     }
 
     const editTransaction = (transactionInfo:any) =>{
-        console.log(transactionInfo)
         setSelectedTransaction(transactionInfo);
         setEditTransactionModel(true);
     }
@@ -283,6 +282,7 @@ const Splitwise = () =>{
                 openModel={editTransactionModel}
                 setOpenModel={setEditTransactionModel}
                 selectedTransaction={selectedTransaction}
+                selectedFriend={selectedFriend}
             />
         </>
     );

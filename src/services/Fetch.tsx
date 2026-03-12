@@ -116,8 +116,6 @@ const fetchRequest = async (params:parameters02) =>{
         return response;
     }
 
-
-
 }
 
 const reLogin = async () =>{

@@ -1,69 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PaymentDetailCard from "../../../components/cards/PaymentDetailCard";
-import {fetchRequest} from "../../../services/Fetch";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import { ImSpinner11 } from "react-icons/im";
 import { FaFilter } from "react-icons/fa";
 import {Month} from "../../../utils/Month";
-import { format } from "date-fns";
 
 type params ={
-    refreshList:number,
     userList:any[],
+    selectedUser:number,
+    setSelectedUser:any,
+
     yearList:any[],
-    selectedPaymentInfo:object
+
+    selectedYear:string,
+    setSelectedYear:any,
+
+    selectedMonth:string,
+    setSelectedMonth:any,
+    
+    loading:boolean,
+    repaymentList:any[],
+    selectedPaymentInfo:Function,
+
+    loadRepayments:Function
 }
 
-const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
-    const [repaymentList,setRepaymentList] = useState([]);
-    const [loading,setLoading] = useState(false);
-    const [selectedMonth,setSelectedMonth] = useState(format(new Date(), "M"));
-    const [selectedYear,setSelectedYear] = useState(format(new Date(), "yyyy"));
-    const [selectedUser,setSelectedUser] = useState(0);
+const List = ({
+    userList,
+    selectedUser,
+    setSelectedUser,
 
-    const loadRepayments = async () =>{
+    yearList,
+    selectedPaymentInfo,
+    selectedYear,
+    setSelectedYear,
+    selectedMonth,
+    setSelectedMonth,
+    loading,
+    repaymentList,
 
-        setLoading(true);
-        setRepaymentList([]);
-
-        let body = {
-            year:selectedYear,
-            month:selectedMonth,
-            payee:selectedUser
-        };
-
-        let params = {
-            path:"repayment/list",
-            method:"POST",
-            auth:true,
-            body:body
-        }
-
-        let response = await fetchRequest(params);
-        if(response.request){
-            if (Array.isArray(response.data?.data)) {
-                setRepaymentList(response.data?.data);
-                //console.log("TEST",response.data?.data[0].payee);
-            }
-        }
-        setLoading(false);
-    }
-
-
-    useEffect(function(){
+    loadRepayments
+}:params) =>{
+    
+    // useEffect(()=>{
         
-        loadRepayments(); //Load Repayments
+    //     console.log("First ",repaymentList);
 
-        //return
-        return ()=>{
+    // },[loading,repaymentList]);
 
-        }
-
-    },[refreshList]);
-
-    // const test = () =>{
-    //     console.log(format(new Date(), "M"));
-    // }
     return(
         <>  
             <div>
@@ -98,20 +82,24 @@ const List = ({refreshList,userList,yearList,selectedPaymentInfo}:params) =>{
                         <button disabled={loading} className="bg-blue-700 active:bg-blue-900 disabled:bg-blue-900 text-amber-50 px-2 py-1 rounded-sm" onClick={loadRepayments}><FaFilter size={15}/></button>
                     </div>
                 </div>
-
-                {loading&&(
-                    <div className="flex justify-center gap-2 pt-2 text-gray-200">
-                        <CgSpinnerTwoAlt size={25} className="animate-spin"/> Gathering data...
-                    </div>
-                )}
-
+                
                 {!loading&&repaymentList.length===0&&(
                     <div className="text-center pt-2  flex gap-2 justify-center items-center text-gray-300">
                         <span>No Data.</span> <span className="flex justify-center items-center gap-2 font-bold cursor-pointer" onClick={loadRepayments}><ImSpinner11 size={15}/>Refresh</span>
                     </div>
                 )}
 
-                <div className="pt-2 overflow-x-auto max-h-200 custom-overflow-track pr-1">
+                {loading&&(
+                    <div className="w-full relative">
+                        <div className="flex absolute w-full justify-center gap-2 py-1 text-gray-200 bg-blue-900 text-sm">
+                            <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                        </div>
+                    </div>
+                )}
+
+                <div className={`pt-2 overflow-x-hidden max-h-200 custom-overflow-track pr-1 ${loading&&"pointer-events-none"}`} >
+                    
+
                     {repaymentList.map((row, index)=>(
 
                         <div className="cursor-pointer" key={index}  onClick={()=>selectedPaymentInfo(row)}>
