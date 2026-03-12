@@ -8,7 +8,7 @@ import { useState,useEffect,useRef } from "react";
 
 import AddExpense from "./components/model/AddExpense";
 import SettleUpExpense from "./components/model/SettleUpExpense";
-import EditTransaction from "./components/model/EditTransaction";
+//import EditTransaction from "./components/model/EditTransaction";
 import ExpenseList from "./components/listing/ExpenseList";
 
 
@@ -20,8 +20,8 @@ const Splitwise = () =>{
     const [addExpenseModel,setAddExpenseModel] = useState(false);
     
     const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
-    const [editTransactionModel,setEditTransactionModel] = useState(false);
-    const [selectedTransaction,setSelectedTransaction] = useState([]);
+    // const [editTransactionModel,setEditTransactionModel] = useState(false);
+    // const [selectedTransaction,setSelectedTransaction] = useState([]);
 
     const [expenseListOwsYou,setExpenseListOwsYou] = useState([]);
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
@@ -171,18 +171,7 @@ const Splitwise = () =>{
         search = search.toLowerCase();
 
         if(search.length!=""){
-            //Ows You
-            // const ows_you = expenseListOwsYouList.filter(row =>
-            //     row.name.toLowerCase().includes(search)
-            // );
-            // setExpenseListOwsYou(ows_you);
-
-            //You Owe
-            // const you_owe = expenseListYouOwsList.filter(row =>
-            //     row.name.toLowerCase().includes(search)
-            // );
-            // setExpenseListYouOws(you_owe);
-
+            
             //All friend list sort 
             const sorted_friend_list = friends.filter(row =>
                 row.label.toLowerCase().includes(search)
@@ -198,17 +187,15 @@ const Splitwise = () =>{
     const clearSearchResult = () =>{
         
         inputRef.current.value = "";
-
         setClearSearch(false);
-        //setExpenseListOwsYou(expenseListOwsYouList);
-        //setExpenseListYouOws(expenseListYouOwsList);
         setFriendsFilteredList(friends);
     }
 
-    const editTransaction = (transactionInfo:any) =>{
-        setSelectedTransaction(transactionInfo);
-        setEditTransactionModel(true);
-    }
+    // const editTransaction = (transactionInfo:any) =>{
+    //     //setSelectedTransaction(transactionInfo);
+    //     //setEditTransactionModel(true);
+    //     alert("Hi");
+    // }
 
     return(
         <>
@@ -255,7 +242,7 @@ const Splitwise = () =>{
                             selectedFriend={selectedFriend}
                             friendTransitions={friendTransitions}
                             friendTransitionLoading={friendTransitionLoading}
-                            editTransaction={editTransaction}
+                            //editTransaction={editTransaction}
                         />
                     </div>
 
@@ -278,12 +265,12 @@ const Splitwise = () =>{
                 refreshExpenseList={refreshExpenseList}
             />
 
-            <EditTransaction
+            {/* <EditTransaction
                 openModel={editTransactionModel}
                 setOpenModel={setEditTransactionModel}
                 selectedTransaction={selectedTransaction}
                 selectedFriend={selectedFriend}
-            />
+            /> */}
         </>
     );
 

@@ -1,17 +1,21 @@
 import Transaction from "./transactions/Transactions";
-import { useEffect } from "react";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import BarChart from './chart/BarChart';
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import { SimpleInput,SimpleTextArea } from "../../../components/formElements/SimpleInputs";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { ImSpinner3 } from "react-icons/im";
+import { useState,useEffect } from "react";
 
 type RightSideBarProps = {
     selectedFriend:any[]
     friendTransitions:any[],
     friendTransitionLoading:boolean,
-    editTransaction:()=>void
+    //editTransaction:()=>void
 };
-const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,editTransaction}:RightSideBarProps) =>{
+const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}:RightSideBarProps) =>{
     
+    const [selectedTransaction,setSelectedTransaction] = useState([]);
 
     const FriendOwsStatus = ({friendInfo}:any) =>{
   
@@ -51,6 +55,79 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,
             </div>
         );
     }
+
+    const TransactionList = () =>{
+        return(
+            <>
+            {friendTransitionLoading&&(<GatheringData/>)}
+
+            {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No transactions found.</p>)}
+
+            {friendTransitions.map((row)=>(
+                <div key={row.id} className="cursor-pointer hover:bg-slate-800" onClick={()=>selectTransaction(row)}>
+                    <Transaction key={row.id} info={row} selectedFriend={selectedFriend}/>
+                </div>
+            ))}
+            </>
+        );
+    }
+
+    const EditTransactionForm = () =>{
+        return(
+            <>
+            <div className="pt-2 border-b-gray-800 border-b-1 rounded-sm p-2">
+                <div>
+                    <label className="text-sm text-gray-300">Amount</label>
+                    <SimpleInput 
+                        customClassName="border-2 border-slate-800 w-full" 
+                        placeholder="Amount"
+                        defaultValue={selectedTransaction.amount}
+                    />
+                </div>
+                <div className="pt-2">
+                    <label className="text-sm text-gray-300">Remarks</label>
+                    <SimpleTextArea 
+                        customClassName="border-2 border-slate-800 w-full p-2" 
+                        placeholder="Remarks"
+                        defaultValue={selectedTransaction.remarks}
+                    />
+                </div>
+
+                <div className="pt-2 flex justify-between">
+                    <div>
+                        <button className="text-red-400 hover:text-red-500">
+                            <RiDeleteBin6Line className="cursor-pointer"/>
+                        </button>
+                    </div>
+                    <div className="flex gap-2">
+                        <button onClick={()=>setSelectedTransaction([])} className="bg-gray-300 hover:bg-gray-400 rounded-sm px-2 text-black cursor-pointer">Cancel</button>
+                        
+                        <button className="bg-green-700 hover:bg-green-800 rounded-sm px-2 cursor-pointer flex justify-center items-center gap-2">
+                            <ImSpinner3 className="animate-spin"/> Update
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            </>
+        );
+    }
+
+    const selectTransaction = (row) =>{
+        setSelectedTransaction(row);
+    }
+
+    useEffect(()=>{
+        //console.log(selectedTransaction);
+        //setSelectedTransaction([]);
+        //setSelectedTransaction([]);
+
+        return () =>{
+            setSelectedTransaction([]);
+        }
+
+    },[friendTransitions]);
+
     return(
         <>  
             <div>
@@ -66,18 +143,14 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,
 
                     <div className="max-h-120 overflow-y-auto custom-overflow-track pr-1 pt-1">
                         
-
-                        {friendTransitionLoading&&(
-                            <GatheringData/>
+                        
+                        {selectedTransaction?.id?(
+                            <EditTransactionForm/>
+                        ):(
+                            <TransactionList/>
                         )}
+                        
 
-                        {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No transactions found.</p>)}
-
-                        {friendTransitions.map((row)=>(
-                            <div key={row.id} className="cursor-pointer hover:bg-slate-800" onClick={()=>editTransaction(row)}>
-                                <Transaction key={row.id} info={row} selectedFriend={selectedFriend}/>
-                            </div>
-                        ))}
                     </div>
                 </div>
             ):(<>
