@@ -9,9 +9,10 @@ type RightSideBarProps = {
     selectedFriend:any[]
     friendTransitions:any[],
     friendTransitionLoading:boolean,
+    refreshExpenseList:Function
     //editTransaction:()=>void
 };
-const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}:RightSideBarProps) =>{
+const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,refreshExpenseList}:RightSideBarProps) =>{
     
     const [selectedTransaction,setSelectedTransaction] = useState([]);
 
@@ -74,9 +75,6 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
     }
 
     useEffect(()=>{
-        //console.log(selectedTransaction);
-        //setSelectedTransaction([]);
-        //setSelectedTransaction([]);
 
         return () =>{
             setSelectedTransaction([]);
@@ -105,6 +103,7 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading}
                             <EditTransactionForm 
                                 selectedTransaction={selectedTransaction}
                                 setSelectedTransaction={setSelectedTransaction}
+                                refreshExpenseList={refreshExpenseList}
                              />
                         ):(
                             <TransactionList/>

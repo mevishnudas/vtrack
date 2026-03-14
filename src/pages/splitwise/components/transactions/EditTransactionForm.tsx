@@ -10,10 +10,11 @@ import { fetchRequest } from "../../../../services/Fetch";
 
 type EditTransactionFormProps = {
     selectedTransaction:any,
-    setSelectedTransaction:Function
+    setSelectedTransaction:Function,
+    refreshExpenseList:Function
 }
 
-const EditTransactionForm = ({selectedTransaction,setSelectedTransaction}:EditTransactionFormProps) =>{
+const EditTransactionForm = ({selectedTransaction,setSelectedTransaction,refreshExpenseList}:EditTransactionFormProps) =>{
     const [loading,setLoading] = useState(false);
 
     const schema = yup
@@ -35,7 +36,7 @@ const EditTransactionForm = ({selectedTransaction,setSelectedTransaction}:EditTr
         setLoading(true);
         
         let response = await fetchRequest({
-            path:"test",
+            path:"splitwise/expense/friend/transaction/update",
             method:"POST",
             auth:true,
             body:{
@@ -44,9 +45,26 @@ const EditTransactionForm = ({selectedTransaction,setSelectedTransaction}:EditTr
                 "remarks":data.remarks
             }
         });
-
-        setLoading(false);
+        
+        setSelectedTransaction([]);
+        refreshExpenseList();
     }   
+
+    const deleteTransaction = async () =>{
+        setLoading(true);
+        
+        let response = await fetchRequest({
+            path:"splitwise/expense/friend/transaction/delete",
+            method:"POST",
+            auth:true,
+            body:{
+                "id":selectedTransaction.id
+            }
+        });
+
+        setSelectedTransaction([]);
+        refreshExpenseList();
+    }
 
     return(
             <>
@@ -56,6 +74,7 @@ const EditTransactionForm = ({selectedTransaction,setSelectedTransaction}:EditTr
                         <label className="text-sm text-gray-300">Amount</label>
                         <SimpleInput 
                             type="number"
+                            step="any"
                             customClassName="border-2 border-slate-800 w-full" 
                             placeholder="Amount"
                             defaultValue={selectedTransaction.amount}
@@ -77,7 +96,13 @@ const EditTransactionForm = ({selectedTransaction,setSelectedTransaction}:EditTr
 
                     <div className="pt-2 flex justify-between">
                         <div>
-                            <button disabled={loading} className="text-red-400 hover:text-red-500 disabled:text-red-400">
+                            <button 
+                                    disabled={loading} 
+                                    type="button"
+                                    className="text-red-400 hover:text-red-500 disabled:text-red-400"
+
+                                    onClick={deleteTransaction}
+                            >
                                 <RiDeleteBin6Line className="cursor-pointer"/>
                             </button>
                         </div>

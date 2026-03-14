@@ -242,6 +242,7 @@ const Splitwise = () =>{
                             selectedFriend={selectedFriend}
                             friendTransitions={friendTransitions}
                             friendTransitionLoading={friendTransitionLoading}
+                            refreshExpenseList={refreshExpenseList}
                             //editTransaction={editTransaction}
                         />
                     </div>
