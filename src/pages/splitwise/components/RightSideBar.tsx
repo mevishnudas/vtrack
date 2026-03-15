@@ -61,7 +61,10 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,
             {friendTransitions.length==0&&!friendTransitionLoading&&(<p className="text-gray-400 text-center text-sm">No transactions found.</p>)}
 
             {friendTransitions.map((row)=>(
-                <div key={row.id} className="cursor-pointer hover:bg-slate-800" onClick={()=>selectTransaction(row)}>
+                <div key={row.id} 
+                    className={`${row.edit&&('cursor-pointer')} hover:bg-slate-800`} 
+                    onClick={()=>selectTransaction(row)}
+                >
                     <Transaction key={row.id} info={row} selectedFriend={selectedFriend}/>
                 </div>
             ))}
@@ -71,6 +74,9 @@ const RightSideBar = ({selectedFriend,friendTransitions,friendTransitionLoading,
 
 
     const selectTransaction = (row) =>{
+        if(!row.edit){
+            return false;
+        }
         setSelectedTransaction(row);
     }
 

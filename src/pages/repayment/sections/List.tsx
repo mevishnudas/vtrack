@@ -89,29 +89,34 @@ const List = ({
                     </div>
                 )}
 
-                {loading&&(
+                
+                <div>
+                    {loading&&(
                     <div className="w-full relative">
-                        <div className="flex absolute w-full justify-center gap-2 py-1 text-gray-200 bg-blue-900 text-sm">
-                            <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                            <div className="flex absolute w-full h-screen justify-center items-center gap-2 py-1 text-white text-shadow-gray-300 bg-gray-950/30 text-sm">
+                                <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
+                            </div>
                         </div>
+                    )}
+
+                    <div className={`pt-2 overflow-x-hidden max-h-200 custom-overflow-track pr-1 ${loading&&"pointer-events-none"}`} >
+                        
+                        
+                        
+                        {repaymentList.map((row, index)=>(
+
+                            <div className="cursor-pointer" key={index}  onClick={()=>selectedPaymentInfo(row)}>
+                                <PaymentDetailCard 
+                                    listData={row} 
+                                    
+                                    className="mb-4"
+                                />
+                            </div>
+
+                        ))}
                     </div>
-                )}
-
-                <div className={`pt-2 overflow-x-hidden max-h-200 custom-overflow-track pr-1 ${loading&&"pointer-events-none"}`} >
-                    
-
-                    {repaymentList.map((row, index)=>(
-
-                        <div className="cursor-pointer" key={index}  onClick={()=>selectedPaymentInfo(row)}>
-                            <PaymentDetailCard 
-                                listData={row} 
-                                
-                                className="mb-4"
-                            />
-                        </div>
-
-                    ))}
                 </div>
+
             </div>
         </>
     );

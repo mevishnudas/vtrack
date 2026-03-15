@@ -8,7 +8,6 @@ import { useState,useEffect,useRef } from "react";
 
 import AddExpense from "./components/model/AddExpense";
 import SettleUpExpense from "./components/model/SettleUpExpense";
-//import EditTransaction from "./components/model/EditTransaction";
 import ExpenseList from "./components/listing/ExpenseList";
 
 
@@ -20,8 +19,6 @@ const Splitwise = () =>{
     const [addExpenseModel,setAddExpenseModel] = useState(false);
     
     const [settleUpExpenseModel,setSettleUpExpenseModel] = useState(false);
-    // const [editTransactionModel,setEditTransactionModel] = useState(false);
-    // const [selectedTransaction,setSelectedTransaction] = useState([]);
 
     const [expenseListOwsYou,setExpenseListOwsYou] = useState([]);
     const [expenseListYouOws,setExpenseListYouOws] = useState([]);
@@ -191,12 +188,6 @@ const Splitwise = () =>{
         setFriendsFilteredList(friends);
     }
 
-    // const editTransaction = (transactionInfo:any) =>{
-    //     //setSelectedTransaction(transactionInfo);
-    //     //setEditTransactionModel(true);
-    //     alert("Hi");
-    // }
-
     return(
         <>
             <PageTitle pageName="Splitwise"/>
@@ -266,12 +257,6 @@ const Splitwise = () =>{
                 refreshExpenseList={refreshExpenseList}
             />
 
-            {/* <EditTransaction
-                openModel={editTransactionModel}
-                setOpenModel={setEditTransactionModel}
-                selectedTransaction={selectedTransaction}
-                selectedFriend={selectedFriend}
-            /> */}
         </>
     );
 

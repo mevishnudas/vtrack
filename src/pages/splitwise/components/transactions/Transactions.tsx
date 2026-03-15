@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+// import { GoDotFill } from "react-icons/go";
 
 type TransactionProps = {
     info:any[],
@@ -27,7 +28,7 @@ const Transaction = ({info,selectedFriend}:TransactionProps) =>{
         
         <div className={`grid grid-cols-2 py-2 border-b-1 border-b-gray-800 px-2 mb-1`}>
             
-            <div>
+            <div className="flex gap-2 justify-start items-center">
                 <p className="text-xs text-gray-400">{format(new Date(info.date), "dd-MMM-yyyy")} | {format(new Date(info.date), "hh:mm a")}</p>
             </div>
             
