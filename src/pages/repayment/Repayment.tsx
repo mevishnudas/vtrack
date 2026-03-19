@@ -14,7 +14,6 @@ const Repayment = () =>{
     const [paymentList,setPaymentList] = useState([]);
     const [selectedPaymentDetail,setPaymentDetail] = useState([]);
 
-
     const loadBanks = async () =>{
       
         let response = await fetchRequest({
@@ -172,6 +171,8 @@ const Repayment = () =>{
                             <div className="col-span-1">
                               <Update 
                                   selectedPaymentDetail={selectedPaymentDetail}
+                                  setPaymentDetail={setPaymentDetail}
+
                                   bankList={bankList}
                                   paymentList={paymentList}
                                   refreshList={refreshTheList}

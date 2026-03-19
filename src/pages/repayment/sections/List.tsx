@@ -96,7 +96,7 @@ const List = ({
                         <div className="absolute inset-0 flex justify-center items-center gap-2 py-5 text-white text-shadow-gray-300 bg-gray-950/30 text-sm">
                             <CgSpinnerTwoAlt size={20} className="animate-spin"/> Gathering data...
                         </div>
-                     )}
+                    )}
 
                     <div className={`pt-2 overflow-x-hidden max-h-200 custom-overflow-track pr-1 ${loading&&"pointer-events-none"}`} >
 
@@ -112,6 +112,8 @@ const List = ({
 
                         ))}
                     </div>
+
+
                 </div>
 
             </div>

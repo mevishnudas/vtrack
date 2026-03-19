@@ -16,7 +16,13 @@ const Emi = () =>{
     const [emiPrincipleStatusList,setEmiPrincipleStatusList] = useState([]);
     
     const [selectedEmi,setSelectedEmi] = useState([]);
-    const [reFreshList,setRefreshList] = useState(1);
+    //const [reFreshList,setRefreshList] = useState(1);
+
+    const [emiList,setEmiList] = useState([]);
+    const [emiLoading,setEmiLoading] = useState(false);
+    const [selectedEmiStatus,setSelectedEmiStatus] = useState("OPEN");
+    const [selectedPayee,setSelectedPayee] = useState(0);
+    const [selectedBank,setSelectedBank] = useState(0);
 
     const loadBanks = async () =>{
           
@@ -71,9 +77,9 @@ const Emi = () =>{
         }
     }
     
-    const reFreshEmiList = () =>{
-        setRefreshList(prev=>prev+1);
-    }
+    // const reFreshEmiList = () =>{
+    //     setRefreshList(prev=>prev+1);
+    // }
 
     const updateEMI = async (data:any[],id:number) =>{
 
@@ -99,7 +105,9 @@ const Emi = () =>{
                 status:data.status,
                 remarks:data.remarks
             }));
-            reFreshEmiList();
+            
+            loadEmiList(true);
+
         }else{
             toastErrorBottomRight({
                 message:"Error occurred!"
@@ -112,17 +120,47 @@ const Emi = () =>{
 
         return(
             <div className="bg-slate-900 rounded-sm border-1 border-slate-800 py-2">
-                <p className="text-center text-slate-200">Selected data appears here.</p>
+                <p className="text-center text-slate-200">EMI details are shown here.</p>
             </div>
         );
         
     }
+
+    const loadEmiList = async (refresh=false) =>{
+        
+        setEmiLoading(true); //loading
+
+        if(!refresh)
+        { setEmiList([]);}
+
+        let response = await fetchRequest({
+            path:"repayment/emi/list",
+            auth:true,
+            method:"POST",
+            body:{
+                    status:selectedEmiStatus,
+                    payee:selectedPayee,
+                    bank:selectedBank
+                }
+        });
+    
+        if(response.request){
+            setEmiList(response.data?.data);
+        }
+
+        setEmiLoading(false);
+    } 
+
     useEffect(()=>{
 
         loadBanks();
         loadPayee();
         loadEmiStatus();
         loadEmiPrincipleStatus();
+
+        
+        //Load emi list
+        loadEmiList();
 
     },[]);
 
@@ -139,7 +177,7 @@ const Emi = () =>{
                                 bank_list={bankList}
                                 payee_list={userList}
 
-                                reFreshEmiList={reFreshEmiList}
+                                reFreshEmiList={loadEmiList}
                             />
                         </div>
 
@@ -147,9 +185,25 @@ const Emi = () =>{
                             <EmiList
                                 payee_list={userList}
                                 emi_status_list={emiStatusList}
+                                bank_list={bankList}
+                                
+                                emiList={emiList}
+                                loading={emiLoading}
 
-                                refresh={reFreshList}
-                                selectedEmi={setSelectedEmi}
+                                selectedEmiStatus={selectedEmiStatus}
+                                setSelectedEmiStatus={setSelectedEmiStatus}
+
+                                selectedPayee={selectedPayee}
+                                setSelectedPayee={setSelectedPayee}
+
+                                selectedBank={selectedBank}
+                                setSelectedBank={setSelectedBank}
+
+                                // refresh={reFreshList}
+                                selectedEmi={selectedEmi}
+                                setSelectedEmi={setSelectedEmi}
+                                
+                                loadEmiList={loadEmiList}
                             />
                         </div>
 
@@ -158,6 +212,8 @@ const Emi = () =>{
                             <DetailEmi
                                 emi_status_list={emiStatusList}
                                 emi_data={selectedEmi}
+                                setSelectedEmi={setSelectedEmi}
+
                                 emiPrincipleStatusList={emiPrincipleStatusList}
                                 updateEMI={updateEMI}
                             />)}

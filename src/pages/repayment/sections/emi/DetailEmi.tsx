@@ -16,6 +16,7 @@ import EmiPrincipleAdd from "./components/EmiPrincipleAdd";
 import EmiPrincipleUpdate from "./components/EmiPrincipleUpdate";
 
 import EmiSchedule from "./components/EmiSchedule";
+import { IoIosClose } from "react-icons/io";
 
 const updateEMIStatusSchema = yup.object({
     remarks:yup.string().nullable(),
@@ -26,10 +27,11 @@ const updateEMIStatusSchema = yup.object({
 type detailEmiProps ={
     emi_status_list:any[],
     emi_data:any[],
+    setSelectedEmi:Function,
     emiPrincipleStatusList:any[],
     updateEMI:any
 }
-const DetailEmi = ({emi_status_list,emi_data,emiPrincipleStatusList,updateEMI}:detailEmiProps) =>{
+const DetailEmi = ({emi_status_list,setSelectedEmi,emi_data,emiPrincipleStatusList,updateEMI}:detailEmiProps) =>{
 
     const {
         register,
@@ -222,8 +224,8 @@ const DetailEmi = ({emi_status_list,emi_data,emiPrincipleStatusList,updateEMI}:d
                     </div>
                     
                     <form onSubmit={handleSubmit(updateEMIStatus)}>
-                        <div className=" grid grid-cols-3 gap-2 p-2 bg-amber-100">
-                            <div className="col-span-3">
+                        <div className=" grid grid-cols-4 gap-2 p-2 bg-amber-100">
+                            <div className="col-span-4">
                                 <CustomTextArea
                                     name="remarks"
                                     placeholder="Remarks"
@@ -259,7 +261,7 @@ const DetailEmi = ({emi_status_list,emi_data,emiPrincipleStatusList,updateEMI}:d
                                 <p className="text-sm text-red-700">{errors.status?.message}</p>
                             </div>
 
-                            <div className="h-8">
+                            <div className="h-8 col-span-2 gap-2 flex">
                                 <button 
                                     className="bg-blue-600 disabled:bg-blue-900 px-4 py-1 text-white rounded-sm flex gap-2 justify-center items-center"
                                     type="submit"
@@ -272,6 +274,13 @@ const DetailEmi = ({emi_status_list,emi_data,emiPrincipleStatusList,updateEMI}:d
                                         <span>Update</span>
                                     </>)}
 
+                                </button>
+
+                                <button type="button" 
+                                    disabled={emiStatusUpdating} 
+                                    onClick={()=>setSelectedEmi([])}
+                                    className="bg-gray-300 hover:bg-gray-400 disabled:bg-gray-400 py-1 p-2 rounded-sm flex justify-start items-center gap-1">
+                                    <IoIosClose size={18}/>
                                 </button>
                             </div>
 

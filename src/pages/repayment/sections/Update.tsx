@@ -29,7 +29,8 @@ type updateProps = {
     selectedPaymentDetail:any[],
     bankList:any[],
     paymentList:any[],
-    refreshList:any
+    refreshList:any,
+    setPaymentDetail:Function
 };
 
 type PaymentInfo  = {
@@ -44,9 +45,8 @@ type PaymentInfo  = {
     distributed_date:string
 };
 
-const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateProps) =>{
+const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList,setPaymentDetail}:updateProps) =>{
     
-    const [paymentInfo,setPaymentInfo] = useState<PaymentInfo>([]);
     const [updating,setUpdating] = useState(false);
     const [updateError,setUpdateError] = useState("");
     const [totalAmount,setTotalAmount] = useState(0);
@@ -54,7 +54,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
     const {
         register,
         handleSubmit,
-        setValue,
+        //setValue,
         getValues,
         reset,
         formState: { errors },
@@ -72,7 +72,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
         setUpdating(true);
 
         let elements = {
-            record_id:paymentInfo.id,
+            record_id:selectedPaymentDetail.id,
             amount:data.amount,
             pr_fee:data.pr_fee,
             charges:data.charges,
@@ -99,8 +99,8 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                 message:'Updated Successfully'
             });
                 
-            reset();
-            setPaymentInfo([]);
+            //reset();
+            //setPaymentInfo([]);
             refreshList();
 
         }else{
@@ -123,7 +123,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
 
     useEffect(()=>{
         
-        setPaymentInfo(selectedPaymentDetail);
+        //setPaymentInfo(selectedPaymentDetail);
         setTotalAmount(selectedPaymentDetail.total);
         reset();
             
@@ -131,7 +131,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
 
     return(
         <>  
-            {paymentInfo.length===0?(
+            {selectedPaymentDetail.length===0?(
                 <>  
                     <div className="bg-gray-800 border-1 border-gray-700 rounded-sm px-2 py-2">
 
@@ -146,7 +146,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                     <div className="bg-slate-900 border-1 border-gray-700 rounded-sm overflow-hidden">
 
                         <div className="font-bold bg-orange-700 text-gray-50 px-4 py-1 text-sm">
-                            <div>{paymentInfo.payee}</div> 
+                            <div>{selectedPaymentDetail.payee}</div> 
                         </div>
 
                         <div className="px-4 py-2">
@@ -160,7 +160,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             name="payment_status"
                                             label="Choose Option"
                                             optionsList={paymentList}
-                                            defaultValue={paymentInfo.payment_status}
+                                            defaultValue={selectedPaymentDetail.payment_status}
                                             
                                             register={register}
                                             customClassName="w-full"
@@ -175,7 +175,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             label="Choose Option"
                                             optionsList={bankList}
 
-                                            defaultValue={paymentInfo.from_id}
+                                            defaultValue={selectedPaymentDetail.from_id}
                                             //defaultValue={0}
                                             register={register}
 
@@ -192,7 +192,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             inputType={"number"}
                                             
                                             onValueChange={reCalcTotal}
-                                            defaultValue={paymentInfo.amount}
+                                            defaultValue={selectedPaymentDetail.amount}
                                             // value={paymentInfo.amount}
 
                                             register={register}
@@ -208,7 +208,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             inputType={"number"}
 
                                             onValueChange={reCalcTotal}
-                                            defaultValue={paymentInfo.pr_fee}
+                                            defaultValue={selectedPaymentDetail.pr_fee}
 
                                             register={register}
                                         />
@@ -223,7 +223,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             inputType={"number"}
                                             
                                             onValueChange={reCalcTotal}
-                                            defaultValue={paymentInfo.charges}
+                                            defaultValue={selectedPaymentDetail.charges}
 
                                             register={register}
                                         />
@@ -248,7 +248,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             inputType={"date"}
 
                                             register={register}
-                                            defaultValue={paymentInfo.distributed_date}
+                                            defaultValue={selectedPaymentDetail.distributed_date}
                                         />
                                         {errors.distributed_date && <span className="text-red-300">{errors.distributed_date?.message}</span>}
                                     </div>
@@ -260,7 +260,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             inputType={"date"}
                                             
                                             register={register}
-                                            defaultValue={paymentInfo.payment_date}
+                                            defaultValue={selectedPaymentDetail.payment_date}
                                         />
                                         {errors.payment_date && <span className="text-red-300">{errors.payment_date?.message}</span>}
                                     </div>
@@ -272,7 +272,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                             customClassName="w-full"
 
                                             register={register}
-                                            defaultValue={paymentInfo.remarks}
+                                            defaultValue={selectedPaymentDetail.remarks}
                                             
                                         />
                                         {errors.remarks && <span className="text-red-300">{errors.remarks?.message}</span>}
@@ -282,7 +282,7 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
 
                                 {/* Button Area  */}
                                 <div className="grid grid-cols-2 gap-2 pt-1">
-                                    <div>
+                                    <div className="flex gap-2">
                                         <button type="submit" 
                                                 
                                                 disabled={updating}
@@ -298,6 +298,8 @@ const Update = ({selectedPaymentDetail,bankList,paymentList,refreshList}:updateP
                                                 )}
                                                 
                                         </button>
+
+                                        <button type="button" onClick={()=>setPaymentDetail([])} className="bg-gray-300 hover:bg-gray-400 disabled:bg-gray-400 py-1 p-2 rounded-sm flex justify-start items-center gap-1">Close</button>
                                         
                                     </div>
                                     

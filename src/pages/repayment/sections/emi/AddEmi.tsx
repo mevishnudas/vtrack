@@ -96,7 +96,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
 
             setTotalAmount(0);
             reset();
-            reFreshEmiList();
+            reFreshEmiList(true);
         }
         else{
 
