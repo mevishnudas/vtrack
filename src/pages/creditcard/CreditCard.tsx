@@ -10,6 +10,10 @@ const CreditCard = () =>{
     const [creditCardList,setCreditCardList]= useState([]);
     const [selectedCreditCard,setSelectedCreditCard] = useState(0);
 
+    const [creditCardDetail,setCreditCardDetail] = useState([]);
+    const [creditCardPaymentHistory,setCreditCardPaymentHistory] = useState([]);
+    const [creditCardInfoLoading,setCreditCardInfoLoading] = useState(true);
+
     const loadCreditCardList = async () =>{
 
         let response = await fetchRequest({
@@ -21,6 +25,35 @@ const CreditCard = () =>{
         if(response.request){
             setCreditCardList(response.data.data);
         }
+    }
+
+    const loadCreditCardDetails = async (id:any) =>{
+        setSelectedCreditCard(id);
+
+        setCreditCardInfoLoading(true); //start loading
+        
+        let response = await fetchRequest({
+            path:"credit-card/detail",
+            method:"POST",
+            auth:true,
+            body:{
+                id:id
+            }
+        });
+
+        if(response.request){
+            let cardInfo = response.data?.data?.card_info;
+            let cardPayments = response.data?.data?.payment_history;
+
+            setCreditCardDetail(cardInfo);
+            setCreditCardPaymentHistory(cardPayments);
+        }
+
+        setCreditCardInfoLoading(false); //Loading false
+
+    }
+    const checkCardDetail = (id:any) =>{
+        loadCreditCardDetails(id);
     }
 
     useEffect(()=>{
@@ -49,7 +82,7 @@ const CreditCard = () =>{
                         <div className="col-span-3 grid sm:grid-cols-4 gap-2">
                             {creditCardList.map((row)=>(
                                 <CreditCardBox 
-                                    onClick={()=>setSelectedCreditCard(row.id)}
+                                    onClick={()=>checkCardDetail(row.id)}
 
                                     key={row.id} 
                                     info={row}
@@ -59,7 +92,15 @@ const CreditCard = () =>{
 
                         <div className="col-span-1">
                             {selectedCreditCard?(
-                                <CreditCardDetail selectedCreditCard={selectedCreditCard}/>
+                                <CreditCardDetail 
+                                    selectedCreditCard={selectedCreditCard}
+                                    setSelectedCreditCard={setSelectedCreditCard}
+
+                                    creditCardDetail={creditCardDetail}
+                                    
+                                    creditCardInfoLoading={creditCardInfoLoading}
+                                    creditCardPaymentHistory={creditCardPaymentHistory}
+                                />
                             ):(
                                 <CreditUsage/>
                             )}

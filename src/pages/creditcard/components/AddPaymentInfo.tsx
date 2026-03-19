@@ -14,6 +14,7 @@ const AddPaymentInfo = ({setAddPayment}:AddPaymentInfoProps) =>{
                         name="amount" 
                         customClassName="w-full border-1 border-slate-700 text-white bg-gray-800"
                         placeholder="Amount"
+                        autocomplete="off"
                     />
                 </div>
                 <div className="col-span-1">
@@ -32,7 +33,7 @@ const AddPaymentInfo = ({setAddPayment}:AddPaymentInfoProps) =>{
                 </div>
                 <div className="col-span-2">
                     <button className="bg-sky-500 px-2 py-1 rounded-sm text-white text-sm">Submit</button>
-                    <button onClick={setAddPayment(false)} className="px-2 py-1 rounded-sm text-gray-300 text-sm">Cancel</button>
+                    <button onClick={()=>setAddPayment(false)} className="px-2 py-1 rounded-sm text-gray-300 text-sm">Cancel</button>
                 </div>
             </div>
     );
