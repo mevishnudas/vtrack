@@ -14,7 +14,7 @@ type CreditCardDetailProps = {
     creditCardPaymentHistory:any[]
 }
 
-const CreditCardDetail = ({setSelectedCreditCard,creditCardDetail,creditCardInfoLoading,creditCardPaymentHistory}:CreditCardDetailProps) =>{
+const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDetail,creditCardInfoLoading,creditCardPaymentHistory}:CreditCardDetailProps) =>{
     const [addPayment,setAddPayment] = useState(false);
     const [paymentFormShow,setPaymentFormShow] = useState(false);
 
@@ -24,7 +24,8 @@ const CreditCardDetail = ({setSelectedCreditCard,creditCardDetail,creditCardInfo
             setAddPayment(false);
         }
 
-    },[]);
+    },[selectedCreditCard]);
+
     return(
         <>
             <div className="bg-slate-900 rounded-sm border-1 border-slate-700">
@@ -50,7 +51,7 @@ const CreditCardDetail = ({setSelectedCreditCard,creditCardDetail,creditCardInfo
 
 
                         
-                        {addPayment==false&&(
+                        {!addPayment&&(
                             <>
                             <div className="pt-2 pb-1">
                                 <div className="bg-linear-to-r from-cyan-500 to-blue-500 rounded-sm px-2 py-1">
@@ -75,10 +76,11 @@ const CreditCardDetail = ({setSelectedCreditCard,creditCardDetail,creditCardInfo
                             </>
                         )}
 
-                        {addPayment==true&&(
+                        {addPayment&&(
                             <>
-                            <div className="pt-5">
+                            <div className="pt-5 pb-2 border-b-1 border-b-slate-800">
                                 <AddPaymentInfo 
+                                    creditCardId={creditCardDetail.id}
                                     setAddPayment={setAddPayment}
                                 />
                             </div>
@@ -89,13 +91,15 @@ const CreditCardDetail = ({setSelectedCreditCard,creditCardDetail,creditCardInfo
                         <div className="pt-2">
 
                             <h1 className="text-white text-sm pb-2">Payment history</h1>
-                            <div className="grid grid-cols-1 bg-slate-800 p-2 rounded-sm">
-                                <div className="col-span-1 border-b-1 border-b-slate-800">
-                                    
-                                    {creditCardPaymentHistory.length==0&&(<>
-                                        <p className="text-center text-sm text-gray-500">No records found</p>
-                                    </>)}
 
+                            {creditCardPaymentHistory.length==0&&(<>
+                                <p className="text-center text-sm text-gray-500">No records found</p>
+                            </>)}
+
+                            <div className="grid grid-cols-1 pr-1 rounded-sm max-h-80 overflow-x-auto custom-overflow-track">
+
+                                <div className="col-span-1 border-b-1 border-b-slate-800">
+                                
                                     {creditCardPaymentHistory.map((row)=>(
                                         <PaymentHistoryList key={row.id} info={row}/>
                                     ))}

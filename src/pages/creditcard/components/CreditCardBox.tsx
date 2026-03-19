@@ -7,7 +7,45 @@ type CreditCardBoxProps = {
 
 const CreditCardBox = ({info,...rest}:CreditCardBoxProps) =>{
 
-    
+    type PaymentStatusProps = {
+        status:string
+    }
+    const PaymentStatus = ({status}:PaymentStatusProps) =>{
+
+        switch (status) {
+            
+            case 'PAID_VERIFIED':
+                return(
+                    <div className="bg-green-800 text-center text-sm text-white text-shadow-2xs">Paid & Verified</div>
+                )
+                break;
+
+            case 'PAID':
+                return(
+                    <div className="bg-cyan-800 text-center text-sm text-white text-shadow-2xs">Paid</div>
+                )
+                break;
+
+            case 'PARTIALLY_PAID':
+                return(
+                    <div className="bg-orange-800 text-center text-sm text-white text-shadow-2xs">Partially Paid</div>
+                )
+                break;
+
+            case 'PENDING':
+                return(
+                    <div className="bg-red-800 text-center text-sm text-white text-shadow-2xs">Payment Due</div>
+                );
+                break;
+            
+            default:
+                return(
+                    <div className="bg-blue-900 text-center text-sm text-white text-shadow-2xs">{status} No Info</div>
+                );
+                break;
+        }
+    }
+
     return(
         <>
         <div {...rest} className={`cursor-pointer rounded-sm grid border-1 bg-linear-to-b from-slate-900 to-slate-950 border-slate-700 overflow-hidden`}>
@@ -30,17 +68,8 @@ const CreditCardBox = ({info,...rest}:CreditCardBoxProps) =>{
                     </div>
                 </div>
                 
-                {info.payment_status==null&&(
-                    <div className="bg-blue-900 text-center text-sm text-white text-shadow-2xs">No Info</div>
-                )}
-
-                {info.payment_status=="PENDING"&&(
-                    <div className="bg-red-800 text-center text-sm text-white text-shadow-2xs">Payment Due</div>
-                )}
+                <PaymentStatus status={info.payment_status}/>
                 
-                {info.payment_status=="PAID"&&(
-                    <div className="bg-green-800 text-center text-sm text-white text-shadow-2xs">PAID</div>
-                )}
         </div>
         </>
     );
