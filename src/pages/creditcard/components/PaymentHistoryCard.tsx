@@ -42,7 +42,7 @@ const PaymentHistoryList = ({info}:PaymentHistoryListProps) =>{
     }
 
     return(<>
-        <div className="grid grid-cols-2 mb-1 border-b-1 px-3 cursor-pointer  bg-slate-800 border-b-gray-600 py-1 px-1">
+        <div className="grid grid-cols-2 mb-1 border-b-1 px-3 bg-slate-800 border-b-gray-600 py-1 px-1">
             <div>
                 <div><label className="text-white text-xs uppercase">{formatDate(new Date(info.payment_date),"dd MMM")}</label></div>
                 <div><label className="text-white font-bold">₹{Number(info.amount).toLocaleString("en-IN")}</label></div>

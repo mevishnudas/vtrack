@@ -5,6 +5,7 @@ import { CgSpinnerTwoAlt } from "react-icons/cg";
 import PaymentHistoryList from "./PaymentHistoryCard";
 import { FiPlusSquare } from "react-icons/fi";
 import AddPaymentInfo from "./AddPaymentInfo";
+import UpdatePaymentInfo from "./UpdatePaymentInfo";
 
 type CreditCardDetailProps = {
     selectedCreditCard:number,
@@ -16,12 +17,15 @@ type CreditCardDetailProps = {
 
 const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDetail,creditCardInfoLoading,creditCardPaymentHistory}:CreditCardDetailProps) =>{
     const [addPayment,setAddPayment] = useState(false);
-    const [paymentFormShow,setPaymentFormShow] = useState(false);
+    //const [updatePayment,setUpdatePayment] = useState(false);
+    const [selectedPaymentInfo,setSelectedPaymentInfo] = useState(false);
+    //const [paymentFormShow,setPaymentFormShow] = useState(false);
 
     useEffect(()=>{
 
         return ()=>{
             setAddPayment(false);
+            setSelectedPaymentInfo(false);
         }
 
     },[selectedCreditCard]);
@@ -86,30 +90,42 @@ const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDe
                             </div>
                             </>
                         )}
-                      
 
-                        <div className="pt-2">
-
-                            <h1 className="text-white text-sm pb-2">Payment history</h1>
-
-                            {creditCardPaymentHistory.length==0&&(<>
-                                <p className="text-center text-sm text-gray-500">No records found</p>
-                            </>)}
-
-                            <div className="grid grid-cols-1 pr-1 rounded-sm max-h-80 overflow-x-auto custom-overflow-track">
-
-                                <div className="col-span-1 border-b-1 border-b-slate-800">
-                                
-                                    {creditCardPaymentHistory.map((row)=>(
-                                        <PaymentHistoryList key={row.id} info={row}/>
-                                    ))}
-
-                                </div>
+                        {selectedPaymentInfo&&(
+                            <div className="pt-2">
+                                <h1 className="text-white text-sm pb-2">Payment info</h1>
+                                <UpdatePaymentInfo 
+                                    selectedPaymentInfo={selectedPaymentInfo} 
+                                    setSelectedPaymentInfo={setSelectedPaymentInfo}
+                                />    
                             </div>
+                        )}
 
-                        </div>
+                        {!selectedPaymentInfo&&(
+                            <div className="pt-2">
 
+                                <h1 className="text-white text-sm pb-2">Payment history</h1>
 
+                                {creditCardPaymentHistory.length==0&&(<>
+                                    <p className="text-center text-sm text-gray-500">No records found</p>
+                                </>)}
+                                
+                                <div className="grid grid-cols-1 pr-1 rounded-sm max-h-80 overflow-x-auto custom-overflow-track">
+
+                                    <div className="col-span-1 border-b-1 border-b-slate-800">
+                                    
+                                        {creditCardPaymentHistory.map((row)=>(
+                                            <div className="cursor-pointer" key={row.id} onClick={()=>setSelectedPaymentInfo(row)}>
+                                                <PaymentHistoryList key={row.id} info={row}/>
+                                            </div>
+                                        ))}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        )}
+                    
                     </div>
                 )}
                 </div>
