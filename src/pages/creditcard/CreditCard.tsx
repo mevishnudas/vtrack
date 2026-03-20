@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { fetchRequest } from "../../services/Fetch";
 import CreditCardBox from "./components/CreditCardBox";
 import CreditCardDetail from "./components/CreditCardDetails";
-
+import { VscLoading } from "react-icons/vsc";
 
 const CreditCard = () =>{
+    const [loading,setLoading] = useState(true);
     const [creditCardList,setCreditCardList]= useState([]);
     const [selectedCreditCard,setSelectedCreditCard] = useState(0);
     const [creditCardPaymentStatusList,setCreditCardPaymentStatusList] = useState([]);
@@ -16,7 +17,8 @@ const CreditCard = () =>{
     const [creditCardInfoLoading,setCreditCardInfoLoading] = useState(true);
 
     const loadCreditCardList = async () =>{
-
+        
+        setLoading(true);
         let response = await fetchRequest({
                             path:"credit-card/list",
                             method:"GET",
@@ -26,6 +28,7 @@ const CreditCard = () =>{
         if(response.request){
             setCreditCardList(response.data.data);
         }
+        setLoading(false);
     }
 
     const loadCreditCardDetails = async (id:any,refresh=false) =>{
@@ -103,13 +106,14 @@ const CreditCard = () =>{
         <>  
             <PageTitle pageName="Credit Card"/>
             <div className="p-2">
-                <h1 className="font-bold text-white">Credit Card</h1>
+                <h1 className="font-bold text-white flex gap-2 items-center">Credit Card {loading&&(<VscLoading className="animate-spin"/>)}</h1>
                 
                 <div className="pt-2 px-1">
                     
                     <div className="grid grid-cols-4 gap-2 items-start">
                                     
-                        <div className="col-span-3 grid sm:grid-cols-4 gap-2">
+                        <div className={`col-span-3 ${loading&&("cursor-progress")}`}>
+                            <div className={`grid sm:grid-cols-4 gap-2 ${loading&&("pointer-events-none")}`}>
                             {creditCardList.map((row)=>(
                                 <CreditCardBox 
                                     onClick={()=>checkCardDetail(row.id)}
@@ -118,6 +122,7 @@ const CreditCard = () =>{
                                     info={row}
                                 />
                             ))}
+                            </div>
                         </div>
 
                         <div className="col-span-1">
