@@ -12,14 +12,20 @@ type CreditCardDetailProps = {
     setSelectedCreditCard:Function,
     creditCardDetail:any[],
     creditCardInfoLoading:boolean,
-    creditCardPaymentHistory:any[]
+    creditCardPaymentHistory:any[],
+    creditCardPaymentStatusList:any[],
+    reSync:Function
 }
 
-const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDetail,creditCardInfoLoading,creditCardPaymentHistory}:CreditCardDetailProps) =>{
+const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDetail,creditCardInfoLoading,creditCardPaymentHistory,creditCardPaymentStatusList,reSync}:CreditCardDetailProps) =>{
     const [addPayment,setAddPayment] = useState(false);
     //const [updatePayment,setUpdatePayment] = useState(false);
     const [selectedPaymentInfo,setSelectedPaymentInfo] = useState(false);
     //const [paymentFormShow,setPaymentFormShow] = useState(false);
+
+    const refreshList = () =>{
+        reSync();
+    }
 
     useEffect(()=>{
 
@@ -42,7 +48,7 @@ const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDe
                  ):(
                     <div className="py-2 px-2">
 
-                        <div className="grid grid-cols-3">
+                        <div className="grid grid-cols-3 pb-2 border-b-1 border-b-slate-800">
                             <div className="col-span-2">
                                 <h1 className="text-white font-bold px-2">{creditCardDetail.name} - <span className="text-xs">{creditCardDetail.variant_name}</span></h1>
                             </div>
@@ -83,20 +89,25 @@ const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDe
                         {addPayment&&(
                             <>
                             <div className="pt-5 pb-2 border-b-1 border-b-slate-800">
+                                <h1 className="text-white text-sm pb-2">Add payment</h1>
                                 <AddPaymentInfo 
                                     creditCardId={creditCardDetail.id}
                                     setAddPayment={setAddPayment}
+                                    refreshList={refreshList}
                                 />
                             </div>
                             </>
                         )}
 
+                        
                         {selectedPaymentInfo&&(
                             <div className="pt-2">
                                 <h1 className="text-white text-sm pb-2">Payment info</h1>
                                 <UpdatePaymentInfo 
                                     selectedPaymentInfo={selectedPaymentInfo} 
                                     setSelectedPaymentInfo={setSelectedPaymentInfo}
+                                    creditCardPaymentStatusList={creditCardPaymentStatusList}
+                                    refreshList={refreshList}
                                 />    
                             </div>
                         )}
@@ -112,7 +123,7 @@ const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDe
                                 
                                 <div className="grid grid-cols-1 pr-1 rounded-sm max-h-80 overflow-x-auto custom-overflow-track">
 
-                                    <div className="col-span-1 border-b-1 border-b-slate-800">
+                                    <div className="col-span-1 border-b-1 border-b-slate-800 min-h-5">
                                     
                                         {creditCardPaymentHistory.map((row)=>(
                                             <div className="cursor-pointer" key={row.id} onClick={()=>setSelectedPaymentInfo(row)}>

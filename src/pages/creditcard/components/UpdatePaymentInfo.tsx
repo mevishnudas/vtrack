@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { SimpleTextArea,SimpleInput,SimpleSelectMultiLabel } from "../../../components/formElements/SimpleInputs";
 import { VscLoading } from "react-icons/vsc";
+import {format} from "date-fns";
+import { fetchRequest } from "../../../services/Fetch";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -9,19 +12,21 @@ import { error_message } from "../../../utils/ErrorMessages";
 
 type UpdatePaymentInfoProps ={
     selectedPaymentInfo:any[],
-    setSelectedPaymentInfo:Function
+    setSelectedPaymentInfo:Function,
+    creditCardPaymentStatusList:any[],
+    refreshList:Function
 }
 
 const schema = yup
   .object({
     amount: yup.number().typeError(error_message.invalid_number).required(error_message.required),
     payment_date: yup.date().typeError(error_message.invalid_date).required(error_message.required),
-    payment_status:yup.number().required(error_message.required),
+    payment_status:yup.string().required(error_message.required),
     remarks: yup.string().nullable()
   })
   .required()
 
-const UpdatePaymentInfo = ({selectedPaymentInfo,setSelectedPaymentInfo}:UpdatePaymentInfoProps) =>{
+const UpdatePaymentInfo = ({selectedPaymentInfo,setSelectedPaymentInfo,creditCardPaymentStatusList,refreshList}:UpdatePaymentInfoProps) =>{
     const [submitting,setSubmitting] = useState(false);
     
     const {
@@ -32,16 +37,50 @@ const UpdatePaymentInfo = ({selectedPaymentInfo,setSelectedPaymentInfo}:UpdatePa
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) =>{
-        console.log(data);
+    const onSubmit = async (data) =>{
+
+         setSubmitting(true);
+
+        //change date format 
+        let formated_date = format(new Date(data.payment_date),"yyyy-MM-dd");
+
+        let params = {
+            "id":selectedPaymentInfo.id,
+            "amount":data.amount,
+            "payment_date":formated_date,
+            "payment_status":data.payment_status,
+            "remarks":data.remarks
+        }
+
+        let response = await fetchRequest({
+            auth:true,
+            method:"POST",
+            path:"credit-card/bill/update",
+            body:params
+        });
+        setSelectedPaymentInfo(false);
+        refreshList();
+        //setSubmitting(false);
     } 
 
-    const optionList = [
-        {
-            "label":"Test",
-            "value":1
+    const deletePaymentHistory = async () =>{
+        
+        setSubmitting(true);
+        let params = {
+            "id":selectedPaymentInfo.id
         }
-    ]
+
+        let response = await fetchRequest({
+            auth:true,
+            method:"POST",
+            path:"credit-card/bill/delete",
+            body:params
+        });
+
+        setSelectedPaymentInfo(false);
+        refreshList();
+    }
+    
     return(
         <>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,8 +129,8 @@ const UpdatePaymentInfo = ({selectedPaymentInfo,setSelectedPaymentInfo}:UpdatePa
                     <div className="col-span-2">
                         <SimpleSelectMultiLabel
                             name="payment_status"
-                            optionList={optionList}
-                            defaultLabelValue={1}
+                            optionList={creditCardPaymentStatusList}
+                            defaultValue={selectedPaymentInfo.payment_status}
 
                             customClassName="w-full"
                             {...register("payment_status")}
@@ -99,20 +138,29 @@ const UpdatePaymentInfo = ({selectedPaymentInfo,setSelectedPaymentInfo}:UpdatePa
                         <p className="text-red-400">{errors.payment_status?.message}</p>
                     </div>
 
-                    <div className={`col-span-2 flex gap-2 select-none ${submitting&&("pointer-events-none cursor-progress")}`}>
-                            <button type="submit" 
-                                className="bg-sky-600 disabled:bg-sky-700 px-2 py-1 rounded-sm text-white text-sm flex items-center gap-1 cursor-pointer"
-                                disabled={submitting}
-                            >
-                            {submitting&&(<VscLoading  className="animate-spin"/>)}
-                            Update
-                            </button>
+                    <div className={`col-span-2 flex justify-between select-none ${submitting&&("pointer-events-none cursor-progress")}`}>
+                            <div className=" flex gap-2">
+                                <button type="submit" 
+                                    className="bg-sky-600 disabled:bg-sky-700 px-2 py-1 rounded-sm text-white text-sm flex items-center gap-1 cursor-pointer"
+                                    disabled={submitting}
+                                >
+                                {submitting&&(<VscLoading  className="animate-spin"/>)}
+                                Update
+                                </button>
 
-                            <button type="button" 
-                                //disabled={submitting} 
-                                onClick={()=>setSelectedPaymentInfo(false)} 
-                                className="px-2 py-1 rounded-sm text-gray-300 text-sm cursor-pointer">
-                            Cancel
+                                <button type="button" 
+                                    disabled={submitting} 
+                                    onClick={()=>setSelectedPaymentInfo(false)} 
+                                    className="px-2 py-1 rounded-sm text-gray-300 text-sm cursor-pointer">
+                                Cancel
+                                </button>
+                            </div>
+
+                            <button disabled={submitting} 
+                                className="text-red-400 hover:text-red-300 cursor-pointer"
+                                onClick={deletePaymentHistory}
+                            >
+                                <RiDeleteBin6Line/>
                             </button>
                     </div>
             </div>

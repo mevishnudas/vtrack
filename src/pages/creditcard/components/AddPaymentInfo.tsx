@@ -10,7 +10,8 @@ import { VscLoading } from "react-icons/vsc";
 
 type AddPaymentInfoProps = {
     setAddPayment:Function,
-    creditCardId:Number
+    creditCardId:Number,
+    refreshList:Function
 };
 
 const schema = yup
@@ -21,7 +22,7 @@ const schema = yup
   })
   .required()
 
-const AddPaymentInfo = ({setAddPayment,creditCardId}:AddPaymentInfoProps) =>{
+const AddPaymentInfo = ({setAddPayment,creditCardId,refreshList}:AddPaymentInfoProps) =>{
     const [submitting,setSubmitting] = useState(false);
 
     const {
@@ -53,8 +54,9 @@ const AddPaymentInfo = ({setAddPayment,creditCardId}:AddPaymentInfoProps) =>{
             path:"credit-card/bill/add",
             body:params
         });
-
-        setSubmitting(false);
+        setAddPayment(false);
+        refreshList();
+        //setSubmitting(false);
     }
 
     return(

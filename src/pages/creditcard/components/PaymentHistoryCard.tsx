@@ -50,6 +50,7 @@ const PaymentHistoryList = ({info}:PaymentHistoryListProps) =>{
             <div className="flex justify-end items-center">
                 <PaymentStatus status={info.payment_status}/>
             </div>
+            <p className="text-xs text-white italic">{info.remarks}</p>
         </div>
     </>);
 }

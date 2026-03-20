@@ -9,6 +9,7 @@ import CreditCardDetail from "./components/CreditCardDetails";
 const CreditCard = () =>{
     const [creditCardList,setCreditCardList]= useState([]);
     const [selectedCreditCard,setSelectedCreditCard] = useState(0);
+    const [creditCardPaymentStatusList,setCreditCardPaymentStatusList] = useState([]);
 
     const [creditCardDetail,setCreditCardDetail] = useState([]);
     const [creditCardPaymentHistory,setCreditCardPaymentHistory] = useState([]);
@@ -27,10 +28,12 @@ const CreditCard = () =>{
         }
     }
 
-    const loadCreditCardDetails = async (id:any) =>{
+    const loadCreditCardDetails = async (id:any,refresh=false) =>{
         setSelectedCreditCard(id);
 
-        setCreditCardInfoLoading(true); //start loading
+        if(!refresh){
+            setCreditCardInfoLoading(true); //start loading
+        }
         
         let response = await fetchRequest({
             path:"credit-card/detail",
@@ -56,8 +59,35 @@ const CreditCard = () =>{
         loadCreditCardDetails(id);
     }
 
+    const loadCreditCardPaymentStatus = async () =>{
+
+         let response = await fetchRequest({
+            path:"master/credit-card/payment/status",
+            method:"GET",
+            auth:true
+        });
+
+        if(response.request){
+            let status_list = response.data?.data;
+            setCreditCardPaymentStatusList(status_list);
+            //console.log(status_list);
+        }
+        
+
+    }
+
+    const reSync = () =>{
+        loadCreditCardList();
+
+        if(creditCardDetail?.id){
+            loadCreditCardDetails(creditCardDetail?.id,true);
+        }
+    }
+
     useEffect(()=>{
         loadCreditCardList(); //load credit card list
+        loadCreditCardPaymentStatus();
+
     },[]);
 
     const CreditUsage = () =>{
@@ -100,6 +130,9 @@ const CreditCard = () =>{
                                     
                                     creditCardInfoLoading={creditCardInfoLoading}
                                     creditCardPaymentHistory={creditCardPaymentHistory}
+
+                                    creditCardPaymentStatusList={creditCardPaymentStatusList}
+                                    reSync={reSync}
                                 />
                             ):(
                                 <CreditUsage/>
