@@ -10,6 +10,7 @@ const Dash = () =>{
     const navigate = useNavigate();
     const [loading,setLoading] = useState(true);
     const [repaymentSummary,setRepaymentSummary] = useState([]);
+    const [emiSummary,setEmiSummary] = useState([]);
     const [creditCardSummary,setCreditCardSummary] = useState([]);
 
     const loadSummary = async () =>{
@@ -23,6 +24,7 @@ const Dash = () =>{
             let data = response?.data?.data;
             setCreditCardSummary(data?.credit_summary);
             setRepaymentSummary(data?.repayment_summary);
+            setEmiSummary(data?.emi_summary);
         }
 
         setLoading(false);
@@ -53,7 +55,7 @@ const Dash = () =>{
                     {/* Repayment Summary Ends */}
 
                     <div className="cursor-pointer" onClick={()=>navigate('/repayment/emi')}>
-                        <Emi/>                        
+                        <Emi loading={loading} emiSummary={emiSummary}/>                        
                     </div>
 
                 </div>

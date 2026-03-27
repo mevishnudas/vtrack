@@ -84,7 +84,7 @@ const Emi = () =>{
     const updateEMI = async (data:any[],id:number) =>{
 
         let response = await fetchRequest({
-            path:"master/emi/status/update",
+            path:"repayment/emi/status/update",
             auth:true,
             method:"POST",
             body:{
