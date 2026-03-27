@@ -3,8 +3,11 @@ import Repayment from "./components/Repayment";
 import CreditCard from "./components/CreditCard";
 import { fetchRequest } from "../../services/Fetch";
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Emi from "./components/Emi";
 
 const Dash = () =>{
+    const navigate = useNavigate();
     const [loading,setLoading] = useState(true);
     const [repaymentSummary,setRepaymentSummary] = useState([]);
     const [creditCardSummary,setCreditCardSummary] = useState([]);
@@ -24,7 +27,7 @@ const Dash = () =>{
 
         setLoading(false);
     }
-
+    
     useEffect(()=>{
         loadSummary();
     },[]);
@@ -35,19 +38,23 @@ const Dash = () =>{
             <div className="p-2">
                 <h1 className="font-bold text-white">Dashboard</h1>
                 
-                <div className="pt-2 px-1 grid grid-cols-6 gap-2">
+                <div className="grid xl:grid-cols-[20%_22%_22%] gap-2">
                     
                     {/* Credit Card Summary */}
-                    <div className="col-span-1">
+                    <div className="cursor-pointer" onClick={()=>navigate('/credit-card')}>
                         <CreditCard loading={loading} creditCardSummary={creditCardSummary}/>
                     </div>
                     {/* Credit Card Summary Ends*/}
 
                     {/* Repayment Summary */}
-                    <div className="col-span-1">
+                    <div className="cursor-pointer" onClick={()=>navigate('/repayment')}>
                         <Repayment loading={loading} repaymentSummary={repaymentSummary}/>
                     </div>
                     {/* Repayment Summary Ends */}
+
+                    <div className="cursor-pointer" onClick={()=>navigate('/repayment/emi')}>
+                        <Emi/>                        
+                    </div>
 
                 </div>
 

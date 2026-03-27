@@ -1,3 +1,5 @@
+import { FaRegCreditCard } from "react-icons/fa";
+
 type CreditCardProps = {
     creditCardSummary:any[],
     loading:boolean
@@ -6,7 +8,7 @@ type CreditCardProps = {
 const CreditCard = ({creditCardSummary,loading}:CreditCardProps) =>{
     return(
         <div className="bg-linear-to-b border-1 border-slate-800 from-indigo-900 to-indigo-950 p-2 rounded-xl overflow-hidden">
-            <h1 className="text-center text-white text-shadow-sm text-shadow-gray-800">Credit Card Summary</h1>
+            <h1 className="text-center text-white text-shadow-sm text-shadow-gray-800 flex justify-center items-center gap-2"><FaRegCreditCard /> Credit Card Summary</h1>
             
             {loading?(<>
                 <div className="grid gap-1 animate-pulse pt-2 justify-items-center text-center">
