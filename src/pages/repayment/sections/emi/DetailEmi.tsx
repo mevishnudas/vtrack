@@ -20,7 +20,7 @@ import { IoIosClose } from "react-icons/io";
 
 const updateEMIStatusSchema = yup.object({
     remarks:yup.string().nullable(),
-    paid: yup.number().typeError(error_message.required).integer().required(error_message.required),
+    paid: yup.number().typeError(error_message.required).integer(error_message.number_without_points).required(error_message.required),
     status: yup.string().required(error_message.required),
 }).required();
 
@@ -242,6 +242,7 @@ const DetailEmi = ({emi_status_list,setSelectedEmi,emi_data,emiPrincipleStatusLi
                                     inputType="number"
 
                                     //defaultValue={emi_data.paid}
+                                    step="any"
 
                                     register={register}
                                 />

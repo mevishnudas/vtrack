@@ -22,7 +22,7 @@ const validationSchema = yup.object({
   pr_fee: yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
 
   emi_amount:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
-  duration:yup.number().moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
+  duration:yup.number().integer(error_message.number_without_points).moreThan(0,error_message.number_more_than_error).typeError(error_message.required).required(error_message.required),
   
   distributed_date:yup.date().required(error_message.required).typeError(error_message.required),
   payment_date:yup.date().required(error_message.required).typeError(error_message.required),
@@ -176,6 +176,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                     name="amount"
                                     placeholder="Amount"
                                     inputType="number"
+                                    step="any"
 
                                     register={register}
                                 />
@@ -188,6 +189,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                     name="pr_fee"
                                     placeholder="Pr.Fee"
                                     inputType="number"
+                                    step="any"
 
                                     register={register}
 
@@ -202,6 +204,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                     name="emi_amount"
                                     placeholder="EMI"
                                     inputType="number"
+                                    step="any"
 
                                     register={register}
 
@@ -218,6 +221,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                     inputType="number"
 
                                     register={register}
+                                    step="any"
 
                                     onValueChange={totalCalculate}
                                 />

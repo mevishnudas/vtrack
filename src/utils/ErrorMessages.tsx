@@ -8,6 +8,7 @@ const error_message = {
     number_more_than_error:"Value must be greater than zero",
     invalid_email:"Invalid email id",
     invalid_length:"Invalid length",
+    number_without_points:"Please input number without decimal points",
 };
 
 export {error_message};

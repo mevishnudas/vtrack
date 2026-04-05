@@ -9,7 +9,7 @@ import { ImSpinner2 } from "react-icons/im";
 
 const validationSchema = yup
   .object({
-    principle: yup.number().typeError(error_message.required).positive(error_message.required).required(error_message.required),
+    principle: yup.number().typeError(error_message.required).positive(error_message.required).integer(error_message).required(error_message.required),
     emi_amount: yup.number().typeError(error_message.required).positive(error_message.required).required(error_message.required),
     payment_date: yup.date().typeError(error_message.required).required(error_message.required),
     remarks:yup.string().nullable(),
@@ -54,6 +54,7 @@ const EmiPrincipleAdd = ({emi_data,addEmiPrinciple}:EmiPrincipleAddProps) =>{
                 <div className="col-span-1 ">
                     <SimpleInput type="number" 
                                 // name="principle" 
+                                step="any"
                                 customClassName={`bg-gray-100 
                                 text-black w-full
                                 
@@ -67,7 +68,7 @@ const EmiPrincipleAdd = ({emi_data,addEmiPrinciple}:EmiPrincipleAddProps) =>{
                 </div>
                 
                 <div className="col-span-3">
-                    <SimpleInput type="number" {...register("emi_amount")} customClassName={`bg-gray-100 text-black w-full ${errors.emi_amount?.message&&"border-2 border-red-800"}`} placeholder="EMI Amount"/>
+                    <SimpleInput type="number" step="any" {...register("emi_amount")} customClassName={`bg-gray-100 text-black w-full ${errors.emi_amount?.message&&"border-2 border-red-800"}`} placeholder="EMI Amount"/>
                 </div>
 
                 <div className="col-span-2">
