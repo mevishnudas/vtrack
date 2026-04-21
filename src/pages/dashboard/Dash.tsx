@@ -5,6 +5,7 @@ import { fetchRequest } from "../../services/Fetch";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Emi from "./components/Emi";
+import AccountSummary from "./components/AccountSummary";
 
 const Dash = () =>{
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Dash = () =>{
             <div className="p-2">
                 <h1 className="font-bold text-white">Dashboard</h1>
                 
-                <div className="grid xl:grid-cols-[20%_22%_22%] gap-2">
+                <div className="grid xl:grid-cols-[20%_22%_22%_22%] gap-2">
                     
                     {/* Credit Card Summary */}
                     <div className="cursor-pointer" onClick={()=>navigate('/credit-card')}>
@@ -57,6 +58,11 @@ const Dash = () =>{
                     <div className="cursor-pointer" onClick={()=>navigate('/repayment/emi')}>
                         <Emi loading={loading} emiSummary={emiSummary}/>                        
                     </div>
+                    
+                    <div className="cursor-pointer">
+                        <AccountSummary/>
+                    </div>
+
 
                 </div>
 
