@@ -6,6 +6,8 @@ import PaymentHistoryList from "./PaymentHistoryCard";
 import { FiPlusSquare } from "react-icons/fi";
 import AddPaymentInfo from "./AddPaymentInfo";
 import UpdatePaymentInfo from "./UpdatePaymentInfo";
+import { IoIosCopy } from "react-icons/io";
+import {copyToClipBoard} from "../../../utils/copyToClipBoard";
 
 type CreditCardDetailProps = {
     selectedCreditCard:number,
@@ -53,10 +55,13 @@ const CreditCardDetail = ({selectedCreditCard,setSelectedCreditCard,creditCardDe
                                 <h1 className="text-white font-bold px-2">{creditCardDetail.name} - <span className="text-xs">{creditCardDetail.variant_name}</span></h1>
                             </div>
                             <div className="col-span-1 flex justify-end text-white">
-                                <IoIosClose className="cursor-pointer" onClick={()=>setSelectedCreditCard(0)}/>
+                                <IoIosClose title="Close" className="cursor-pointer" onClick={()=>setSelectedCreditCard(0)}/>
                             </div>
 
                             <div className="col-span-3"><h1 className="text-white px-2 text-sm">**** {creditCardDetail.last_digit}</h1></div>
+                            <div className="col-span-3 flex justify-end">
+                                <IoIosCopy title="Statement Password" className="cursor-pointer text-gray-300 absolute -mt-4" onClick={()=>copyToClipBoard({message: creditCardDetail.statement_password})}/>
+                            </div>
                         </div>
 
 

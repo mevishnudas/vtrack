@@ -22,6 +22,10 @@ type params ={
     repaymentList:any[],
     selectedPaymentInfo:Function,
 
+    paymentStatusList:any[],
+    selectedPaymentStatus:string,
+    setSelectedPaymentStatus:Function,
+
     loadRepayments:Function
 }
 
@@ -38,6 +42,10 @@ const List = ({
     setSelectedMonth,
     loading,
     repaymentList,
+    paymentStatusList,
+
+    selectedPaymentStatus,
+    setSelectedPaymentStatus,
 
     loadRepayments
 }:params) =>{
@@ -51,8 +59,8 @@ const List = ({
     return(
         <>  
             <div>
-                <div className="grid grid-cols-4 pb-1">
-                    <div className="col-span-1 pr-2">
+                <div className="grid grid-cols-5 pb-1">
+                    <div className="pr-2">
                         <select value={selectedYear}  
                             onChange={(e)=>setSelectedYear(e.target.value)}
                             className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
@@ -62,7 +70,7 @@ const List = ({
                         </select>
                     </div>
 
-                    <div className="col-span-1">
+                    <div>
                         <select value={selectedMonth} onChange={(e)=>setSelectedMonth(e.target.value)} className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
                             {Month.map(row=>(
                                 <option key={row.id} value={row.id}>{row.name}</option>
@@ -70,7 +78,7 @@ const List = ({
                         </select>
                     </div>
 
-                    <div className="col-span-1 pl-2">
+                    <div className="pl-2">
                             <select value={selectedUser} onChange={(e)=>setSelectedUser(e.target.value)} className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
                                 <option value={0}>All</option>
                                 {userList.map(row=>(
@@ -78,7 +86,17 @@ const List = ({
                                 ))}
                             </select>
                     </div>
-                    <div className="col-span-1 flex justify-end">
+
+                    <div className="pl-2">
+                            <select value={selectedPaymentStatus} onChange={(e)=>setSelectedPaymentStatus(e.target.value)}  className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
+                                <option value={0}>All</option>
+                                {paymentStatusList.map(row=>(
+                                    <option value={row.id} key={row.id}>{row.name}</option>
+                                ))}
+                            </select>
+                    </div>
+                    
+                    <div className="flex justify-end">
                         <button disabled={loading} className="bg-blue-700 active:bg-blue-900 disabled:bg-blue-900 text-amber-50 px-2 py-1 rounded-sm" onClick={loadRepayments}><FaFilter size={15}/></button>
                     </div>
                 </div>

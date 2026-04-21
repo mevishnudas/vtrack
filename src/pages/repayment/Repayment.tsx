@@ -12,6 +12,7 @@ const Repayment = () =>{
     const [userList,setUserList] = useState([]);
     const [yearList,setYearList] = useState([]);
     const [paymentList,setPaymentList] = useState([]);
+    const [selectedPaymentStatus,setSelectedPaymentStatus] = useState(0);
     const [selectedPaymentDetail,setPaymentDetail] = useState([]);
 
     const loadBanks = async () =>{
@@ -96,7 +97,8 @@ const Repayment = () =>{
         let body = {
             year:selectedYear,
             month:selectedMonth,
-            payee:selectedUser
+            payee:selectedUser,
+            payment_status:selectedPaymentStatus
         };
 
         let params = {
@@ -158,6 +160,10 @@ const Repayment = () =>{
 
                               loading={repaymentListLoading}
                               repaymentList={repaymentList}
+
+                              paymentStatusList={paymentList}
+                              selectedPaymentStatus={selectedPaymentStatus}
+                              setSelectedPaymentStatus={setSelectedPaymentStatus}
                               
                               selectedPaymentInfo={selectedPaymentInfo}
                               loadRepayments={loadRepayments}
