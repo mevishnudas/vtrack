@@ -13,6 +13,7 @@ const Dash = () =>{
     const [repaymentSummary,setRepaymentSummary] = useState([]);
     const [emiSummary,setEmiSummary] = useState([]);
     const [creditCardSummary,setCreditCardSummary] = useState([]);
+    const [accountSummary,setAccountSummary] = useState([]);
 
     const loadSummary = async () =>{
         let response = await fetchRequest({
@@ -26,6 +27,7 @@ const Dash = () =>{
             setCreditCardSummary(data?.credit_summary);
             setRepaymentSummary(data?.repayment_summary);
             setEmiSummary(data?.emi_summary);
+            setAccountSummary(data?.account_summary);
         }
 
         setLoading(false);
@@ -59,8 +61,8 @@ const Dash = () =>{
                         <Emi loading={loading} emiSummary={emiSummary}/>                        
                     </div>
                     
-                    <div className="cursor-pointer">
-                        <AccountSummary/>
+                    <div>
+                        <AccountSummary loading={loading} accountSummary={accountSummary}/>
                     </div>
 
 
