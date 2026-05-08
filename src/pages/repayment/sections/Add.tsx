@@ -14,6 +14,7 @@ import {copyToClipBoard} from "../../../utils/copyToClipBoard";
 // import { toast,Bounce } from 'react-toastify';
 import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../utils/Toast";
 import {CustomInput,CustomTextArea,CustomSelect} from "../../../components/formElements/input";
+import Select2 from "../../../components/formElements/Select2";
 
 const schema = yup
   .object({
@@ -45,7 +46,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
     const {
         register,
         handleSubmit,
-        //setValue,
+        setValue,
         getValues,
         reset,
         formState: { errors },
@@ -143,14 +144,15 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                         <div className="grid grid-cols-2">
                             <div className="col-span-1 pr-1">
                                 <label className="font-bold text-gray-200">Payee</label>
-                                <CustomSelect
-                                    name="payee"
-                                    label="Select Payee"
-                                    optionsList={userList}
-                                    defaultValue={0}
-                                    register={register}
+                                
+                                <Select2
+                                    options={userList} 
+                            
+                                    {...register("payee")}
 
-                                    customClassName="w-full"
+                                    onChange={(option:any) => {
+                                        setValue("payee",option?.value);
+                                    }}
                                 />
                             
                                 {errors.payee && <span className="text-red-300">{errors.payee?.message}</span>}

@@ -3,6 +3,7 @@ import PageTitle from "../../utils/PageTitle";
 import Overview from "./components/Overview";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineDataset } from "react-icons/md";
+import List from "./components/List";
 
 const Expenses = () =>{
     const[manageState,setManageState] = useState("ADD");
@@ -20,9 +21,7 @@ const Expenses = () =>{
                 <div className="grid grid-cols-3 pt-2">
                     <div className="col-span-2">
                         <Overview/>
-                        <div className=" mt-2 rounded-xl min-h-100 border-1  border-gray-800">
-                            <h1 className="text-white text-center">Table</h1>
-                        </div>
+                        <List/>
                     </div>
 
                     <div className="col-span-1 px-2">

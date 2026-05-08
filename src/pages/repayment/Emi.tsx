@@ -48,7 +48,15 @@ const Emi = () =>{
 
         if(response.request){
             //console.log("Response ",response.data?.data);
-            setUserList(response.data?.data);
+            //setUserList(response.data?.data);
+            let data = response.data?.data;
+            const result = data.map(({ id, name, ...rest }) => ({ //formatting array
+                ...rest,
+                value: id,
+                label: name
+            }));
+            
+            setUserList(result);
         }
     }
     

@@ -4,8 +4,8 @@
 import { FaFilter } from "react-icons/fa";
 import {SimpleButtonIconOnly,SimpleSelectMultiLabel,SimpleSelect} from "../../../../components/formElements/SimpleInputs";
 import {EmiDetailCard} from "../../../../components/cards/EmiDetailCard";
-
 import { CgSpinnerTwoAlt } from "react-icons/cg";
+import Select2 from "../../../../components/formElements/Select2";
 
 type EmiListProps ={
     payee_list:any[],
@@ -88,7 +88,7 @@ const EmiList = ({
                     </div>
 
                     <div>
-                        <SimpleSelect 
+                        {/* <SimpleSelect 
                             name={"payee"} 
                               
                             value={selectedPayee}
@@ -100,6 +100,17 @@ const EmiList = ({
                             onChange={(e)=>setSelectedPayee(e.target.value)}
 
                             customClassName="w-full"
+                        /> */}
+                        <Select2
+                            options={[{ value: 0, label: "All" }, ...payee_list]} 
+                            onChange={(option:any) => {
+                                setSelectedPayee(option?.value);
+                            }}
+
+                            defaultValue={{
+                                value: 0,
+                                label: "All"
+                            }}
                         />
                     </div>
 

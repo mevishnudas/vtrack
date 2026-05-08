@@ -4,6 +4,7 @@ import { CgSpinnerTwoAlt } from "react-icons/cg";
 import { ImSpinner11 } from "react-icons/im";
 import { FaFilter } from "react-icons/fa";
 import {Month} from "../../../utils/Month";
+import Select2 from "../../../components/formElements/Select2";
 
 type params ={
     userList:any[],
@@ -59,7 +60,7 @@ const List = ({
     return(
         <>  
             <div>
-                <div className="grid grid-cols-5 pb-1">
+                <div className="grid grid-cols-6 pb-1">
                     <div className="pr-2">
                         <select value={selectedYear}  
                             onChange={(e)=>setSelectedYear(e.target.value)}
@@ -78,22 +79,30 @@ const List = ({
                         </select>
                     </div>
 
-                    <div className="pl-2">
-                            <select value={selectedUser} onChange={(e)=>setSelectedUser(e.target.value)} className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
-                                <option value={0}>All</option>
-                                {userList.map(row=>(
-                                    <option value={row.id} key={row.id}>{row.name}</option>
-                                ))}
-                            </select>
+                    <div className="pl-2 col-span-2">
+                            
+                            <Select2
+                                options={[{ value: 0, label: "All" }, ...userList]} 
+                                onChange={(option:any) => {
+                                    setSelectedUser(option?.value);
+                                }}
+
+                                defaultValue={{
+                                    value: 0,
+                                    label: "All"
+                                }}
+                            />
+
                     </div>
 
                     <div className="pl-2">
                             <select value={selectedPaymentStatus} onChange={(e)=>setSelectedPaymentStatus(e.target.value)}  className="w-full border-1 border-gray-700 rounded-sm py-1 px-1 outline-none bg-gray-800 text-white">
-                                <option value={0}>All</option>
+                                <option value={0} key={0}>All</option>
                                 {paymentStatusList.map(row=>(
                                     <option value={row.id} key={row.id}>{row.name}</option>
                                 ))}
                             </select>
+                            
                     </div>
                     
                     <div className="flex justify-end">

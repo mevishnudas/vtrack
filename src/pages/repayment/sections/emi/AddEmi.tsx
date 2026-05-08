@@ -12,7 +12,7 @@ import {toastSuccessBottomRight,toastErrorBottomRight} from "../../../../utils/T
 
 import { IoIosCopy } from "react-icons/io";
 import {copyToClipBoard} from "../../../../utils/copyToClipBoard";
-
+import Select2 from "../../../../components/formElements/Select2";
 
 const validationSchema = yup.object({
   payee:yup.number().moreThan(0,error_message.required).required(error_message.required),
@@ -45,6 +45,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
         handleSubmit,
         reset,
         getValues,
+        setValue,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchema),
@@ -143,7 +144,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                         <div className="grid grid-cols-2 gap-2 px-2 py-1">
                             <div>
                                 <label>Payee</label>
-                                <CustomSelect 
+                                {/* <CustomSelect 
                                     name="payee"
                                     label="Select Payee"
                                     optionsList={payee_list}
@@ -152,6 +153,15 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                     customClassName="w-full"
 
                                     register={register}
+                                /> */}
+                                <Select2
+                                    options={payee_list} 
+                            
+                                    {...register("payee")}
+
+                                    onChange={(option:any) => {
+                                        setValue("payee",option?.value);
+                                    }}
                                 />
                                 <p className="text-red-400">{errors.payee?.message}</p>
                             </div>

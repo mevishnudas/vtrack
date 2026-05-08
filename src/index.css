@@ -23,3 +23,8 @@
 .custom-overflow-track::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}

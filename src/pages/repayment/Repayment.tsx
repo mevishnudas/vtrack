@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import { useState,useEffect } from "react";
 import List from "./sections/List";
 import Update from "./sections/Update";
 import Add from "./sections/Add";
@@ -37,7 +37,15 @@ const Repayment = () =>{
         });
 
         if(response.request){
-            setUserList(response.data?.data);
+
+            let data = response.data?.data;
+            const result = data.map(({ id, name, ...rest }) => ({ //formatting array
+                ...rest,
+                value: id,
+                label: name
+            }));
+            
+            setUserList(result);
         }
     }
 
