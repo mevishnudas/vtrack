@@ -18,7 +18,7 @@ const List = () =>{
 
                 <div className="grid grid-cols-4 pt-1">
                     <div className="flex col-span-3">
-                        <label className="bg-gray-400 px-2 rounded-2xl text-sm">🎵 Entertainment</label>
+                        <label className="bg-blue-200 px-2 rounded-2xl text-sm">🎵 Entertainment</label>
                     </div>
                     <div className="col-span-1"><p className="text-gray-500 text-end text-xs">04:41 PM | 08-05-2026</p></div>
                 </div>

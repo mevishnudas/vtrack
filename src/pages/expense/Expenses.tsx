@@ -33,7 +33,13 @@ const Expenses = () =>{
                             </ul>
                         </div>
                         <div className=" rounded-b-sm min-h-100 border-1 border-gray-800">
-                            {manageState=="ADD"&&(<><div className="text-white text-center p-5">New</div></>)}
+                            {manageState=="ADD"&&(<>
+                                <div className="text-white text-center p-5">
+                                    <input type="text" placeholder="Title" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
+                                    <textarea placeholder="Description" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
+                                    <input type="number" placeholder="Amount" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
+                                </div>
+                            </>)}
                             {manageState=="CAT"&&(<><div className="text-white text-center p-5">Category</div></>)}
                         </div>
 
