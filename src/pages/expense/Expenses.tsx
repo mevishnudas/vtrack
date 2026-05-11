@@ -4,6 +4,7 @@ import Overview from "./components/Overview";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineDataset } from "react-icons/md";
 import List from "./components/List";
+import Category  from "./components/Category";
 
 const Expenses = () =>{
     const[manageState,setManageState] = useState("ADD");
@@ -40,7 +41,7 @@ const Expenses = () =>{
                                     <input type="number" placeholder="Amount" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
                                 </div>
                             </>)}
-                            {manageState=="CAT"&&(<><div className="text-white text-center p-5">Category</div></>)}
+                            {manageState=="CAT"&&(<><Category/></>)}
                         </div>
 
                     </div>
