@@ -1,17 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageTitle from "../../utils/PageTitle";
 import Overview from "./components/Overview";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineDataset } from "react-icons/md";
 import List from "./components/List";
 import Category  from "./components/Category";
+import AddExpense from "./components/AddExpense";
+import { fetchRequest } from "../../services/Fetch";
 
 const Expenses = () =>{
     const[manageState,setManageState] = useState("ADD");
-    
+    const [categoryList,setCategoryList] = useState([]);
+    const [categoryListLoading,setCategoryListLoading] = useState(true);
+
     const switchManage = (manage:string) =>{
         setManageState(manage);
     }
+
+    const loadCategory = async () =>{
+
+        let response = await fetchRequest({
+            path:"expense/category/list",
+            method:"GET",
+            auth:true
+        });
+
+        if(response.request){
+            console.log(response.data?.data);
+            setCategoryList(response.data?.data);
+            setCategoryListLoading(false);
+        }
+    };
+
+    useEffect(()=>{
+        loadCategory();
+
+    },[]);
 
     return(
         <>
@@ -33,15 +57,11 @@ const Expenses = () =>{
                                 <li className={`${manageState=="CAT"?"bg-blue-800":"bg-blue-950"} w-full rounded-t-xl rounded-t-r-xl text-white flex justify-center items-center gap-1 cursor-pointer`} onClick={()=>switchManage("CAT")}><MdOutlineDataset/> Category</li>
                             </ul>
                         </div>
-                        <div className=" rounded-b-sm min-h-100 border-1 border-gray-800">
+                        <div className=" rounded-b-sm border-1 border-gray-800">
                             {manageState=="ADD"&&(<>
-                                <div className="text-white text-center p-5">
-                                    <input type="text" placeholder="Title" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
-                                    <textarea placeholder="Description" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
-                                    <input type="number" placeholder="Amount" className="w-full mb-2 text-white border-1 border-gray-500 rounded-sm px-2 py-1"/>
-                                </div>
+                                <AddExpense/>
                             </>)}
-                            {manageState=="CAT"&&(<><Category/></>)}
+                            {manageState=="CAT"&&(<><Category categoryListLoading={categoryListLoading} categoryList={categoryList}/></>)}
                         </div>
 
                     </div>

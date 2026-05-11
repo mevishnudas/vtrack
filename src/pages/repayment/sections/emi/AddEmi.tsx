@@ -39,6 +39,7 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
     const [totalAmount,setTotalAmount] = useState(0);
     const [submitting,setSubmitting] = useState(false);
     const [submittingError,setSubmitError] = useState("");
+    const [selectedPayee,setSelectedPayee] = useState(null);
 
     const {
         register,
@@ -48,6 +49,9 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
         setValue,
         formState: { errors },
     } = useForm({
+        defaultValues:{
+            payee:0
+        },
         resolver: yupResolver(validationSchema),
     });
 
@@ -96,7 +100,9 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
             })
 
             setTotalAmount(0);
+            setValue("payee",null);
             reset();
+            setSelectedPayee(null);
             reFreshEmiList(true);
         }
         else{
@@ -156,12 +162,16 @@ const AddEmi = ({bank_list,payee_list,reFreshEmiList}:emiProps) =>{
                                 /> */}
                                 <Select2
                                     options={payee_list} 
-                            
+                                    
+                                    value={selectedPayee}
                                     {...register("payee")}
 
                                     onChange={(option:any) => {
                                         setValue("payee",option?.value);
+                                        setSelectedPayee(option);
                                     }}
+
+                                    isClearable
                                 />
                                 <p className="text-red-400">{errors.payee?.message}</p>
                             </div>

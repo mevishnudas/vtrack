@@ -42,6 +42,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
     const [submitBtnDisabled,setSubmitBtnDisabled] = useState(false);
     const [submitError,setSubmitError] = useState("");
     const [totalAmount,setTotalAmount] = useState(0);
+    const [selectedPayee,setSelectedPayee] = useState(null);
 
     const {
         register,
@@ -90,6 +91,7 @@ const Add = ({refreshList,bankList,userList}:params) =>{
             });
             
             setTotalAmount(0);
+            setSelectedPayee(null);
             reset();
             refreshList();
 
@@ -147,12 +149,16 @@ const Add = ({refreshList,bankList,userList}:params) =>{
                                 
                                 <Select2
                                     options={userList} 
-                            
+                                    
+                                    value={selectedPayee}
                                     {...register("payee")}
 
                                     onChange={(option:any) => {
                                         setValue("payee",option?.value);
+                                        setSelectedPayee(option);
                                     }}
+
+                                    isClearable
                                 />
                             
                                 {errors.payee && <span className="text-red-300">{errors.payee?.message}</span>}
