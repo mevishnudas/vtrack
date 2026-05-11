@@ -4,6 +4,7 @@ import Overview from "./components/Overview";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineDataset } from "react-icons/md";
 import List from "./components/List";
+import Category  from "./components/Category";
 
 const Expenses = () =>{
     const[manageState,setManageState] = useState("ADD");
@@ -34,7 +35,7 @@ const Expenses = () =>{
                         </div>
                         <div className=" rounded-b-sm min-h-100 border-1 border-gray-800">
                             {manageState=="ADD"&&(<><div className="text-white text-center p-5">New</div></>)}
-                            {manageState=="CAT"&&(<><div className="text-white text-center p-5">Category</div></>)}
+                            {manageState=="CAT"&&(<><Category/></>)}
                         </div>
 
                     </div>
