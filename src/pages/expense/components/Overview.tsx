@@ -1,4 +1,12 @@
-const Overview = () =>{
+import Skeleton from "react-loading-skeleton";
+
+type overviewProps = {
+    overViewData:any[],
+    overViewLoading:Boolean,
+    overViewShowSkeleton:Boolean
+};
+
+const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewProps) =>{
 
     type PeriodBoxProps = {
         title:String,
@@ -16,26 +24,68 @@ const Overview = () =>{
         )
     }
 
+    const SkeletonLayout = () =>{
+        return(
+            <div className="grid grid-cols-4 gap-2">
+                <div className="col-span-1">
+                    <Skeleton 
+                        height={60} 
+                        baseColor="#1d293d" 
+                        highlightColor="#50678c" 
+                        count={1}
+                    />
+                </div>
+                <div className="col-span-1">
+                    <Skeleton 
+                        height={60} 
+                        baseColor="#1d293d" 
+                        highlightColor="#50678c" 
+                        count={1}
+                    />
+                </div>
+                <div className="col-span-1">
+                    <Skeleton 
+                        height={60} 
+                        baseColor="#1d293d" 
+                        highlightColor="#50678c" 
+                        count={1}
+                    />
+                </div>
+                <div className="col-span-1">
+                    <Skeleton 
+                        height={60} 
+                        baseColor="#1d293d" 
+                        highlightColor="#50678c" 
+                        count={1}
+                    />
+                </div>
+            </div>
+        )
+    }
     return(
         <>  
-            <div className="grid grid-cols-4 gap-2">
-
-                <div className="col-span-1">
-                    <PeriodBox title="This Year" amount={25000} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
-                </div>
-                <div className="col-span-1">
-                    <PeriodBox title="Last Month" amount={5000} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
-                </div>
-
-                <div className="col-span-1">
-                    <PeriodBox title="This Month" amount={10000} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
-                </div>
+            {overViewLoading&&overViewShowSkeleton&&(<SkeletonLayout/>)}
             
-                <div className="col-span-1">
-                    <PeriodBox title="Today" amount={1000} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
-                </div>
+            {!overViewShowSkeleton&&(<>
+                <div className="grid grid-cols-4 gap-2">
+                    
+                    <div className="col-span-1">
+                        <PeriodBox title="This Year" amount={overViewData?.this_year} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
+                    </div>
+                    <div className="col-span-1">
+                        <PeriodBox title="Last Month" amount={overViewData?.last_month} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
+                    </div>
 
-            </div>
+                    <div className="col-span-1">
+                        <PeriodBox title="This Month" amount={overViewData?.this_month} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
+                    </div>
+                
+                    <div className="col-span-1">
+                        <PeriodBox title="Today" amount={overViewData?.today} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
+                    </div>
+
+                </div>
+            </>)}
         </>
     )
 }

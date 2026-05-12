@@ -122,9 +122,10 @@ type CustomButtonProps = {
     label:string,
     type?:"button" | "submit" | "reset",
     customClassName?:string,
+    icon?:any
 };
 
-const CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) =>{
+const CustomButton = ({label,customClassName,type,icon,...rest}:CustomButtonProps) =>{
 
     return(<>
             <button 
@@ -132,6 +133,7 @@ const CustomButton = ({label,customClassName,type,...rest}:CustomButtonProps) =>
                 className={`rounded-sm ${customClassName}`} 
                 {...rest}
                 >
+                {icon}
                 {label}
             </button>
            </>);
