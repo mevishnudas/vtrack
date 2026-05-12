@@ -40,7 +40,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
     const Card = ({title,notes,amount,category_name,date}:CardProps) =>{
         return(
             <>
-            <div className="border-b-1 border-b-gray-800 hover:bg-gray-900 p-2">
+            <div className="border-b-1 border-b-gray-800  hover:bg-gray-900 p-2">
                 {/* <p className="text-white">List</p> */}
                 <div className="grid grid-cols-4">
                     <div className="col-span-3 text-white">
@@ -54,7 +54,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
 
                 <div className="grid grid-cols-4 pt-1">
                     <div className="flex col-span-3">
-                        <label className="bg-blue-200 px-2 rounded-2xl text-sm">{category_name}</label>
+                        <label className="bg-yellow-100 px-2 rounded-2xl text-sm">{category_name}</label>
                     </div>
                     <div className="col-span-1"><p className="text-gray-500 text-end text-xs">{format(new Date(date),"h:I a | dd-MM-yyyy")}</p></div>
                 </div>
@@ -71,7 +71,11 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
 
     return(
         <>
-            <div className="pt-2 flex justify-end">
+            <div className="pt-2 flex justify-between">
+                <div>
+                    <p className="text-white pl-2"><label className="text-sm">Total : </label><label className="font-bold text-red-400">₹{expenseList.reduce((sum, item) => sum + Number(item.amount),0)}</label></p>
+                </div>
+                <div>
                 <input 
                     type="date" 
                     className="text-white border-1 border-gray-500 rounded-sm date-input px-2"
@@ -79,6 +83,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
 
                     onChange={dateChangeEvent}
                 />
+                </div>
             </div>
 
             <div className="h-120 overflow-y-auto mt-2 rounded-xl min-h-100 border-1  border-gray-800 custom-overflow-track px-1">
@@ -101,7 +106,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
 
                 {
                     !expenseListLoading&&expenseList.map((item)=>(
-                        <div className="cursor-pointer" onClick={()=>setSelectedExpense(item)}  key={item.id}>
+                        <div className="cursor-pointer" onClick={()=>setSelectedExpense(item)} key={item.id}>
                             <Card 
                                 id={item.id}
                                 title={item.title} 

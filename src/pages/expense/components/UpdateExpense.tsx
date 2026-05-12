@@ -16,7 +16,7 @@ const expenseSchema = yup
     date: yup.date().typeError(error_message.invalid_date).required(error_message.required),
     amount: yup.number().required(error_message.required).positive(error_message.number_error).typeError(error_message.invalid_number),
     category: yup.number().required(error_message.required).positive(error_message.required),
-    notes: yup.string().optional()
+    notes: yup.string().nullable()
   })
   .required();
 
@@ -31,10 +31,7 @@ type UpdateExpenseProps = {
 
 const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,selectedExpense,setSelectedExpense}:UpdateExpenseProps) =>{
     
-    const [selectedCategory,setSelectedCategory] = useState({
-            "value":selectedExpense.category_id,
-            "label":selectedExpense.category_name
-    });
+    const [selectedCategory,setSelectedCategory] = useState(null);
     
     const [loading,setLoading] = useState(false);
     const [submitError,setSubmitError] = useState("");
@@ -44,7 +41,7 @@ const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,sele
             handleSubmit,
             reset,
             setValue,
-            getValues,
+            //getValues,
             formState: { errors }
         } = useForm({
             defaultValues:{
@@ -129,8 +126,14 @@ const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,sele
             value:selectedExpense.category_id,
             label:selectedExpense.category_name
         });
-
-        setValue("category",selectedExpense.category_id);
+        
+        reset({
+            title: selectedExpense?.title,
+            date: format(new Date(selectedExpense?.transaction_date),"yyyy-MM-dd"),
+            category: selectedExpense?.category_id,
+            amount: selectedExpense?.amount,
+            notes: selectedExpense?.notes,
+        });
 
     },[selectedExpense]);
 
@@ -143,14 +146,14 @@ const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,sele
                             <label className="text-gray-300 py-1 text-sm">Title</label>
                             <CustomInput 
                                 name="title" placeholder="Title" inputType="text" 
-                                defaultValue={selectedExpense?.title} 
-                            register={register}/>
+                                //defaultValue={selectedExpense?.title} 
+                                register={register}/>
                             <p className="text-red-400 text-sm">{errors.title?.message}</p>
                         </div>
 
                         <div className="col-span-1">
                             <label className="text-gray-300 py-1 text-sm ">Transaction date</label>
-                            <CustomInput name="date" defaultValue={selectedExpense?.transaction_date}  placeholder="Date" inputType="date" register={register} customClassName="date-input"/>
+                            <CustomInput name="date"  placeholder="Date" inputType="date" register={register} customClassName="date-input"/>
                             <p className="text-red-400 text-sm">{errors.date?.message}</p>
                         </div>
                     </div>
@@ -158,7 +161,7 @@ const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,sele
                     <div className="grid grid-cols-2 gap-2">
                         <div className="col-span-1">
                             <label className="text-gray-300 py-1 text-sm">Amount</label>
-                            <CustomInput name="amount" defaultValue={selectedExpense?.amount} placeholder="Amount" inputType="number" step="any" register={register} autoComplete="off"/>
+                            <CustomInput name="amount" placeholder="Amount" inputType="number" step="any" register={register} autoComplete="off"/>
                             <p className="text-red-400 text-sm">{errors.amount?.message}</p>
                         </div>
 
@@ -190,7 +193,7 @@ const UpdateExpense = ({categoryList,loadExpenses,selectedDate,loadOverView,sele
 
                     <div>
                         <label className="text-gray-300 py-1 text-sm">Notes</label>
-                        <CustomTextArea defaultValue={selectedExpense?.notes}  name="notes" placeholder="Notes" customClassName="w-full" register={register}/>
+                        <CustomTextArea  name="notes" placeholder="Notes" customClassName="w-full" register={register}/>
                         <p className="text-red-400 text-sm">{errors.notes?.message}</p>
                     </div>
 

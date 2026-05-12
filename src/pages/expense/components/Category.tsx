@@ -73,7 +73,7 @@ const Category =({ categoryList, categoryListLoading }:CategoryProps)=>{
                 </div>
             </div>
 
-            <div className="border-t-1 border-t-gray-800 pb-2">
+            {/* <div className="border-t-1 border-t-gray-800 pb-2">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label className="text-gray-300 py-1 text-sm">Custom Category</label>
@@ -89,7 +89,7 @@ const Category =({ categoryList, categoryListLoading }:CategoryProps)=>{
                         />
                     </div>
                 </form>
-            </div>
+            </div> */}
 
         </div>
      </>);
