@@ -8,6 +8,8 @@ import EmiList from "./sections/emi/EmiList";
 import DetailEmi from "./sections/emi/DetailEmi";
 
 import PageTitle from "../../utils/PageTitle";
+import UpcomingEmi from "./sections/emi/UpcomingEmi";
+
 const Emi = () =>{
 
     const [bankList,setBankList] = useState([]);
@@ -24,6 +26,10 @@ const Emi = () =>{
     const [selectedPayee,setSelectedPayee] = useState(0);
     const [selectedBank,setSelectedBank] = useState(0);
 
+    const[upcomingPayment,setUpcomingPayments] = useState([]);
+    const[upcomingPaymentLoading,setUpcomingPaymentsLoading] = useState(true);
+
+
     const loadBanks = async () =>{
           
             let response = await fetchRequest({
@@ -33,7 +39,7 @@ const Emi = () =>{
             });
     
             if(response.request){
-                console.log("Response ",response.data?.data);
+                //console.log("Response ",response.data?.data);
                 setBankList(response.data?.data);
             }
     }
@@ -159,6 +165,23 @@ const Emi = () =>{
         setEmiLoading(false);
     } 
 
+    const loadUpcomingPayments = async () =>{
+
+        setUpcomingPaymentsLoading(true);
+
+        let response = await fetchRequest({
+            path:"repayment/emi/upcoming",
+            auth:true,
+            method:"GET"
+        });
+    
+        if(response.request){
+            setUpcomingPayments(response.data?.data);
+        }
+
+        setUpcomingPaymentsLoading(false);
+    }
+
     useEffect(()=>{
 
         loadBanks();
@@ -169,6 +192,7 @@ const Emi = () =>{
         
         //Load emi list
         loadEmiList();
+        loadUpcomingPayments();
 
     },[]);
 
@@ -216,7 +240,7 @@ const Emi = () =>{
                         </div>
 
                         <div className="grid-cols-1 text-white">
-                            {selectedEmi.length==0?(<NoData/>):(
+                            {selectedEmi.length==0?(<UpcomingEmi upcomingPayment={upcomingPayment}/>):(
                             <DetailEmi
                                 emi_status_list={emiStatusList}
                                 emi_data={selectedEmi}
