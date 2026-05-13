@@ -163,6 +163,7 @@ const Emi = () =>{
         }
 
         setEmiLoading(false);
+        loadUpcomingPayments();
     } 
 
     const loadUpcomingPayments = async () =>{
@@ -192,7 +193,7 @@ const Emi = () =>{
         
         //Load emi list
         loadEmiList();
-        loadUpcomingPayments();
+        
 
     },[]);
 
@@ -239,16 +240,27 @@ const Emi = () =>{
                             />
                         </div>
 
-                        <div className="grid-cols-1 text-white">
-                            {selectedEmi.length==0?(<UpcomingEmi upcomingPayment={upcomingPayment}/>):(
-                            <DetailEmi
-                                emi_status_list={emiStatusList}
-                                emi_data={selectedEmi}
-                                setSelectedEmi={setSelectedEmi}
+                        <div className="grid-cols-1 text-white border-l-1 border-l-gray-800 pl-2">
 
-                                emiPrincipleStatusList={emiPrincipleStatusList}
-                                updateEMI={updateEMI}
-                            />)}
+                            <div className={`${selectedEmi.length!==0?"hidden":"block"}`}>
+                                <UpcomingEmi 
+                                    upcomingPayment={upcomingPayment} 
+                                    emiList={emiList}
+                                    setSelectedEmi={setSelectedEmi}
+                                    upcomingPaymentLoading={upcomingPaymentLoading}
+                                />
+                            </div>
+
+                            {selectedEmi.length!==0&&(
+                                <DetailEmi
+                                    emi_status_list={emiStatusList}
+                                    emi_data={selectedEmi}
+                                    setSelectedEmi={setSelectedEmi}
+
+                                    emiPrincipleStatusList={emiPrincipleStatusList}
+                                    updateEMI={updateEMI}
+                                />
+                            )}
                         </div>
                   </div>
 
