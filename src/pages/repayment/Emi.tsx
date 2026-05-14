@@ -9,6 +9,7 @@ import DetailEmi from "./sections/emi/DetailEmi";
 
 import PageTitle from "../../utils/PageTitle";
 import UpcomingEmi from "./sections/emi/UpcomingEmi";
+import {format} from "date-fns";
 
 const Emi = () =>{
 
@@ -29,6 +30,9 @@ const Emi = () =>{
     const[upcomingPayment,setUpcomingPayments] = useState([]);
     const[upcomingPaymentLoading,setUpcomingPaymentsLoading] = useState(true);
 
+    const [yearList,setYearList] = useState([]);
+    const [selectedMonth,setSelectedMonth] = useState(format(new Date(), "M"));
+    const [selectedYear,setSelectedYear] = useState(format(new Date(), "yyyy"));
 
     const loadBanks = async () =>{
           
@@ -173,7 +177,11 @@ const Emi = () =>{
         let response = await fetchRequest({
             path:"repayment/emi/upcoming",
             auth:true,
-            method:"GET"
+            method:"POST",
+            body:{
+                month:selectedMonth,
+                year:selectedYear
+            }
         });
     
         if(response.request){
@@ -183,11 +191,26 @@ const Emi = () =>{
         setUpcomingPaymentsLoading(false);
     }
 
+    const loadYears = async () =>{
+        
+        let response = await fetchRequest({
+          path:"master/year/list",
+          auth:true,
+          method:"GET"
+        });
+
+        if(response.request){
+            setYearList(response.data?.data);
+        }
+    } 
+
+
     useEffect(()=>{
 
         loadBanks();
         loadPayee();
         loadEmiStatus();
+        loadYears();
         loadEmiPrincipleStatus();
 
         
@@ -248,6 +271,15 @@ const Emi = () =>{
                                     emiList={emiList}
                                     setSelectedEmi={setSelectedEmi}
                                     upcomingPaymentLoading={upcomingPaymentLoading}
+                                    loadUpcomingPayments={loadUpcomingPayments}
+                                    
+                                    selectedMonth={selectedMonth}
+                                    setSelectedMonth={setSelectedMonth}
+
+                                    setSelectedYear={setSelectedYear}
+                                    selectedYear={selectedYear}
+
+                                    yearList={yearList}
                                 />
                             </div>
 

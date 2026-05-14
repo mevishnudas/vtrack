@@ -107,7 +107,7 @@ const Expenses = () =>{
             <div className="p-2">
                 <h1 className="font-bold text-white">Expenses</h1>
 
-                <div className="grid grid-cols-3 pt-2">
+                <div className="grid md:grid-cols-3 grid-cols-1 pt-2 gap-2">
                     <div className="col-span-2">
                         <Overview 
                             overViewData={overViewData}
@@ -129,7 +129,7 @@ const Expenses = () =>{
                         />
                     </div>
 
-                    <div className="col-span-1 px-2">
+                    <div className="col-span-1">
 
                         <div className="border-b-0 border-b-gray-800">
                             <ul className="flex gap-1">

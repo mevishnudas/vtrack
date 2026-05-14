@@ -195,7 +195,7 @@ const Splitwise = () =>{
             <div className="p-2">
                 <h1 className="font-bold text-white">Splitwise</h1>
 
-                <div className="grid grid-cols-4 text-white px-2 py-2 gap-2">
+                <div className="grid md:grid-cols-4 text-white px-2 py-2 gap-2">
                     <div className="col-span-1">
                         <LeftSideBar 
                             friends={friendFilteredList} 
@@ -209,7 +209,7 @@ const Splitwise = () =>{
                         />
                     </div>
 
-                    <div className="col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
+                    <div className="md:col-span-2 border-l-1 border-l-gray-700 border-r border-r-gray-700">
                         
                         <Owing 
                             addExpense={setAddExpenseModel}
@@ -228,7 +228,7 @@ const Splitwise = () =>{
                         
                     </div>
 
-                    <div className="col-span-1">
+                    <div className="md:col-span-1">
                         <RightSideBar 
                             selectedFriend={selectedFriend}
                             friendTransitions={friendTransitions}
@@ -237,7 +237,6 @@ const Splitwise = () =>{
                             //editTransaction={editTransaction}
                         />
                     </div>
-
                 </div>
 
             </div>

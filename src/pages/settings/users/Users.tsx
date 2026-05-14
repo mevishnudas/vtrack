@@ -74,7 +74,7 @@ const Users = () =>{
         <div className="p-2">
             <h1 className="font-bold text-white">Users</h1>
             
-            <div className="grid grid-cols-4">
+            <div className="grid md:grid-cols-4 gap-2">
                 
                 <div className="pt-2">
 
@@ -118,9 +118,9 @@ const Users = () =>{
 
                 </div>
                 
-                <div className="col-span-3 p-2">
+                <div className="md:col-span-3 p-2">
 
-                    <div className="w-60 bg-slate-900 rounded-sm overflow-hidden">
+                    <div className="md:w-60 w-full bg-slate-900 rounded-sm overflow-hidden">
                         <div className="bg-sky-800">
                             <h1 className="text-white px-2 py-1">New User</h1>
                         </div>

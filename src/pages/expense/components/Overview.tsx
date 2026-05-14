@@ -26,7 +26,7 @@ const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewPr
 
     const SkeletonLayout = () =>{
         return(
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid md:grid-cols-4 grid-cols-1 gap-2">
                 <div className="col-span-1">
                     <Skeleton 
                         height={60} 
@@ -67,7 +67,7 @@ const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewPr
             {overViewLoading&&overViewShowSkeleton&&(<SkeletonLayout/>)}
             
             {!overViewShowSkeleton&&(<>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid md:grid-cols-4 grid-cols-1 gap-2">
                     
                     <div className="col-span-1">
                         <PeriodBox title="This Year" amount={overViewData?.this_year} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>

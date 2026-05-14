@@ -110,9 +110,9 @@ const CreditCard = () =>{
                 
                 <div className="pt-2 px-1">
                     
-                    <div className="grid grid-cols-4 gap-2 items-start">
+                    <div className="grid md:grid-cols-4 grid-cols-1 gap-2 items-start">
                                     
-                        <div className={`col-span-3 ${loading&&("cursor-progress")}`}>
+                        <div className={`md:col-span-3 col-span-1 ${loading&&("cursor-progress")}`}>
                             <div className={`grid sm:grid-cols-4 gap-2 ${loading&&("pointer-events-none")}`}>
                             {creditCardList.map((row)=>(
                                 <CreditCardBox 
