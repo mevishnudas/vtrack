@@ -1,4 +1,5 @@
 import Skeleton from "react-loading-skeleton";
+// import { GiPieChart } from "react-icons/gi";
 
 type overviewProps = {
     overViewData:any[],
@@ -85,6 +86,13 @@ const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewPr
                     </div>
 
                 </div>
+                
+
+                {/* <div className="pt-1">
+                    <p className="text-blue-300 text-xs text-end flex justify-end gap-1 items-center cursor-pointer">
+                        <GiPieChart size={18} /> View Summary
+                    </p>
+                </div> */}
             </>)}
         </>
     )

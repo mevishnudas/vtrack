@@ -54,7 +54,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
 
                 <div className="grid grid-cols-4 pt-1">
                     <div className="flex col-span-3">
-                        <label className="bg-yellow-100 px-2 rounded-2xl text-sm">{category_name}</label>
+                        <label className="bg-yellow-100 px-2 rounded-2xl text-sm flex justify-center items-center">{category_name}</label>
                     </div>
                     <div className="col-span-1"><p className="text-gray-500 text-end text-xs">{format(new Date(date),"h:I a | dd-MM-yyyy")}</p></div>
                 </div>
