@@ -18,7 +18,7 @@ const AccountSummary = ({loading, accountSummary}:AccountSummaryProps) => {
 
   type  SummaryProps = {
     bank_name: string,
-    amount:number,
+    amount:Number,
     last_month_balance:number
     last:boolean
   }
@@ -35,13 +35,13 @@ const AccountSummary = ({loading, accountSummary}:AccountSummaryProps) => {
               <label className="flex justify-end gap-1">
                 ₹ {showAmount?(Number(amount).toLocaleString("en-IN")):(<>******</>)}
               </label>
-              {amount==last_month_balance?(
+              {Number(amount)==Number(last_month_balance)?(
                 <>
                   <PiApproximateEqualsBold className="text-amber-300 font-bold" size={16} title="No Change"/>   
                 </>
               ):(
                 <>
-                  {amount>last_month_balance?(<><FaArrowTrendUp className="text-green-300 font-bold" size={15} title="Up"/></>):(<><FaArrowTrendDown className="text-red-300 font-bold" size={16} title="Down"/></>)}
+                  {Number(amount)>Number(last_month_balance)?(<><FaArrowTrendUp className="text-green-300 font-bold" size={15} title="Up"/></>):(<><FaArrowTrendDown className="text-red-300 font-bold" size={16} title="Down"/></>)}
                 </>
               )}
               
@@ -118,13 +118,20 @@ const AccountSummary = ({loading, accountSummary}:AccountSummaryProps) => {
           <div className="py-2 border-t-1 border-t-lime-900 bg-lime-950">
             <p className="flex text-end text-xs px-2 text-gray-300 justify-end gap-2">Total : ₹ {showAmount?Number(totalAmount).toLocaleString("en-IN"):"********"}
 
-              {totalAmount==totalAmountLastMonth?(
+              {Number(totalAmount)==Number(totalAmountLastMonth)?(
                 <>
                   <PiApproximateEqualsBold className="text-amber-300 font-bold" size={16} title="No Change"/>   
                 </>
               ):(
                 <>
-                  {totalAmount>totalAmountLastMonth?(<><FaArrowTrendUp className="text-green-300 font-bold" size={15} title="Up"/></>):(<><FaArrowTrendDown className="text-red-300 font-bold" size={16} title="Down"/></>)}
+                  {Number(totalAmount)>Number(totalAmountLastMonth)?(
+                      <>
+                        <FaArrowTrendUp className="text-green-300 font-bold" size={15} title="Up"/>
+                      </>):(
+                      <>
+                        <FaArrowTrendDown className="text-red-300 font-bold" size={16} title="Down"/>
+                      </>
+                    )}
                 </>
               )}
 

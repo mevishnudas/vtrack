@@ -9,6 +9,7 @@ import AddExpense from "./components/AddExpense";
 import UpdateExpense from "./components/UpdateExpense";
 import { fetchRequest } from "../../services/Fetch";
 import { format } from "date-fns";
+import SummaryChart from "./components/SummaryChart";
 
 const Expenses = () =>{
     const[manageState,setManageState] = useState("ADD");
@@ -127,6 +128,9 @@ const Expenses = () =>{
 
                             setSelectedExpense={setSelectedExpense}
                         />
+
+                        {/* <SummaryChart/> */}
+
                     </div>
 
                     <div className="col-span-1">
