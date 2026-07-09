@@ -27,6 +27,8 @@ const Expenses = () =>{
     const [expenseListLoading,setExpenseListLoading] = useState(true);
 
     const [selectedExpense,setSelectedExpense] = useState();
+    const [selectedPeriod,setSelectedPeriod] = useState("");
+    const [showSummary,setShowSummary] = useState(false);
 
     const switchManage = (manage:string) =>{
         setManageState(manage);
@@ -98,6 +100,24 @@ const Expenses = () =>{
         loadOverView();
     }
 
+    type toggleExpenseSummaryProps = {
+        period:string
+    }
+    const toggleExpenseSummary =({period}:toggleExpenseSummaryProps)=>{
+
+        if(period==selectedPeriod){
+            setShowSummary(false);
+            setSelectedPeriod("");
+            return;
+        }
+        else{
+            setSelectedPeriod(period);
+            setShowSummary(true);
+        }
+
+        return true;
+    }
+
     useEffect(()=>{
         loadBasic();
     },[]);
@@ -114,22 +134,28 @@ const Expenses = () =>{
                             overViewData={overViewData}
                             overViewLoading={overViewLoading}
                             overViewShowSkeleton={overViewShowSkeleton}
+                            toggleExpenseSummary={toggleExpenseSummary}
                         />
+                        
+                        
+                        {showSummary?(
+                            <div className="mt-4">
+                                <SummaryChart/>
+                            </div>
+                        ):(
+                            <List 
+                                expenseList={expenseList} 
+                                expenseListLoading={expenseListLoading}
 
-                        <List 
-                            expenseList={expenseList} 
-                            expenseListLoading={expenseListLoading}
+                                selectedDate={selectedDate}
+                                setSelectedDate={setSelectedDate}
+                                loadExpenses={loadExpenses}
+                                setExpenseListShowSkelton={setExpenseListShowSkelton}
+                                expenseListShowSkelton={expenseListShowSkelton}
 
-                            selectedDate={selectedDate}
-                            setSelectedDate={setSelectedDate}
-                            loadExpenses={loadExpenses}
-                            setExpenseListShowSkelton={setExpenseListShowSkelton}
-                            expenseListShowSkelton={expenseListShowSkelton}
-
-                            setSelectedExpense={setSelectedExpense}
-                        />
-
-                        {/* <SummaryChart/> */}
+                                setSelectedExpense={setSelectedExpense}
+                            />
+                        )}
 
                     </div>
 

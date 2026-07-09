@@ -4,10 +4,11 @@ import Skeleton from "react-loading-skeleton";
 type overviewProps = {
     overViewData:any[],
     overViewLoading:Boolean,
-    overViewShowSkeleton:Boolean
+    overViewShowSkeleton:Boolean,
+    toggleExpenseSummary:Function
 };
 
-const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewProps) =>{
+const Overview = ({overViewData,overViewLoading,overViewShowSkeleton,toggleExpenseSummary}:overviewProps) =>{
 
     type PeriodBoxProps = {
         title:String,
@@ -70,18 +71,18 @@ const Overview = ({overViewData,overViewLoading,overViewShowSkeleton}:overviewPr
             {!overViewShowSkeleton&&(<>
                 <div className="grid md:grid-cols-4 grid-cols-1 gap-2">
                     
-                    <div className="col-span-1">
+                    <div className="col-span-1 cursor-pointer" onClick={()=>toggleExpenseSummary({period:"this_year"})}>
                         <PeriodBox title="This Year" amount={overViewData?.this_year} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
                     </div>
-                    <div className="col-span-1">
+                    <div className="col-span-1 cursor-pointer" onClick={()=>toggleExpenseSummary({period:"last_month"})}>
                         <PeriodBox title="Last Month" amount={overViewData?.last_month} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
                     </div>
 
-                    <div className="col-span-1">
+                    <div className="col-span-1 cursor-pointer" onClick={()=>toggleExpenseSummary({period:"this_month"})}>
                         <PeriodBox title="This Month" amount={overViewData?.this_month} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
                     </div>
                 
-                    <div className="col-span-1">
+                    <div className="col-span-1 cursor-pointer" onClick={()=>toggleExpenseSummary({period:"today"})}>
                         <PeriodBox title="Today" amount={overViewData?.today} bg_color={`bg-gradient-to-b from-slate-700 to-slate-800`}/>
                     </div>
 
