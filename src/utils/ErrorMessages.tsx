@@ -9,6 +9,7 @@ const error_message = {
     invalid_email:"Invalid email id",
     invalid_length:"Invalid length",
     number_without_points:"Please input number without decimal points",
+    failed_to_load:"Failed to load!"
 };
 
 export {error_message};

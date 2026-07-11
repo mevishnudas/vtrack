@@ -130,17 +130,18 @@ const Expenses = () =>{
 
                 <div className="grid md:grid-cols-3 grid-cols-1 pt-2 gap-2">
                     <div className="col-span-2">
+
                         <Overview 
                             overViewData={overViewData}
                             overViewLoading={overViewLoading}
                             overViewShowSkeleton={overViewShowSkeleton}
                             toggleExpenseSummary={toggleExpenseSummary}
+                            selectedPeriod={selectedPeriod}
                         />
-                        
                         
                         {showSummary?(
                             <div className="mt-4">
-                                <SummaryChart/>
+                                <SummaryChart selectedPeriod={selectedPeriod}/>
                             </div>
                         ):(
                             <List 
