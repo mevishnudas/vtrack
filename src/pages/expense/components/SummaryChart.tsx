@@ -6,11 +6,13 @@ import { useEffect,useState } from "react";
 import { fetchRequest } from "../../../services/Fetch";
 import { toastErrorBottomRight } from "../../../utils/Toast";
 import { error_message } from "../../../utils/ErrorMessages";
+import { ImSpinner6 } from "react-icons/im";
 type SummaryChartProps = {
     selectedPeriod:String
 };
 const SummaryChart = ({selectedPeriod}:SummaryChartProps) =>{
 
+    const [loading,setLoading] = useState(true);
     const [chartData,setChartData] = useState<any>({
                 chart: {
                     type: "pie",
@@ -34,7 +36,7 @@ const SummaryChart = ({selectedPeriod}:SummaryChartProps) =>{
         }
     );
     
-    const renderChart = (expenseSummary:any) =>{
+    const renderChart = (title:string, series_data:any[]) =>{
 
         let series = [
                     {
@@ -60,19 +62,12 @@ const SummaryChart = ({selectedPeriod}:SummaryChartProps) =>{
                                 },
                             },
                         ],
-                        data: [
-                            ["Health care", 340],
-                            ["Education", 27],
-                            ["Youth programmes", 22],
-                            ["Poverty measures", 8],
-                            ["Elderly care", 6],
-                            ["Other", 3],
-                        ],
+                        data: series_data,
                     },
                 ];
                 
         let subtitle = {
-            text: "Today",
+            text: title,
             align: "center"
         }
         setChartData(prev =>({
@@ -83,7 +78,7 @@ const SummaryChart = ({selectedPeriod}:SummaryChartProps) =>{
     }
 
     const loadChart = async (selectedPeriod:String) =>{
-
+        setLoading(true);
         const expenseSummary = await fetchRequest({
                 path:"expense/summary",
                 method:"POST",
@@ -95,27 +90,64 @@ const SummaryChart = ({selectedPeriod}:SummaryChartProps) =>{
 
         if(expenseSummary.request){
 
+            let categorySummary = expenseSummary.data?.data;
+            let series_data = categorySummary.map((row:any)=> {
+                return [row.name,row.total_amount];
+            });
+
+            let title = "Unknown";
+            switch(selectedPeriod){
+                case "today":
+                    title = "Today";
+                    break;
+
+                case "this_week":
+                    title = "This Week";
+                    break;
+                
+                case "last_month":
+                    title = "Last Month";
+                    break;
+
+                case "this_month":
+                    title = "This Month";
+                    break;
+
+                case "this_year":
+                    title = "This Year";
+                    break;  
+            }
+            renderChart(title,series_data);
+            setLoading(false);
+
         }else{
             toastErrorBottomRight({
                 message:error_message.failed_to_load,
             });
         }
-        // console.log(expenseSummary);
-        renderChart(expenseSummary);
+       
     }
 
     useEffect(()=>{
-        console.log("Chart Load");
         loadChart(selectedPeriod);
     },[selectedPeriod]);
 
     return(
         <>  
         <div className="rounded-xl border-1 border-slate-800 overflow-clip">
+
+            {loading &&(
+                <div className="min-h-100 flex justify-center items-center gap-1">
+                    <ImSpinner6 className="animate-spin text-gray-300" />
+                    <p className="text-gray-300 text-center">Rendering...</p>
+                </div>
+            )}
+
+            {!loading &&(
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartData}
-            />
+            />)}
         </div>
         </>
     );
