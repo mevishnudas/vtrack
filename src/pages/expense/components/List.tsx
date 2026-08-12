@@ -73,7 +73,7 @@ const List = ({expenseList,expenseListLoading,loadExpenses,setSelectedDate,selec
         <>
             <div className="pt-2 flex justify-between">
                 <div>
-                    <p className="text-white pl-2"><label className="text-sm">Total : </label><label className="font-bold text-red-400">₹{expenseList.reduce((sum, item) => sum + Number(item.amount),0)}</label></p>
+                    <p className="text-white pl-2"><label className="text-sm">Total : </label><label className="font-bold text-red-400">₹{expenseList.reduce((sum, item) => sum + Number(item.amount),0).toFixed(2)}</label></p>
                 </div>
                 <div>
                 <input 
