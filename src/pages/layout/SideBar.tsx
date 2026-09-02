@@ -68,6 +68,7 @@ const SideBar = ({setSideBarShow,sideBarShow}:props) =>{
                             <ul>
                                 <li onClick={()=>navScreen('/repayment','repayment')} className="text-white px-5 hover:bg-slate-700 py-1 cursor-pointer border-b-1 border-b-slate-700">Repayment</li>
                                 <li onClick={()=>navScreen('/repayment/emi','repayment')} className="text-white px-5 hover:bg-slate-700 py-1 cursor-pointer">EMI</li>
+                                <li onClick={()=>navScreen('/repayment/emi','repayment')} className="text-white px-5 hover:bg-slate-700 py-1 cursor-pointer">Summary</li>
                             </ul>
                         </div>
                         
