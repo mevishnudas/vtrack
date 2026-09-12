@@ -1,10 +1,13 @@
 import {SearchWithClose } from "../../../../components/formElements/SuperInputs";
 import { useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 
 type UserListFilterProps = {
-    friends:any[]
+    friends:any[],
+    loadUserSummary:Function,
+    selectedUser:any[]
 }
-const UserListFilter = ({friends}:UserListFilterProps) =>{
+const UserListFilter = ({friends,loadUserSummary,selectedUser}:UserListFilterProps) =>{
     const [friendsFiltered,setFriendsFiltered] = useState([]);
     const [searchKey,setSearchKey] = useState("");
 
@@ -36,15 +39,26 @@ const UserListFilter = ({friends}:UserListFilterProps) =>{
             
                 autoFocus={true}
                 onKeyUp={searchFilter} 
-
+                autoComplete="off"
                 clearSearch={clearSearch}
             />
 
             <div className="max-h-130 overflow-y-auto overflow-hidden custom-overflow-track">
                 <ul>
                     {friendsFiltered.map((row)=>(
-                        <li key={row.value} className="hover:bg-teal-950 cursor-pointer px-2 py-1 border-b-1 border-b-teal-800">
-                            {row.label}
+                        <li key={row.value} onClick={()=>loadUserSummary(row.value,row.label)} 
+                            className={`flex justify-between items-center
+                                        hover:bg-teal-950 
+                                        cursor-pointer 
+                                        px-2 py-1 border-b-1 
+                                        border-b-teal-800
+                                        ${selectedUser?.id==row.value&&(
+                                            "bg-teal-950"
+                                        )}
+                                        `}
+                            >
+                            <label>{row.label}</label>
+                            <label>{selectedUser?.id==row.value&&(<IoIosArrowForward />)}</label>
                         </li>
                     ))}
                 </ul>

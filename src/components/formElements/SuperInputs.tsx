@@ -17,7 +17,7 @@ const SearchWithClose = ({placeholder,closeBtn,clearSearch,...rest}:SearchWithCl
                 customClassName="border-1 rounded-sm bg-slate-900 border-gray-600 text-sm w-full"
                 placeholder={placeholder} 
                 {...rest}
-
+                
                 ref={searchInputRef}
             />
 

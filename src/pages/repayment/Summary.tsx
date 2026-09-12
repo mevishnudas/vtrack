@@ -6,7 +6,8 @@ import UserSummary from "./sections/summary/UserSummary";
 
 const Summary = () =>{
     const [friends,setFriends] = useState([]);
-
+    const [selectedUser,setSelectedUser] = useState();
+    
     const loadFriends = async () =>{
         
         let response = await fetchRequest({
@@ -30,10 +31,24 @@ const Summary = () =>{
         }
     }
 
+    // type loadUserSummaryProps = {
+    //     id:Number
+    // }
+    const loadUserSummary = (id:Number,name:String) =>{
+        // alert(id)
+        setSelectedUser({
+            "id":id,
+            "name":name
+        });
+    }
 
     useEffect(()=>{
         //alert("Hi");
         loadFriends();
+
+        return ()=>{
+            setSelectedUser(null);
+        }
     },[]);
     return(
         <>
@@ -45,14 +60,20 @@ const Summary = () =>{
                     <div className="text-white col-span-2">
 
                         {/* User List */}
-                        <UserListFilter friends={friends}/>
+                        <UserListFilter friends={friends} loadUserSummary={loadUserSummary} selectedUser={selectedUser}/>
                         {/* User List End*/}
 
                     </div>
                     <div className="text-white col-span-10">
                             
                         {/* Summary Start */}
-                        <UserSummary/>
+                        {selectedUser&&(
+                            <UserSummary userInfo={selectedUser}/>
+                        )}
+
+                        {/* {!selectedUser&&(
+                            <h1>Test</h1>
+                        )} */}
                         {/* Summary End */}
 
                     </div>
