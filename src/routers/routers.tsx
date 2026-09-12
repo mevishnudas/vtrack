@@ -7,6 +7,7 @@ import Splitwise from "../pages/splitwise/Splitwise";
 
 import { Repayment } from "../pages/repayment/Repayment";
 import Emi from "../pages/repayment/Emi";
+import Summary from "../pages/repayment/Summary";
 
 import Users from "../pages/settings/users/users";
 import CreditCard from './../pages/creditcard/CreditCard';
@@ -24,6 +25,7 @@ const MainRoute = () =>{
                 <Route path="/credit-card" element={<CreditCard />}/>
                 <Route path="/repayment" element={<Repayment />}/>
                 <Route path="/repayment/emi" element={<Emi />}/>
+                <Route path="/repayment/summary" element={<Summary />}/>
 
                 <Route path="/settings/users" element={<Users />}/>
                 {/* <Route path="dashboard" element={<Dash/>}/> */}
