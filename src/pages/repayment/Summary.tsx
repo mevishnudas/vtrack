@@ -3,11 +3,14 @@ import PageTitle from "../../utils/PageTitle";
 import UserListFilter from "./sections/summary/UserListFilter";
 import { fetchRequest } from "../../services/Fetch";
 import UserSummary from "./sections/summary/UserSummary";
+import OverallSummary from "./sections/summary/OverallSummary";
 
 const Summary = () =>{
     const [friends,setFriends] = useState([]);
     const [selectedUser,setSelectedUser] = useState();
-    
+    const [loadingOverallSummary,setLoadingOverallSummary] = useState(true);
+    const [overallSummaryList,setOverallSummaryList] = useState([]);
+
     const loadFriends = async () =>{
         
         let response = await fetchRequest({
@@ -41,10 +44,28 @@ const Summary = () =>{
             "name":name
         });
     }
+    const clearSelection = () =>{
+        setSelectedUser(null);
+    }
+
+    const loadOverallSummary = async () =>{
+        setLoadingOverallSummary(true);
+        let response = await fetchRequest({
+          path:"repayment/overall/summary",
+          auth:true,
+          method:"GET"
+        });
+
+        if(response.request){
+            let data = response.data?.data;
+            setOverallSummaryList(data);
+        }
+        setLoadingOverallSummary(false);
+    }
 
     useEffect(()=>{
-        //alert("Hi");
         loadFriends();
+        loadOverallSummary();
 
         return ()=>{
             setSelectedUser(null);
@@ -68,12 +89,18 @@ const Summary = () =>{
                             
                         {/* Summary Start */}
                         {selectedUser&&(
-                            <UserSummary userInfo={selectedUser}/>
+                            <UserSummary userInfo={selectedUser} clearSelection={clearSelection}/>
                         )}
 
-                        {/* {!selectedUser&&(
-                            <h1>Test</h1>
-                        )} */}
+                        {!selectedUser&&(
+                            <div className="min-h-100 rounded-xl overflow-hidden">
+                                <OverallSummary 
+                                    loadingOverallSummary={loadingOverallSummary} 
+                                    overallSummaryList={overallSummaryList}
+                                    loadUserSummary={loadUserSummary}
+                                />
+                            </div>
+                        )}
                         {/* Summary End */}
 
                     </div>

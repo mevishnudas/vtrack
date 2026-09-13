@@ -57,7 +57,7 @@ const UserListFilter = ({friends,loadUserSummary,selectedUser}:UserListFilterPro
                                         )}
                                         `}
                             >
-                            <label>{row.label}</label>
+                            <label className="cursor-pointer select-none">{row.label}</label>
                             <label>{selectedUser?.id==row.value&&(<IoIosArrowForward />)}</label>
                         </li>
                     ))}
