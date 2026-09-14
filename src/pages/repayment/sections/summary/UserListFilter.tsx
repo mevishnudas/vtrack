@@ -43,7 +43,7 @@ const UserListFilter = ({friends,loadUserSummary,selectedUser}:UserListFilterPro
                 clearSearch={clearSearch}
             />
 
-            <div className="max-h-130 overflow-y-auto overflow-hidden custom-overflow-track">
+            <div className="max-h-50 sm:max-h-130 overflow-y-auto overflow-hidden custom-overflow-track">
                 <ul>
                     {friendsFiltered.map((row)=>(
                         <li key={row.value} onClick={()=>loadUserSummary(row.value,row.label)} 

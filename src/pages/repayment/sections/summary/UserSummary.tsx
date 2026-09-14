@@ -41,46 +41,60 @@ const UserSummary = ({userInfo,clearSelection}:UserSummaryProps) =>{
 
     }   
 
-    type SKProps = {
-        base_color:String
-    }
-    const SK = ({base_color}:SKProps) =>{
+    // type SKProps = {
+    //     base_color:String
+    // }
+    // const SK = ({base_color}:SKProps) =>{
+    //     return(
+    //         <div className="px-2 pt-1">
+    //             <Skeleton 
+    //                 height={80} 
+    //                 baseColor={base_color} 
+    //                 highlightColor="#ffffff" 
+    //                 count={1}
+    //                 borderRadius={5}
+    //             />
+    //         </div>
+    //     );
+    // }  
+
+    const SK = () =>{
         return(
             <div className="px-2 pt-1">
                 <Skeleton 
-                    height={80} 
-                    baseColor={base_color} 
+                    height={50} 
+                    baseColor="#243981"
                     highlightColor="#ffffff" 
                     count={1}
                     borderRadius={5}
                 />
             </div>
         );
-    }  
+    } 
 
     const SummaryCards = ({title,icon,total,total_amount,owe_status,loading,customClass}:SummaryCardsProps) =>{
-        if(loading){
-            //#804517 -- Brown
-            //#243981 -- Blue
-            //#005e2b -- Green
-            let base_color = "#804517";
-            switch (title) {
-                case "Repayment":
-                    base_color = "#804517";
-                    break;
+        // if(loading){
+        //     //#804517 -- Brown
+        //     //#243981 -- Blue
+        //     //#005e2b -- Green
+        //     let base_color = "#804517";
+        //     switch (title) {
+        //         case "Repayment":
+        //             base_color = "#804517";
+        //             break;
             
-                case "EMI":
-                    base_color = "#243981";
-                break;
+        //         case "EMI":
+        //             base_color = "#243981";
+        //         break;
                 
-                case "Splitwise":
-                    base_color = "#005e2b";
-                break;
-            }
-            return(
-                <SK base_color={base_color}/>
-            )
-        }else{
+        //         case "Splitwise":
+        //             base_color = "#005e2b";
+        //         break;
+        //     }
+        //     return(
+        //         <SK base_color={base_color}/>
+        //     )
+        // }else{
             return(
                 <>
                 <div className={`border-2 rounded-xl p-2 ${customClass}`}>
@@ -91,18 +105,20 @@ const UserSummary = ({userInfo,clearSelection}:UserSummaryProps) =>{
                         <div className="w-80">
                             <h2 className="text-sm text-gray-300">{title}</h2>
                             {title=="Splitwise"?(<>
-                                <h3>{owsStatusLabel(owe_status)} : ₹{Number(total).toLocaleString("en-IN")}</h3>
+                                {loading?(<span className="animate-pulse">_ _ _ _ _ _ _ _ _ _</span>):(
+                                    <h3>{owsStatusLabel(owe_status)} : ₹{Number(total).toLocaleString("en-IN")}</h3>
+                                )}
                                 <h3>&nbsp;</h3>
                             </>):(<>
-                                <h3 className="font-bold text-lg">Total : {total}</h3>
-                                <h3 className="text-sm text-gray-300">Total Amount : ₹{Number(total_amount).toLocaleString("en-IN")}</h3>
+                                <h3 className="font-bold text-lg">Total : {loading?(<span className="animate-pulse">_ _ _</span>):(total)}</h3>
+                                <h3 className="text-sm text-gray-300">Total Amount : ₹{loading?(<span className="animate-pulse">_ _ _</span>):(Number(total_amount).toLocaleString("en-IN"))}</h3>
                             </>)}
                         </div>
                     </div>
                 </div>
                 </>
             );
-        }
+        //}
     }
     
     const loadUserSummary = async (id:Number) =>{
@@ -151,7 +167,7 @@ const UserSummary = ({userInfo,clearSelection}:UserSummaryProps) =>{
                 <h1 className="font-bold p-2 text-xl flex justify-start items-center gap-2"><FaRegUser/> {userInfo?.name}</h1>
                 <button className="cursor-pointer" onClick={clearSelection}><IoIosClose size={30}/></button>
             </div>
-            <div className="grid grid-cols-3 gap-2 border-t-1 border-t-slate-800 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 border-t-1 border-t-slate-800 pt-2">
                 <div className="col-span-1">
                     <SummaryCards loading={loading} title="Repayment" total={userSummaryInfo?.repayment_total} total_amount={userSummaryInfo?.repayment_total_amount} icon={<LuRefreshCw size={40}/>} customClass="border-yellow-800 bg-yellow-950/30"/>
                 </div>
