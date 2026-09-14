@@ -101,7 +101,7 @@ const OverallSummary = ({loadingOverallSummary,overallSummaryList,loadUserSummar
                 <div className="mx-5 border-y border-white/10"></div>
 
                 {/* List */}
-                <div className="px-5 pb-5 max-h-100 overflow-y-auto custom-overflow-track">
+                <div className="px-5 pb-5 max-h-60 sm:max-h-100 overflow-y-auto custom-overflow-track">
                     {loadingOverallSummary?(
                         <>
                             <SK height={30}/>
@@ -169,7 +169,7 @@ const OverallSummary = ({loadingOverallSummary,overallSummaryList,loadUserSummar
     return(
         <>
             {/* <h1 className="text-white">User Base Summary</h1> */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
                 {/* {!loadingOverallSummary&&(<> */}
                     <PaymentCard

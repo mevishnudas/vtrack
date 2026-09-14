@@ -77,15 +77,15 @@ const Summary = () =>{
             <div className="p-4">
                 <h1 className="font-bold text-white">Repayment Summary</h1>
 
-                <div className="grid grid-cols-12 gap-2 pt-2">
-                    <div className="text-white col-span-2">
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 pt-2">
+                    <div className="text-white col-span-1 sm:col-span-2">
 
                         {/* User List */}
                         <UserListFilter friends={friends} loadUserSummary={loadUserSummary} selectedUser={selectedUser}/>
                         {/* User List End*/}
 
                     </div>
-                    <div className="text-white col-span-10">
+                    <div className="text-white col-span-1 sm:col-span-10">
                             
                         {/* Summary Start */}
                         {selectedUser&&(
