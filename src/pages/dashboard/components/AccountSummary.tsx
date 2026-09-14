@@ -96,7 +96,7 @@ const AccountSummary = ({loading, accountSummary}:AccountSummaryProps) => {
 
         <div className="text-center bg-lime-900 py-1 flex justify-between select-none">
           <div className="flex-1"><h1 className="text-white text-shadow-sm text-shadow-gray-800 flex justify-center items-center gap-2 select-none"><MdAccountBalance /> Account Summary </h1></div>
-          <div onClick={()=>setShowAmount(!showAmount)} className="px-2 flex justify-center items-center text-white cursor-pointer">
+          <div onClick={(e)=>{ e.stopPropagation(); setShowAmount(!showAmount);}} className="px-2 flex justify-center items-center text-white cursor-pointer">
             {showAmount?(<IoIosEye size={18}/>):(<IoIosEyeOff size={18}/>)}
           </div>
         </div>

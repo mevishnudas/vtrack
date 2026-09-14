@@ -5,9 +5,10 @@ import { IoIosArrowForward } from "react-icons/io";
 type UserListFilterProps = {
     friends:any[],
     loadUserSummary:Function,
-    selectedUser:any[]
+    selectedUser:any[],
+    friendsLoading:Boolean
 }
-const UserListFilter = ({friends,loadUserSummary,selectedUser}:UserListFilterProps) =>{
+const UserListFilter = ({friends,loadUserSummary,friendsLoading,selectedUser}:UserListFilterProps) =>{
     const [friendsFiltered,setFriendsFiltered] = useState([]);
     const [searchKey,setSearchKey] = useState("");
 
@@ -64,9 +65,14 @@ const UserListFilter = ({friends,loadUserSummary,selectedUser}:UserListFilterPro
                 </ul>
             </div>
             
-            {friendsFiltered.length==0&&(
+            {!friendsLoading&&!friendsFiltered&&(
                 <p className="text-center text-xs text-slate-400 py-2">Not found !</p>
             )}
+
+            {friendsLoading&&(
+                <p className="text-center text-sm text-slate-400 py-2 animate-pulse">Fetching...</p>
+            )}
+
         </div>
         </>
     );

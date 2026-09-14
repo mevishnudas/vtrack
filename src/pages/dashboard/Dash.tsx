@@ -61,7 +61,7 @@ const Dash = () =>{
                         <Emi loading={loading} emiSummary={emiSummary}/>                        
                     </div>
                     
-                    <div>
+                    <div className="cursor-pointer" onClick={()=>navigate('/repayment/summary')}>
                         <AccountSummary loading={loading} accountSummary={accountSummary}/>
                     </div>
 

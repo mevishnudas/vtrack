@@ -7,12 +7,13 @@ import OverallSummary from "./sections/summary/OverallSummary";
 
 const Summary = () =>{
     const [friends,setFriends] = useState([]);
+    const [friendsLoading,setFriendsLoading] = useState(true);
     const [selectedUser,setSelectedUser] = useState();
     const [loadingOverallSummary,setLoadingOverallSummary] = useState(true);
     const [overallSummaryList,setOverallSummaryList] = useState([]);
 
     const loadFriends = async () =>{
-        
+        setFriendsLoading(true);
         let response = await fetchRequest({
           path:"users/friends/list",
           auth:true,
@@ -32,6 +33,8 @@ const Summary = () =>{
             //setFriendsFilteredList(result); // set filtered list
             //console.log(result);
         }
+
+        setFriendsLoading(false);
     }
 
     // type loadUserSummaryProps = {
@@ -81,7 +84,7 @@ const Summary = () =>{
                     <div className="text-white col-span-1 sm:col-span-2">
 
                         {/* User List */}
-                        <UserListFilter friends={friends} loadUserSummary={loadUserSummary} selectedUser={selectedUser}/>
+                        <UserListFilter friends={friends} friendsLoading={friendsLoading} loadUserSummary={loadUserSummary} selectedUser={selectedUser}/>
                         {/* User List End*/}
 
                     </div>
